@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg-start: #4b3b73;
+    --bg-end: #2a1f4a;
+    --text: #f4ede2;
+    --accent: #ffd34d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(160deg, var(--bg-start), var(--bg-end));
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 50px;
+  }
+  .headline {
+    font-size: 130px;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -3px;
+  }
+  .headline .em { color: var(--accent); }
+  .footer {
+    margin-top: 60px;
+    font-size: 38px;
+    font-weight: 600;
+    opacity: 0.75;
+    line-height: 1.25;
+  }
+</style>
+</head>
+<body>
+  <div class="eyebrow">An offer for agency owners</div>
+  <div class="headline">Run the system on<br><span class="em">two of your clients</span><br>before you pay.</div>
+  <div class="footer">No retainer. No risk. Real results.</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --text: #ffffff;
+    --bar: #ff2d87;
+    --bar-bg: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 90px;
+  }
+  .title {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    margin-bottom: 60px;
+    text-align: center;
+  }
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .row:last-child { margin-bottom: 0; }
+  .row-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 36px;
+    font-weight: 800;
+  }
+  .row-num { color: var(--bar); font-size: 56px; }
+  .track {
+    height: 32px;
+    background: var(--bar-bg);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .fill {
+    height: 100%;
+    background: var(--bar);
+    border-radius: 16px;
+  }
+</style>
+</head>
+<body>
+  <div class="title">90 days inside the system</div>
+  <div class="row">
+    <div class="row-label"><span>Booked calls / mo</span><span class="row-num">+340%</span></div>
+    <div class="track"><div class="fill" style="width: 95%"></div></div>
+  </div>
+  <div class="row">
+    <div class="row-label"><span>Cost per booking</span><span class="row-num">-62%</span></div>
+    <div class="track"><div class="fill" style="width: 72%"></div></div>
+  </div>
+  <div class="row">
+    <div class="row-label"><span>Client retention</span><span class="row-num">+2.1x</span></div>
+    <div class="track"><div class="fill" style="width: 85%"></div></div>
+  </div>
+</body>
+</html>

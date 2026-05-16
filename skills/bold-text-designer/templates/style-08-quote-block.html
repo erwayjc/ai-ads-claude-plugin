@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #f4ede2;
+    --text: #1a1a1a;
+    --accent: #ff2d87;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Georgia", "Times New Roman", serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 110px;
+    text-align: center;
+  }
+  .quote-mark {
+    font-family: "Georgia", serif;
+    font-size: 360px;
+    line-height: 0.7;
+    color: var(--accent);
+    height: 200px;
+  }
+  .quote {
+    font-size: 88px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    margin: 30px 0 50px;
+  }
+  .attribution {
+    font-family: "Inter", -apple-system, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+</style>
+</head>
+<body>
+  <div class="quote-mark">“</div>
+  <div class="quote">We added $34k MRR in 60 days without hiring a single new closer.</div>
+  <div class="attribution">— Verified client, agency owner</div>
+</body>
+</html>

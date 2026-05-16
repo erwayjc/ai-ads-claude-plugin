@@ -1,0 +1,9 @@
+{
+  "name": "html-ad-designer-shared",
+  "version": "1.0.0",
+  "description": "HTML/CSS to PNG renderer for the bold-text-designer skill.",
+  "main": "render-static.js",
+  "dependencies": {
+    "playwright-core": "^1.58.2"
+  }
+}

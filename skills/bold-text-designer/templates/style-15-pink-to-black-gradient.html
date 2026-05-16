@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg-start: #ff2d87;
+    --bg-end: #0a0a0a;
+    --text: #ffffff;
+    --accent: #ffd34d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(155deg, var(--bg-start) 0%, var(--bg-end) 80%);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px;
+    text-align: center;
+  }
+  .headline {
+    font-size: 168px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -4px;
+    text-transform: uppercase;
+  }
+  .headline .em {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <div class="headline">
+    Stop<br>
+    selling<br>
+    <span class="em">leads.</span>
+  </div>
+</body>
+</html>
