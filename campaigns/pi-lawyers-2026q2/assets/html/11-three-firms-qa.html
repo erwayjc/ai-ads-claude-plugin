@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #1e293b;
+    --text: #ffffff;
+    --accent: #fde047;
+    --rule: rgba(255,255,255,0.18);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 80px;
+    text-align: center;
+  }
+  .firms {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-bottom: 70px;
+  }
+  .firms svg {
+    width: 170px;
+    height: 170px;
+  }
+  .label {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin-bottom: 18px;
+  }
+  .q {
+    font-size: 84px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    padding-bottom: 50px;
+    border-bottom: 3px solid var(--rule);
+    margin-bottom: 50px;
+    max-width: 920px;
+  }
+  .a {
+    font-size: 64px;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--accent);
+    max-width: 920px;
+  }
+</style>
+</head>
+<body>
+  <div class="firms">
+    <!-- Law-office building: classical facade — pediment + 4 columns + steps -->
+    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <!-- pediment -->
+      <polygon points="70,12 18,42 122,42" fill="#fde047"/>
+      <!-- architrave -->
+      <rect x="14" y="42" width="112" height="10" fill="#fde047"/>
+      <!-- columns (4) -->
+      <rect x="24" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="48" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="78" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="102" y="52" width="14" height="58" fill="#fde047"/>
+      <!-- base -->
+      <rect x="14" y="110" width="112" height="10" fill="#fde047"/>
+      <!-- steps -->
+      <rect x="8" y="120" width="124" height="6" fill="#fde047"/>
+      <rect x="2" y="126" width="136" height="6" fill="#fde047"/>
+    </svg>
+    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="70,12 18,42 122,42" fill="#fde047"/>
+      <rect x="14" y="42" width="112" height="10" fill="#fde047"/>
+      <rect x="24" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="48" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="78" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="102" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="14" y="110" width="112" height="10" fill="#fde047"/>
+      <rect x="8" y="120" width="124" height="6" fill="#fde047"/>
+      <rect x="2" y="126" width="136" height="6" fill="#fde047"/>
+    </svg>
+    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="70,12 18,42 122,42" fill="#fde047"/>
+      <rect x="14" y="42" width="112" height="10" fill="#fde047"/>
+      <rect x="24" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="48" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="78" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="102" y="52" width="14" height="58" fill="#fde047"/>
+      <rect x="14" y="110" width="112" height="10" fill="#fde047"/>
+      <rect x="8" y="120" width="124" height="6" fill="#fde047"/>
+      <rect x="2" y="126" width="136" height="6" fill="#fde047"/>
+    </svg>
+  </div>
+  <div class="label">Q</div>
+  <div class="q">Why only 3 PI firms a month?</div>
+  <div class="label">A</div>
+  <div class="a">Performance-based means<br>we eat only if you do.</div>
+</body>
+</html>

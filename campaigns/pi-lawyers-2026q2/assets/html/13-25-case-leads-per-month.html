@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f172a;
+    --text: #ffffff;
+    --accent: #f97316;
+    --dim: rgba(255,255,255,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 36px;
+    max-width: 880px;
+    color: var(--dim);
+  }
+  .number {
+    font-size: 520px;
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -20px;
+    color: var(--accent);
+  }
+  .number .plus {
+    font-size: 320px;
+    letter-spacing: -10px;
+    vertical-align: 0.18em;
+  }
+  .label {
+    font-size: 62px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-top: 24px;
+    max-width: 940px;
+  }
+  .divider {
+    width: 120px;
+    height: 5px;
+    background: var(--accent);
+    margin: 44px 0 36px;
+    border-radius: 3px;
+  }
+  .footer {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+    max-width: 880px;
+    color: var(--dim);
+  }
+  .footer strong {
+    color: #ffffff;
+    font-weight: 900;
+  }
+</style>
+</head>
+<body>
+  <div class="eyebrow">Tired of unpredictable case volume?</div>
+  <div class="number">25<span class="plus">+</span></div>
+  <div class="label">exclusive case leads<br>per month.</div>
+  <div class="divider"></div>
+  <div class="footer"><strong>The complete PI marketing flywheel.</strong><br>Performance-based. 3 firms this month.</div>
+</body>
+</html>

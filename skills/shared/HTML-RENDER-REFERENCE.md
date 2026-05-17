@@ -33,7 +33,7 @@ The `<body>` element defines the output dimensions. Default is **1080×1080 (squ
 - **Self-contained.** All CSS embedded in `<style>`. No external stylesheets.
 - **Google Fonts allowed** via `@import` inside `<style>`.
 - **No JavaScript.**
-- **No external images.** Use CSS shapes, gradients, and Unicode glyphs.
+- **No network fetches at render time.** Imagery is allowed — inline SVG, base64-embedded raster images (`data:image/...`), CSS shapes, gradients, and Unicode glyphs are all fine. Anything that requires a network round-trip when Playwright loads the page is not.
 
 ### Aspect Ratios
 

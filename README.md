@@ -10,7 +10,7 @@ One skill, twenty templates, square-format by default. Every ad is a self-contai
 
 - **Image size:** 1080×1080 (square)
 - **Production method:** HTML/CSS + Playwright
-- **No external images** — pure CSS shapes, gradients, and Unicode glyphs
+- **Imagery is allowed** — inline SVG, base64-embedded images, CSS shapes, gradients, and Unicode glyphs. Embed everything in the HTML; no network fetches at render time.
 
 ## Layout
 

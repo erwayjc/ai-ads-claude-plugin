@@ -10,7 +10,6 @@ Just two skills:
 - **bold-text-designer** — 20 standalone HTML templates for bold-text billboard ads
 - **campaign-manager** — scaffolds per-campaign folders that define project, ICP, and offer
 
-There is intentionally **no** funnel optimizer, no image reviewer, no Meta/HighLevel integration, no Gemini image generation. If a request requires any of those, say so — don't try to recreate them here.
 
 ## Before any work
 
@@ -22,7 +21,7 @@ There is intentionally **no** funnel optimizer, no image reviewer, no Meta/HighL
 
 - **Image size:** 1080×1080 (square). Only override when a campaign brief explicitly asks for a different ratio.
 - **Production method:** HTML/CSS in a single self-contained file, rendered via `skills/shared/render-static.js`.
-- **No external images** — pure CSS shapes, gradients, Unicode.
+- **Imagery is allowed** — inline SVG, base64-embedded images, CSS shapes, gradients, and Unicode all work. The real constraint is "no network fetches at render time" — embed everything in the HTML so Playwright can render it offline.
 
 ## Directory structure
 
@@ -44,6 +43,8 @@ html-ad-designer/
     └── shared/
         ├── HTML-RENDER-REFERENCE.md
         ├── render-static.js
+        ├── editor-server.js
+        ├── editor/index.html
         └── package.json
 ```
 
@@ -54,6 +55,15 @@ node skills/shared/render-static.js <html> <output-dir> [--prefix name] [--scale
 ```
 
 If Chromium isn't installed: `cd skills/shared && npm install && npx playwright install chromium`.
+
+## Visual editor (live preview + one-click PNG)
+
+```bash
+cd skills/shared && npm run editor
+# open http://localhost:5173/
+```
+
+Two-pane editor: HTML on the left, live iframe preview on the right. Pick a template, pick a campaign, name the file, hit **Save & Render PNG**. Writes `campaigns/{slug}/assets/html/{name}.html` and `campaigns/{slug}/assets/images/{name}.png` using the same `render-static.js` pipeline as the CLI.
 
 ## Workflow for creating new ads
 
@@ -68,5 +78,5 @@ If Chromium isn't installed: `cd skills/shared && npm install && npx playwright 
 
 - Don't store ads at the repo root — they belong inside a `campaigns/{slug}/assets/` folder.
 - Don't introduce JavaScript inside ad HTML.
-- Don't pull in external images, fonts that aren't on Google Fonts, or any network resource other than Google Fonts via `@import`.
+- Don't reference images by URL (`<img src="https://...">` or `background: url(https://...)`) — embed them as inline SVG or base64 data URIs instead. Same goes for fonts: only Google Fonts via `@import` are allowed as a network resource at render time.
 - Don't recreate skills from the source project (`Inspired Ads And Funnel`). Scope here is intentionally narrow.

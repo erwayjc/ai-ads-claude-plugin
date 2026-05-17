@@ -58,6 +58,7 @@ The accent color has one job: **draw the eye to the most important element.** Us
 | 18 | Testimonial Style | [style-18-testimonial-style.html](templates/style-18-testimonial-style.html) | Anonymous review + stars | Social proof format |
 | 19 | Slate Gray Q&A | [style-19-slate-gray-qa.html](templates/style-19-slate-gray-qa.html) | Q & A two-tone text | Engagement driver |
 | 20 | Diagonal Stripe | [style-20-diagonal-stripe.html](templates/style-20-diagonal-stripe.html) | Geometric accent stripe | Pattern interrupt |
+| 21 | Honest Us vs Them | [style-21-honest-us-vs-them.html](templates/style-21-honest-us-vs-them.html) | Threat headline + 5-row comparison + solution-reveal pill | Asymmetric bridge — credit competitor, own current state, reveal the offer |
 
 **These are not the only styles.** Invent new layouts. Combine elements. The catalog grows as new concepts prove out in testing.
 

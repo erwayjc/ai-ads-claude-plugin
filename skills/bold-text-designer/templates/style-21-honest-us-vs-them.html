@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #f4ede2;
+    --text: #1a1a1a;
+    --them: #1a1a1a;       /* bold black — competitor's HONEST strengths */
+    --you: #d92d20;        /* accent — buyer's HONEST current state (alarm color) */
+    --accent: #d92d20;     /* used in headline + solution reveal */
+    --rule: rgba(0,0,0,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 60px 70px;
+  }
+  .title {
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .title em { font-style: normal; color: var(--accent); }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .heads {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 16px;
+    align-items: end;
+    padding: 0 16px 20px;
+    border-bottom: 3px solid var(--rule);
+    margin-bottom: 10px;
+  }
+  .heads .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .heads .col.first { visibility: hidden; }
+  .heads svg { width: 88px; height: 88px; }
+  .heads .who {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .heads .who.them { color: var(--them); }
+  .heads .who.you  { color: var(--you); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 30px;
+    font-weight: 700;
+  }
+  td {
+    padding: 16px 16px;
+    border-bottom: 2px solid var(--rule);
+  }
+  td:nth-child(1) {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    width: 36%;
+  }
+  td:nth-child(2), td:nth-child(3) {
+    text-align: center;
+    width: 32%;
+  }
+  td:nth-child(2) { color: var(--them); font-weight: 800; }
+  td:nth-child(3) { color: var(--you);  font-weight: 800; }
+  tr:last-child td { border-bottom: none; }
+  .reveal {
+    margin-top: 18px;
+    padding: 26px 30px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 16px;
+    text-align: center;
+  }
+  .reveal .lead {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .reveal .lead em { font-style: normal; color: var(--accent); }
+  .reveal .sub {
+    font-size: 22px;
+    font-weight: 700;
+    opacity: 0.7;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<!--
+  STYLE 21 — HONEST US vs THEM (with solution reveal)
+  ====================================================
+  Use this when the ad's job is to acknowledge a credible competitor threat
+  and position the offer as the asymmetric bridge — NOT when the goal is
+  to dismiss the competitor.
+
+  REQUIRED STRUCTURE (do not change the slots; only fill them):
+
+  1. HEADLINE — name the threat in the ICP's literal words.
+     - Reference CAMPAIGN.md "Words to use" / pain language.
+     - Accent-color the key phrase (the threat itself).
+     - Bad: "Big competitors are tough." (vague)
+     - Good: "National firms are entering your city with endless PE money."
+
+  2. COLUMN HEADERS — competitor icon + "YOU" icon, with bold labels.
+     - Replace the two SVGs to match category (here: TV-set vs courthouse).
+     - "Them" label = the competitor's specific name/category. "You" stays "YOU".
+
+  3. COMPARISON TABLE — 5 rows, BOTH columns honest.
+     - "Them" column = what the competitor genuinely WINS at. Bold black.
+       Do not stuff weaknesses here — that breaks credibility.
+     - "You" column = the buyer's HONEST CURRENT STATE today. Accent color.
+       This is the pain to be solved, not aspirational copy.
+     - Pair each row so the asymmetry is felt without being explained.
+
+  4. SOLUTION REVEAL (dark pill at bottom) — REQUIRED, not optional.
+     - Top line: how the offer lets the buyer WIN without matching the
+       competitor's resources. Accent-color the bridge phrase.
+       Example: "Beat them <em>without matching the money.</em>"
+     - Bottom line: the offer in one passable sentence — system,
+       commercial terms, scarcity. Dot-separated reads cleaner than commas.
+
+  COLOR ROLES (only change values, not roles):
+    --bg     : page background
+    --them   : competitor wins — keep this BOLD/SOLID (black-equivalent)
+    --you    : buyer's current state — keep this ACCENT/ALARM
+    --accent : headline accent + reveal pill accent (usually same as --you)
+
+  DO NOT:
+  - Flip the colors so the buyer column looks "winning" — that breaks
+    the honest-current-state framing.
+  - Add a 6th row to fit more proof. Five is the lid for readability.
+  - Drop the dark reveal pill. Without it the ad ends on inferiority.
+
+  See: memory/feedback_ad_us_vs_them.md for full rule + rationale.
+-->
+  <div class="title">National firms are entering<br>your city with <em>endless PE money.</em></div>
+  <div class="grid">
+    <div class="heads">
+      <div class="col first"><div class="who">x</div></div>
+      <div class="col">
+        <!-- COMPETITOR ICON — replace with a shape that reads as the threat category -->
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <line x1="40" y1="14" x2="60" y2="44" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+          <line x1="80" y1="14" x2="60" y2="44" stroke="#1a1a1a" stroke-width="4" stroke-linecap="round"/>
+          <rect x="14" y="42" width="92" height="64" rx="6" fill="none" stroke="#1a1a1a" stroke-width="5"/>
+          <rect x="26" y="54" width="68" height="40" fill="#1a1a1a" opacity="0.85"/>
+          <circle cx="60" cy="74" r="10" fill="#f4ede2"/>
+          <rect x="36" y="108" width="48" height="6" rx="2" fill="#1a1a1a"/>
+        </svg>
+        <div class="who them">National Firm</div>
+      </div>
+      <div class="col">
+        <!-- BUYER ICON — replace with a shape that reads as the buyer category -->
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="60,12 14,40 106,40" fill="#d92d20"/>
+          <rect x="10" y="40" width="100" height="8" fill="#d92d20"/>
+          <rect x="20" y="50" width="12" height="52" fill="#d92d20"/>
+          <rect x="40" y="50" width="12" height="52" fill="#d92d20"/>
+          <rect x="68" y="50" width="12" height="52" fill="#d92d20"/>
+          <rect x="88" y="50" width="12" height="52" fill="#d92d20"/>
+          <rect x="10" y="102" width="100" height="8" fill="#d92d20"/>
+          <rect x="4" y="110" width="112" height="6" fill="#d92d20"/>
+        </svg>
+        <div class="who you">You</div>
+      </div>
+    </div>
+    <table>
+      <!-- 5 ROWS. Left = category (uppercase label). Middle = their honest win. Right = your honest current state. -->
+      <tr><td>Capital</td>       <td>Endless PE</td>     <td>Tight budget</td></tr>
+      <tr><td>Reach</td>         <td>Every market</td>   <td>Your city only</td></tr>
+      <tr><td>Runway</td>        <td>Months</td>         <td>Month-to-month</td></tr>
+      <tr><td>Cost per case</td> <td>Absorbed</td>       <td>Climbing fast</td></tr>
+      <tr><td>Brand</td>         <td>Recognizable</td>   <td>Unknown locally</td></tr>
+    </table>
+  </div>
+  <div class="reveal">
+    <div class="lead">Beat them <em>without matching the money.</em></div>
+    <div class="sub">The complete PI marketing flywheel · performance-based · 3 firms this month</div>
+  </div>
+</body>
+</html>

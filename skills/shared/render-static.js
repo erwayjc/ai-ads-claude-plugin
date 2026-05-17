@@ -49,7 +49,91 @@ function findChromiumIn(cacheDir) {
   return null;
 }
 
-async function renderStatic() {
+/**
+ * Render an HTML file to a PNG.
+ *
+ * @param {Object} opts
+ * @param {string} opts.inputPath  Absolute path to the source .html file.
+ * @param {string} opts.outputPath Absolute path to the destination .png file.
+ * @param {number} [opts.scale=1]  Device scale factor.
+ * @param {number} [opts.width]    Override body width.
+ * @param {number} [opts.height]   Override body height.
+ * @returns {Promise<{width:number,height:number,scale:number,fillRatio:number,size:number,path:string}>}
+ */
+async function renderHtmlToPng({ inputPath, outputPath, scale = 1, width, height }) {
+  const executablePath = findChromium();
+  if (!executablePath) {
+    throw new Error('Chromium not found. Install with: npx playwright install chromium');
+  }
+
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
+  const browser = await chromium.launch({
+    executablePath,
+    headless: true,
+    args: ['--font-render-hinting=none'],
+  });
+
+  try {
+    const context = await browser.newContext({
+      deviceScaleFactor: scale,
+      viewport: { width: 1920, height: 1920 },
+    });
+
+    const page = await context.newPage();
+
+    await page.goto(`file://${inputPath}`, {
+      waitUntil: 'networkidle',
+      timeout: 30000,
+    });
+
+    await page.evaluate(() => document.fonts.ready);
+
+    const bodyInfo = await page.evaluate(() => {
+      const style = getComputedStyle(document.body);
+      return {
+        width: parseInt(style.width),
+        height: parseInt(style.height),
+      };
+    });
+
+    const finalWidth = parseInt(width) || (bodyInfo && bodyInfo.width ? bodyInfo.width : 1080);
+    const finalHeight = parseInt(height) || (bodyInfo && bodyInfo.height ? bodyInfo.height : 1080);
+
+    const contentHeight = await page.evaluate(() => {
+      const body = document.body;
+      const originalHeight = body.style.height;
+      const originalMinHeight = body.style.minHeight;
+      body.style.height = 'auto';
+      body.style.minHeight = 'auto';
+      const natural = body.scrollHeight;
+      body.style.height = originalHeight;
+      body.style.minHeight = originalMinHeight;
+      return natural;
+    });
+
+    const fillRatio = contentHeight / finalHeight;
+
+    await page.locator('body').screenshot({
+      path: outputPath,
+      type: 'png',
+    });
+
+    const stats = fs.statSync(outputPath);
+    return {
+      width: finalWidth,
+      height: finalHeight,
+      scale,
+      fillRatio,
+      size: stats.size,
+      path: outputPath,
+    };
+  } finally {
+    await browser.close();
+  }
+}
+
+async function renderStaticCli() {
   const args = process.argv.slice(2);
   const flags = {};
   const positional = [];
@@ -78,97 +162,46 @@ async function renderStatic() {
   const outputDir = positional[1] ? path.resolve(positional[1]) : path.dirname(inputPath);
   const scale = parseFloat(flags.scale) || 1;
   const prefix = flags.prefix || path.basename(inputFile, '.html');
-
-  fs.mkdirSync(outputDir, { recursive: true });
-
-  const executablePath = findChromium();
-  if (!executablePath) {
-    console.error('Chromium not found. Install Playwright browsers: npx playwright install chromium');
-    process.exit(1);
-  }
-
-  console.log(`Rendering: ${inputPath}`);
-  console.log(`Output:    ${outputDir}`);
-  console.log('');
-
-  const browser = await chromium.launch({
-    executablePath,
-    headless: true,
-    args: ['--font-render-hinting=none'],
-  });
-
-  const context = await browser.newContext({
-    deviceScaleFactor: scale,
-    viewport: { width: 1920, height: 1920 },
-  });
-
-  const page = await context.newPage();
-
-  await page.goto(`file://${inputPath}`, {
-    waitUntil: 'networkidle',
-    timeout: 30000,
-  });
-
-  await page.evaluate(() => document.fonts.ready);
-
-  const bodyInfo = await page.evaluate(() => {
-    const style = getComputedStyle(document.body);
-    return {
-      width: parseInt(style.width),
-      height: parseInt(style.height),
-    };
-  });
-
-  const width = parseInt(flags.width) || (bodyInfo && bodyInfo.width ? bodyInfo.width : 1080);
-  const height = parseInt(flags.height) || (bodyInfo && bodyInfo.height ? bodyInfo.height : 1080);
-  console.log(`Image size: ${width}x${height} @ ${scale}x (${width * scale}x${height * scale} actual pixels)\n`);
-
-  const contentHeight = await page.evaluate(() => {
-    const body = document.body;
-    const originalHeight = body.style.height;
-    const originalMinHeight = body.style.minHeight;
-    body.style.height = 'auto';
-    body.style.minHeight = 'auto';
-    const natural = body.scrollHeight;
-    body.style.height = originalHeight;
-    body.style.minHeight = originalMinHeight;
-    return natural;
-  });
-
-  const fillRatio = contentHeight / height;
-  if (fillRatio < 0.9) {
-    console.warn(`\n⚠️  CANVAS FILL WARNING: Content height (${contentHeight}px) fills only ${Math.round(fillRatio * 100)}% of canvas height (${height}px).`);
-    console.warn(`   Content may appear cut off or have blank space. Fix the HTML to fill the canvas.\n`);
-  }
-
   const filename = `${prefix}.png`;
   const outputPath = path.join(outputDir, filename);
 
-  await page.locator('body').screenshot({
-    path: outputPath,
-    type: 'png',
+  console.log(`Rendering: ${inputPath}`);
+  console.log(`Output:    ${outputDir}\n`);
+
+  const result = await renderHtmlToPng({
+    inputPath,
+    outputPath,
+    scale,
+    width: flags.width,
+    height: flags.height,
   });
 
-  const stats = fs.statSync(outputPath);
-  const sizeKB = Math.round(stats.size / 1024);
+  console.log(`Image size: ${result.width}x${result.height} @ ${result.scale}x (${result.width * result.scale}x${result.height * result.scale} actual pixels)\n`);
+
+  if (result.fillRatio < 0.9) {
+    console.warn(`\n⚠️  CANVAS FILL WARNING: Content fills only ${Math.round(result.fillRatio * 100)}% of canvas height.`);
+    console.warn(`   Content may appear cut off or have blank space. Fix the HTML to fill the canvas.\n`);
+  }
+
+  const sizeKB = Math.round(result.size / 1024);
   console.log(`  ✓ ${filename} (${sizeKB} KB)`);
-
-  await browser.close();
-
   console.log(`\nDone. Image saved to ${outputDir}`);
 
-  const summary = {
+  console.log('\n' + JSON.stringify({
     input: inputPath,
     outputDir,
-    dimensions: { width, height, scale },
+    dimensions: { width: result.width, height: result.height, scale: result.scale },
     file: filename,
-    path: outputPath,
-    size: stats.size,
-  };
-  console.log('\n' + JSON.stringify(summary, null, 2));
+    path: result.path,
+    size: result.size,
+  }, null, 2));
 }
 
-renderStatic().catch(err => {
-  console.error('Render failed:', err.message);
-  process.exit(1);
-});
+module.exports = { renderHtmlToPng, findChromium };
+
+if (require.main === module) {
+  renderStaticCli().catch(err => {
+    console.error('Render failed:', err.message);
+    process.exit(1);
+  });
+}

@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "HTML/CSS to PNG renderer for the bold-text-designer skill.",
   "main": "render-static.js",
+  "scripts": {
+    "editor": "node editor-server.js"
+  },
   "dependencies": {
+    "express": "^4.19.2",
     "playwright-core": "^1.58.2"
   }
 }

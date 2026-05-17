@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>HTML Ad Editor</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #1a1b26;
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+  }
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #16171f;
+    border-bottom: 1px solid #2a2b36;
+    flex-wrap: wrap;
+  }
+  .toolbar label {
+    font-size: 12px;
+    color: #8a8b95;
+    margin-right: 4px;
+  }
+  .toolbar select,
+  .toolbar input[type="text"],
+  .toolbar input[type="number"] {
+    background: #1f2030;
+    color: #e0e0e0;
+    border: 1px solid #2f3041;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .toolbar input[type="text"] { min-width: 220px; }
+  .toolbar input[type="number"] { width: 60px; }
+  .toolbar button {
+    background: #ff2d87;
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .toolbar button:hover { background: #ff4496; }
+  .toolbar button:disabled {
+    background: #555;
+    cursor: not-allowed;
+  }
+  .toolbar button.secondary {
+    background: #2f3041;
+    color: #e0e0e0;
+  }
+  .toolbar button.secondary:hover { background: #3a3b4d; }
+  .toolbar .spacer { flex: 1; }
+  .toolbar .title {
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 0;
+  }
+  .pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+  }
+  .pane-header {
+    padding: 0 12px;
+    background: #16171f;
+    border-bottom: 1px solid #2a2b36;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8a8b95;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    height: 36px;
+  }
+  .tabs {
+    display: flex;
+    align-items: stretch;
+  }
+  .tab {
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #6a6b75;
+    border-bottom: 2px solid transparent;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    user-select: none;
+  }
+  .tab.active {
+    color: #e0e0e0;
+    border-bottom-color: #ff2d87;
+  }
+  .pane-header .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pane-body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+  }
+  .editor-body { padding: 0; }
+  .CodeMirror {
+    height: 100% !important;
+    font-size: 13px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  /* Visual form */
+  .visual-body {
+    padding: 20px 24px;
+    background: #1a1b26;
+  }
+  .visual-section {
+    margin-bottom: 28px;
+  }
+  .visual-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8a8b95;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #2a2b36;
+  }
+  .field {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .field-label {
+    font-size: 12px;
+    color: #a0a1ab;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .field-text input,
+  .field-text textarea {
+    width: 100%;
+    background: #1f2030;
+    color: #e0e0e0;
+    border: 1px solid #2f3041;
+    border-radius: 4px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  .field-text textarea {
+    min-height: 56px;
+    line-height: 1.4;
+  }
+  .field-color {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .field-color input[type="color"] {
+    width: 36px;
+    height: 28px;
+    border: 1px solid #2f3041;
+    border-radius: 4px;
+    background: #1f2030;
+    padding: 2px;
+    cursor: pointer;
+  }
+  .field-color input[type="text"] {
+    background: #1f2030;
+    color: #e0e0e0;
+    border: 1px solid #2f3041;
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    width: 110px;
+  }
+  .visual-empty {
+    color: #6a6b75;
+    font-size: 13px;
+    padding: 40px 0;
+    text-align: center;
+  }
+
+  .field-select select,
+  .field-range input[type="range"] {
+    width: 100%;
+    background: #1f2030;
+    color: #e0e0e0;
+    border: 1px solid #2f3041;
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  .field-range {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .field-range input[type="range"] { padding: 0; flex: 1; }
+  .field-range .range-value {
+    color: #a0a1ab;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .palette-group-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .palette-group-tab {
+    padding: 4px 10px;
+    background: #1f2030;
+    border: 1px solid #2f3041;
+    border-radius: 999px;
+    font-size: 11px;
+    color: #a0a1ab;
+    cursor: pointer;
+    user-select: none;
+  }
+  .palette-group-tab:hover { border-color: #4a4b5a; color: #e0e0e0; }
+  .palette-group-tab.active {
+    background: #ff2d87;
+    border-color: #ff2d87;
+    color: #fff;
+  }
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+  .palette-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #1f2030;
+    border: 1px solid #2f3041;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border-color 0.1s;
+  }
+  .palette-chip:hover { border-color: #4a4b5a; }
+  .palette-chip.active { border-color: #ff2d87; }
+  .palette-chip .swatches {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .palette-chip .sw {
+    width: 16px;
+    height: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .palette-chip .sw:first-child { border-radius: 3px 0 0 3px; }
+  .palette-chip .sw:last-child { border-radius: 0 3px 3px 0; }
+  .palette-chip .palette-name {
+    font-size: 12px;
+    color: #c0c1cb;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .preview-body {
+    background:
+      repeating-conic-gradient(#222 0% 25%, #2a2a2a 0% 50%) 50% / 24px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    padding: 24px;
+  }
+  .preview-stage {
+    position: relative;
+    background: white;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .preview-stage iframe {
+    border: 0;
+    display: block;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1f2030;
+    border: 1px solid #2f3041;
+    border-left: 4px solid #ff2d87;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    max-width: 420px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    z-index: 10;
+    display: none;
+  }
+  .toast.ok { border-left-color: #4ade80; }
+  .toast.err { border-left-color: #f87171; }
+  .toast a { color: #ff8ec4; text-decoration: none; }
+  .toast a:hover { text-decoration: underline; }
+  .toast img {
+    margin-top: 8px;
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 3px;
+    border: 1px solid #2f3041;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="title">HTML Ad Editor</span>
+
+    <label>Campaign</label>
+    <select id="campaign-select"></select>
+
+    <label>Source</label>
+    <select id="source-select">
+      <option value="">— pick source —</option>
+    </select>
+
+    <label>Filename</label>
+    <input type="text" id="filename" placeholder="my-ad" />
+
+    <label>Format</label>
+    <select id="format-select">
+      <option value="1080x1080">1:1 square · 1080×1080</option>
+      <option value="1080x1350">4:5 portrait · 1080×1350</option>
+      <option value="1080x1920">9:16 story · 1080×1920</option>
+    </select>
+
+    <label>Scale</label>
+    <input type="number" id="scale" value="1" min="1" max="4" step="1" />
+
+    <div class="spacer"></div>
+
+    <button id="refresh-btn" class="secondary" title="Refresh preview (Cmd/Ctrl+S)">Refresh preview</button>
+    <button id="render-btn">Save &amp; Render PNG</button>
+  </div>
+
+  <div class="main">
+    <div class="pane">
+      <div class="pane-header">
+        <div class="tabs">
+          <div class="tab active" data-tab="visual">Visual</div>
+          <div class="tab" data-tab="code">Code</div>
+        </div>
+        <div class="right">
+          <span id="dirty" style="color:#ff2d87;display:none">●</span>
+        </div>
+      </div>
+      <div class="pane-body editor-body" id="visual-pane">
+        <div class="visual-body" id="visual-form">
+          <div class="visual-empty">Load a template to start editing.</div>
+        </div>
+      </div>
+      <div class="pane-body editor-body hidden" id="code-pane">
+        <textarea id="editor"></textarea>
+      </div>
+    </div>
+    <div class="pane">
+      <div class="pane-header">
+        <div class="tab active" style="cursor:default;border-bottom-color:transparent">Preview</div>
+        <div class="right">
+          <span id="preview-info" style="color:#5a5b65"></span>
+        </div>
+      </div>
+      <div class="pane-body preview-body">
+        <div class="preview-stage" id="stage">
+          <iframe id="preview" sandbox="allow-same-origin" width="1080" height="1080"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  const editor = CodeMirror.fromTextArea($('editor'), {
+    mode: 'htmlmixed',
+    theme: 'dracula',
+    lineNumbers: true,
+    lineWrapping: false,
+    indentUnit: 2,
+    tabSize: 2,
+    autoCloseTags: false,
+    extraKeys: {
+      'Cmd-S': () => { refreshPreview(); return false; },
+      'Ctrl-S': () => { refreshPreview(); return false; },
+    },
+  });
+
+  // ---------- Fonts & palettes ----------
+  const FONTS = [
+    { name: 'Inter',              weights: '400;600;700;800;900', stack: '"Inter", -apple-system, BlinkMacSystemFont, sans-serif' },
+    { name: 'Manrope',            weights: '400;600;700;800',     stack: '"Manrope", -apple-system, sans-serif' },
+    { name: 'Poppins',            weights: '400;600;700;800;900', stack: '"Poppins", -apple-system, sans-serif' },
+    { name: 'Plus Jakarta Sans',  weights: '400;600;700;800',     stack: '"Plus Jakarta Sans", -apple-system, sans-serif' },
+    { name: 'DM Sans',            weights: '400;500;700',         stack: '"DM Sans", -apple-system, sans-serif' },
+    { name: 'Space Grotesk',      weights: '400;500;600;700',     stack: '"Space Grotesk", -apple-system, sans-serif' },
+    { name: 'Archivo',            weights: '400;600;700;800;900', stack: '"Archivo", -apple-system, sans-serif' },
+    { name: 'Bricolage Grotesque',weights: '400;600;700;800',     stack: '"Bricolage Grotesque", -apple-system, sans-serif' },
+    { name: 'Anton',              weights: '400',                 stack: '"Anton", -apple-system, sans-serif' },
+    { name: 'Bebas Neue',         weights: '400',                 stack: '"Bebas Neue", -apple-system, sans-serif' },
+    { name: 'Oswald',             weights: '400;500;600;700',     stack: '"Oswald", -apple-system, sans-serif' },
+    { name: 'Fraunces',           weights: '400;600;700;900',     stack: '"Fraunces", Georgia, serif' },
+    { name: 'Playfair Display',   weights: '400;600;700;800;900', stack: '"Playfair Display", Georgia, serif' },
+    { name: 'IBM Plex Sans',      weights: '400;500;600;700',     stack: '"IBM Plex Sans", -apple-system, sans-serif' },
+  ];
+
+  // Palettes are role-based. Each palette defines colors for semantic roles
+  // (bg, text, accent, etc); each :root var in the template is matched to
+  // a role by name pattern, and the role's color is applied. Vars without
+  // a known role are left alone.
+  const PALETTE_GROUPS = ['Bold & Vibrant', 'Cool & Calm', 'Warm & Energetic', 'Editorial', 'Tech & Neon'];
+
+  // Var-name → role mapping. First match wins.
+  const VAR_ROLE_RULES = [
+    [/^--bg-?start$/i,                          'bg'],
+    [/^--bg-?end$/i,                            'bgAlt'],
+    [/^--bg$|^--background$|^--paper$|^--card$/i, 'bg'],
+    [/^--paper-?edge$/i,                        'bgAlt'],
+    [/^--text$|^--ink$|^--fg$|^--foreground$/i, 'text'],
+    [/^--muted$|^--subtle$/i,                   'muted'],
+    [/^--accent-?text$|^--bar-?text$|^--stripe-?text$/i, 'accentText'],
+    [/^--accent$|^--bar$|^--stripe$|^--highlight$/i,     'accent'],
+  ];
+
+  function roleFor(varName) {
+    for (const [re, role] of VAR_ROLE_RULES) {
+      if (re.test(varName)) return role;
+    }
+    return null;
+  }
+
+  // Each palette has all roles defined. Only roles whose role matches a
+  // var in the current template will be applied.
+  const PALETTES = [
+    // --- Bold & Vibrant ---
+    { group: 'Bold & Vibrant', name: 'Pink on Black',  roles: { bg: '#0a0a0a', bgAlt: '#1a1a1a', text: '#ffffff', muted: '#9ca3af', accent: '#ff2d87', accentText: '#ffffff' } },
+    { group: 'Bold & Vibrant', name: 'Magenta Cream',  roles: { bg: '#f4ede2', bgAlt: '#ebe1cf', text: '#1a1a1a', muted: '#6b6b6b', accent: '#ff2d87', accentText: '#ffffff' } },
+    { group: 'Bold & Vibrant', name: 'Forest Lime',    roles: { bg: '#0e2a1f', bgAlt: '#163d2e', text: '#f4f1e8', muted: '#9ab09f', accent: '#c6f24e', accentText: '#0e2a1f' } },
+    { group: 'Bold & Vibrant', name: 'Off-white Red',  roles: { bg: '#f5f3ee', bgAlt: '#e8e6e1', text: '#1a1a1a', muted: '#6b6b6b', accent: '#e63946', accentText: '#ffffff' } },
+    { group: 'Bold & Vibrant', name: 'Indigo Lemon',   roles: { bg: '#1e1b4b', bgAlt: '#2a2660', text: '#f1f5f9', muted: '#a0a6c0', accent: '#fde047', accentText: '#1e1b4b' } },
+    { group: 'Bold & Vibrant', name: 'Black Marigold', roles: { bg: '#0a0a0a', bgAlt: '#1a1a1a', text: '#fff7e6', muted: '#9c9282', accent: '#f59e0b', accentText: '#0a0a0a' } },
+    { group: 'Bold & Vibrant', name: 'Plum Apricot',   roles: { bg: '#2a1a3e', bgAlt: '#3a2a52', text: '#fff5e6', muted: '#a89aaf', accent: '#ffb088', accentText: '#2a1a3e' } },
+
+    // --- Cool & Calm ---
+    { group: 'Cool & Calm', name: 'Navy Cyan',       roles: { bg: '#0a1929', bgAlt: '#152a40', text: '#ffffff', muted: '#94a3b8', accent: '#00d4ff', accentText: '#0a1929' } },
+    { group: 'Cool & Calm', name: 'Midnight Sky',    roles: { bg: '#0c1a36', bgAlt: '#1a2a50', text: '#e6efff', muted: '#8a9bc4', accent: '#5b9cff', accentText: '#ffffff' } },
+    { group: 'Cool & Calm', name: 'Deep Teal Mint',  roles: { bg: '#0a2e2a', bgAlt: '#0f3e38', text: '#e8f5f3', muted: '#7fa39e', accent: '#5eead4', accentText: '#0a2e2a' } },
+    { group: 'Cool & Calm', name: 'Slate Azure',     roles: { bg: '#1e293b', bgAlt: '#283449', text: '#f1f5f9', muted: '#94a3b8', accent: '#38bdf8', accentText: '#0c1a36' } },
+    { group: 'Cool & Calm', name: 'Glacier',         roles: { bg: '#0f2942', bgAlt: '#1a3a56', text: '#e0f2fe', muted: '#8aa8c0', accent: '#7dd3fc', accentText: '#0f2942' } },
+    { group: 'Cool & Calm', name: 'Ocean Coral',     roles: { bg: '#0d3b3e', bgAlt: '#154f53', text: '#f0f7f7', muted: '#8aa8a8', accent: '#ff6b6b', accentText: '#ffffff' } },
+    { group: 'Cool & Calm', name: 'Stormy Aqua',     roles: { bg: '#1a2332', bgAlt: '#243042', text: '#e6f7ff', muted: '#8ea4b8', accent: '#22d3ee', accentText: '#0a1929' } },
+
+    // --- Warm & Energetic ---
+    { group: 'Warm & Energetic', name: 'Sunset Orange',  roles: { bg: '#1a0a14', bgAlt: '#2a141f', text: '#fff5e6', muted: '#a8978c', accent: '#ff6b35', accentText: '#1a0a14' } },
+    { group: 'Warm & Energetic', name: 'Purple Gold',    roles: { bg: '#1a0a2e', bgAlt: '#28133f', text: '#f5f1e8', muted: '#a89aaf', accent: '#ffb800', accentText: '#1a0a2e' } },
+    { group: 'Warm & Energetic', name: 'Crimson Cream',  roles: { bg: '#fdf6ed', bgAlt: '#f0e6d8', text: '#1a1a1a', muted: '#7a7166', accent: '#dc2626', accentText: '#ffffff' } },
+    { group: 'Warm & Energetic', name: 'Burnt Tangerine',roles: { bg: '#2a0e0a', bgAlt: '#3a1812', text: '#fff5e6', muted: '#a89282', accent: '#fb923c', accentText: '#2a0e0a' } },
+    { group: 'Warm & Energetic', name: 'Hot Pink Sand',  roles: { bg: '#fff0f3', bgAlt: '#f5e0e6', text: '#1a0a14', muted: '#8a6b75', accent: '#ec4899', accentText: '#ffffff' } },
+    { group: 'Warm & Energetic', name: 'Wine Amber',     roles: { bg: '#2a0a14', bgAlt: '#3a141f', text: '#fff5e6', muted: '#a8928a', accent: '#f59e0b', accentText: '#2a0a14' } },
+    { group: 'Warm & Energetic', name: 'Brick Saffron',  roles: { bg: '#3a1010', bgAlt: '#4f1818', text: '#fff5e6', muted: '#b09a90', accent: '#f4a737', accentText: '#3a1010' } },
+
+    // --- Editorial ---
+    { group: 'Editorial', name: 'Bone Ink',        roles: { bg: '#f5f1e8', bgAlt: '#ebe6d8', text: '#1a1a1a', muted: '#6b6b6b', accent: '#1a1a1a', accentText: '#f5f1e8' } },
+    { group: 'Editorial', name: 'Ivory Forest',    roles: { bg: '#f7f3e9', bgAlt: '#ede8d8', text: '#0e2a1f', muted: '#6b7a6e', accent: '#0e6b4a', accentText: '#f7f3e9' } },
+    { group: 'Editorial', name: 'Linen Cobalt',    roles: { bg: '#f2ece1', bgAlt: '#e6ddcd', text: '#0a1929', muted: '#6b7587', accent: '#1d4ed8', accentText: '#ffffff' } },
+    { group: 'Editorial', name: 'Sand Burgundy',   roles: { bg: '#efe7d6', bgAlt: '#e2d8c4', text: '#1a0a14', muted: '#7a6b66', accent: '#7c1d2e', accentText: '#ffffff' } },
+    { group: 'Editorial', name: 'Bone Olive',      roles: { bg: '#ede6d3', bgAlt: '#dfd6bf', text: '#1a1a14', muted: '#737062', accent: '#5a6b2e', accentText: '#ede6d3' } },
+    { group: 'Editorial', name: 'Paper Coral',     roles: { bg: '#faf6ef', bgAlt: '#ede6d8', text: '#2a1a14', muted: '#7a6b62', accent: '#d97757', accentText: '#ffffff' } },
+
+    // --- Tech & Neon ---
+    { group: 'Tech & Neon', name: 'Mint on Black',     roles: { bg: '#0a0a0a', bgAlt: '#161616', text: '#ffffff', muted: '#8a9290', accent: '#5eead4', accentText: '#0a0a0a' } },
+    { group: 'Tech & Neon', name: 'Cyber Lime',        roles: { bg: '#050505', bgAlt: '#101010', text: '#e8ffe0', muted: '#7a8a78', accent: '#a3e635', accentText: '#050505' } },
+    { group: 'Tech & Neon', name: 'Electric Violet',   roles: { bg: '#0a0a14', bgAlt: '#14141f', text: '#f0f0ff', muted: '#8a8aa8', accent: '#a855f7', accentText: '#ffffff' } },
+    { group: 'Tech & Neon', name: 'Hot Wire',          roles: { bg: '#0a0a0a', bgAlt: '#161616', text: '#ffffff', muted: '#8a8a8a', accent: '#f43f5e', accentText: '#0a0a0a' } },
+    { group: 'Tech & Neon', name: 'Plasma',            roles: { bg: '#0a0014', bgAlt: '#14001f', text: '#ffe6ff', muted: '#a888b0', accent: '#e879f9', accentText: '#0a0014' } },
+    { group: 'Tech & Neon', name: 'Matrix',            roles: { bg: '#020617', bgAlt: '#0c1426', text: '#d1fae5', muted: '#788c80', accent: '#10b981', accentText: '#020617' } },
+    { group: 'Tech & Neon', name: 'Hazard Yellow',     roles: { bg: '#0a0a0a', bgAlt: '#161616', text: '#fef9c3', muted: '#a89e7a', accent: '#facc15', accentText: '#0a0a0a' } },
+  ];
+
+  // ---------- State ----------
+  // currentHtml is the source of truth. Visual mode edits rewrite it;
+  // Code mode mirrors editor.getValue() into it on change.
+  let currentHtml = '';
+  let activeTab = 'visual';
+  let activePaletteGroup = PALETTE_GROUPS[0];
+  let userTouchedScale = false; // resets on each source load
+  let suppressCodeSync = false;
+  let previewDebounce = null;
+  let lastBodyDims = { w: 1080, h: 1080 };
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('.pane-header .tabs .tab').forEach(t => {
+    t.addEventListener('click', () => switchTab(t.dataset.tab));
+  });
+
+  function switchTab(name) {
+    activeTab = name;
+    document.querySelectorAll('.pane-header .tabs .tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === name);
+    });
+    $('visual-pane').classList.toggle('hidden', name !== 'visual');
+    $('code-pane').classList.toggle('hidden', name !== 'code');
+    if (name === 'code') {
+      suppressCodeSync = true;
+      editor.setValue(currentHtml);
+      suppressCodeSync = false;
+      setTimeout(() => editor.refresh(), 0);
+    } else {
+      buildVisualForm(currentHtml);
+    }
+  }
+
+  // ---------- Code editor ----------
+  editor.on('change', () => {
+    if (suppressCodeSync) return;
+    currentHtml = editor.getValue();
+    markDirty();
+    schedulePreview();
+  });
+
+  // ---------- Preview ----------
+  function markDirty() { $('dirty').style.display = 'inline'; }
+  function clearDirty() { $('dirty').style.display = 'none'; }
+
+  function schedulePreview() {
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(refreshPreview, 250);
+  }
+
+  function refreshPreview() {
+    const iframe = $('preview');
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write(currentHtml);
+    doc.close();
+    clearDirty();
+
+    setTimeout(() => {
+      try {
+        const body = iframe.contentDocument.body;
+        const cs = iframe.contentWindow.getComputedStyle(body);
+        const w = parseInt(cs.width) || 1080;
+        const h = parseInt(cs.height) || 1080;
+        lastBodyDims = { w, h };
+        iframe.width = w;
+        iframe.height = h;
+        fitStage();
+        $('preview-info').textContent = `${w}×${h}`;
+      } catch (e) { /* ignore */ }
+    }, 50);
+  }
+
+  function fitStage() {
+    const stage = $('stage');
+    const pane = stage.parentElement;
+    const padding = 48;
+    const availW = pane.clientWidth - padding;
+    const availH = pane.clientHeight - padding;
+    const { w, h } = lastBodyDims;
+    const scale = Math.min(availW / w, availH / h, 1);
+    stage.style.width = (w * scale) + 'px';
+    stage.style.height = (h * scale) + 'px';
+    const iframe = $('preview');
+    iframe.style.transform = `scale(${scale})`;
+    iframe.style.transformOrigin = 'top left';
+    iframe.style.width = w + 'px';
+    iframe.style.height = h + 'px';
+    iframe.style.position = 'absolute';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+  }
+  window.addEventListener('resize', fitStage);
+
+  // ---------- Visual form ----------
+  // Stable per-node path so input focus survives re-renders.
+  function nodePath(node) {
+    const parts = [];
+    let n = node;
+    while (n && n.parentNode && n.nodeName !== 'BODY') {
+      const parent = n.parentNode;
+      const idx = Array.prototype.indexOf.call(parent.childNodes, n);
+      parts.unshift(idx);
+      n = parent;
+    }
+    return parts.join('/');
+  }
+
+  function parseColorVars(cssText) {
+    // Find :root { ... } block(s) and extract --var: value declarations.
+    const vars = [];
+    const rootRe = /:root\s*\{([^}]*)\}/g;
+    let m;
+    while ((m = rootRe.exec(cssText)) !== null) {
+      const body = m[1];
+      const declRe = /(--[a-zA-Z0-9_-]+)\s*:\s*([^;]+);/g;
+      let d;
+      while ((d = declRe.exec(body)) !== null) {
+        const name = d[1].trim();
+        const value = d[2].trim();
+        if (looksLikeColor(value)) {
+          vars.push({ name, value });
+        }
+      }
+    }
+    return vars;
+  }
+
+  function looksLikeColor(v) {
+    if (!v) return false;
+    if (v.startsWith('#')) return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(v);
+    if (/^rgb/i.test(v)) return true;
+    if (/^hsl/i.test(v)) return true;
+    // Common named colors — keep it simple, just hex/rgb/hsl trigger pickers.
+    return false;
+  }
+
+  function toHex(v) {
+    if (v.startsWith('#')) {
+      if (v.length === 4) return '#' + v.slice(1).split('').map(c => c + c).join('');
+      if (v.length === 9) return v.slice(0, 7); // drop alpha for the picker
+      return v.toLowerCase();
+    }
+    const m = v.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+    if (m) {
+      const hex = (n) => Number(n).toString(16).padStart(2, '0');
+      return '#' + hex(m[1]) + hex(m[2]) + hex(m[3]);
+    }
+    return '#000000';
+  }
+
+  function replaceCssVar(html, name, newValue) {
+    // Replace inside :root { ... } only. Rebuild the full match from the
+    // updated body — don't try `full.replace(body, newBody)`, that's a
+    // first-occurrence string replace and silently misses on later vars.
+    return html.replace(/(:root\s*\{)([^}]*)(\})/g, (full, open, body, close) => {
+      const re = new RegExp('(' + name.replace(/-/g, '\\-') + '\\s*:\\s*)([^;]+)(;)', 'g');
+      const newBody = body.replace(re, `$1${newValue}$3`);
+      return open + newBody + close;
+    });
+  }
+
+  // ---------- Typography & palette helpers ----------
+  function getFontByName(name) {
+    return FONTS.find(f => f.name === name) || null;
+  }
+
+  function detectCurrentFont(html) {
+    // Look at body { font-family: "X", ... } in the embedded <style>.
+    const styleMatch = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+    if (!styleMatch) return null;
+    const css = styleMatch[1];
+    const bodyMatch = css.match(/body\s*\{[^}]*font-family\s*:\s*([^;]+);/i);
+    if (!bodyMatch) return null;
+    const stack = bodyMatch[1];
+    const quoted = stack.match(/"([^"]+)"/);
+    const firstName = quoted ? quoted[1] : stack.split(',')[0].trim().replace(/['"]/g, '');
+    const found = FONTS.find(f => f.name === firstName);
+    return found ? found.name : firstName;
+  }
+
+  function applyFontFamily(html, fontName) {
+    const font = getFontByName(fontName);
+    if (!font) return html;
+    const importLine = `@import url('https://fonts.googleapis.com/css2?family=${encodeURIComponent(font.name).replace(/%20/g, '+')}:wght@${font.weights}&display=swap');`;
+    // Update body { font-family } and replace/insert the @import at top of <style>.
+    let out = html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/i, (full, attrs, css) => {
+      // Strip any existing @import for googleapis fonts.
+      let cleaned = css.replace(/@import\s+url\(['"]https?:\/\/fonts\.googleapis\.com\/[^'")]+['"]\);?\s*\n?/g, '');
+      cleaned = importLine + '\n' + cleaned.replace(/^\s*\n/, '');
+      // Replace body font-family.
+      cleaned = cleaned.replace(/(body\s*\{[^}]*font-family\s*:\s*)([^;]+)(;)/i, `$1${font.stack}$3`);
+      return `<style${attrs}>${cleaned}</style>`;
+    });
+    return out;
+  }
+
+  function detectFontScale(html) {
+    // Returns the current multiplier if a __ad-scale__ marker exists; else 1.
+    const m = html.match(/\/\*__ad-scale:([\d.]+)__\*\//);
+    return m ? parseFloat(m[1]) : 1;
+  }
+
+  function applyFontScale(html, multiplier) {
+    // Scale every `font-size: Npx` inside <style> by `multiplier`, always
+    // computed from the ORIGINAL pre-scale values. The original list is
+    // stored once in a CSS comment marker so repeated slider moves don't
+    // compound: 1.0 → 0.7 → 0.9 ends up at 0.9× of original, not 0.7×0.9.
+    return html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/i, (full, attrs, css) => {
+      // 1. Read existing snapshot (array of numbers) if present.
+      let originals = null;
+      const snapMatch = css.match(/\/\*__ad-originals:(\[[^\]]*\])__\*\//);
+      if (snapMatch) {
+        try {
+          const parsed = JSON.parse(snapMatch[1]);
+          if (Array.isArray(parsed)) originals = parsed;
+        } catch (e) { /* fall through to rebuild */ }
+      }
+
+      // 2. Strip markers BEFORE snapshotting so the snapshot reflects only
+      //    the CSS, not embedded marker text.
+      let cleaned = css
+        .replace(/\/\*__ad-originals:\[[^\]]*\]__\*\/\s*/g, '')
+        .replace(/\/\*__ad-scale:[0-9.]+__\*\/\s*/g, '');
+
+      // 3. If no snapshot existed, we're seeing the template's first scale —
+      //    capture current sizes as originals. Otherwise keep the existing
+      //    originals (don't rebuild from already-scaled values).
+      if (!originals) {
+        originals = [];
+        cleaned.replace(/font-size\s*:\s*(\d+(?:\.\d+)?)px/gi, (m, n) => {
+          originals.push(parseFloat(n));
+          return m;
+        });
+      }
+
+      // 4. Apply scale by index from the originals.
+      let i = 0;
+      cleaned = cleaned.replace(/font-size\s*:\s*(\d+(?:\.\d+)?)px/gi, () => {
+        const orig = originals[i];
+        i++;
+        if (orig == null) return `font-size: 0px`; // shouldn't happen
+        const scaled = Math.max(1, Math.round(orig * multiplier));
+        return `font-size: ${scaled}px`;
+      });
+
+      // 5. Re-attach markers at the top of <style>.
+      const marker = `/*__ad-originals:${JSON.stringify(originals)}__*/\n/*__ad-scale:${multiplier}__*/\n`;
+      cleaned = marker + cleaned.replace(/^\s+/, '');
+      return `<style${attrs}>${cleaned}</style>`;
+    });
+  }
+
+  // Detect body dimensions from the <style> block. Returns {w,h} or null.
+  function detectBodyDims(html) {
+    const styleMatch = html.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+    if (!styleMatch) return null;
+    const css = styleMatch[1];
+    // Find the body rule's width and height.
+    const bodyRule = css.match(/body\s*\{([\s\S]*?)\}/i);
+    if (!bodyRule) return null;
+    const w = bodyRule[1].match(/(^|;|\s)width\s*:\s*(\d+(?:\.\d+)?)px/i);
+    const h = bodyRule[1].match(/(^|;|\s)height\s*:\s*(\d+(?:\.\d+)?)px/i);
+    if (!w || !h) return null;
+    return { w: parseFloat(w[2]), h: parseFloat(h[2]) };
+  }
+
+  function applyFormat(html, width, height) {
+    return html.replace(/<style([^>]*)>([\s\S]*?)<\/style>/i, (full, attrs, css) => {
+      const updated = css.replace(/(body\s*\{[\s\S]*?)\}/i, (rule) => {
+        let out = rule;
+        out = out.replace(/((^|;|\s)width\s*:\s*)\d+(?:\.\d+)?px/i, `$1${width}px`);
+        out = out.replace(/((^|;|\s)height\s*:\s*)\d+(?:\.\d+)?px/i, `$1${height}px`);
+        return out;
+      });
+      return `<style${attrs}>${updated}</style>`;
+    });
+  }
+
+  function stripEditorMarkers(html) {
+    return html
+      .replace(/\/\*__ad-originals:\[[^\]]*\]__\*\/\s*/g, '')
+      .replace(/\/\*__ad-scale:[0-9.]+__\*\/\s*/g, '');
+  }
+
+  function applyPalette(html, palette, varNames) {
+    // Match each var to a role and apply the role's color. Vars without
+    // a recognized role are left alone.
+    let out = html;
+    for (const name of varNames) {
+      const role = roleFor(name);
+      if (!role) continue;
+      const color = palette.roles[role];
+      if (!color) continue;
+      out = replaceCssVar(out, name, color);
+    }
+    return out;
+  }
+
+  // Compute the swatches a palette chip should preview: the colors that
+  // will actually be applied to the current template's vars, in var order.
+  function chipSwatchesFor(palette, varNames) {
+    const out = [];
+    for (const name of varNames) {
+      const role = roleFor(name);
+      const color = role ? palette.roles[role] : null;
+      if (color) out.push(color);
+    }
+    // If nothing mapped (unrecognized var names), fall back to the
+    // palette's signature colors so the chip still reads.
+    if (!out.length) return [palette.roles.bg, palette.roles.text, palette.roles.accent];
+    return out;
+  }
+
+  function collectTextNodes(bodyEl) {
+    // Walk the body, collect non-empty text nodes (skip script/style).
+    const out = [];
+    const walker = document.createTreeWalker(bodyEl, NodeFilter.SHOW_TEXT, {
+      acceptNode(n) {
+        const p = n.parentNode;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        const tag = p.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE') return NodeFilter.FILTER_REJECT;
+        if (!n.nodeValue || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    let n;
+    while ((n = walker.nextNode())) out.push(n);
+    return out;
+  }
+
+  function describeNode(textNode, index) {
+    const p = textNode.parentNode;
+    const tag = p.nodeName.toLowerCase();
+    const cls = (p.className && typeof p.className === 'string') ? '.' + p.className.split(/\s+/).filter(Boolean).join('.') : '';
+    const id = p.id ? '#' + p.id : '';
+    return `${tag}${id}${cls}`.slice(0, 60) || `text #${index + 1}`;
+  }
+
+  // Build visual form from currentHtml. Re-runs on every visual edit, so
+  // we preserve focus by re-focusing the input whose path matches `focusKey`.
+  let focusKey = null;
+  let focusSelection = null;
+
+  function buildVisualForm(html) {
+    const form = $('visual-form');
+    if (!html || !html.trim()) {
+      form.innerHTML = '<div class="visual-empty">Load a template to start editing.</div>';
+      return;
+    }
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const styleText = Array.from(doc.querySelectorAll('style')).map(s => s.textContent).join('\n');
+    const colorVars = parseColorVars(styleText);
+    const textNodes = doc.body ? collectTextNodes(doc.body) : [];
+
+    let out = '';
+
+    // --- Typography ---
+    const currentFont = detectCurrentFont(html);
+    const currentScale = detectFontScale(html);
+    out += '<div class="visual-section">';
+    out += '<div class="visual-section-title">Typography</div>';
+    out += `
+      <div class="field">
+        <div class="field-label">font</div>
+        <div class="field-select">
+          <select data-kind="font">
+            ${FONTS.map(f => `<option value="${f.name}"${f.name === currentFont ? ' selected' : ''}>${f.name}</option>`).join('')}
+            ${currentFont && !FONTS.find(f => f.name === currentFont) ? `<option value="${currentFont}" selected>${currentFont} (template default)</option>` : ''}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">size scale</div>
+        <div class="field-range">
+          <input type="range" data-kind="font-scale" min="0.7" max="1.5" step="0.05" value="${currentScale}" />
+          <span class="range-value" id="font-scale-value">${currentScale.toFixed(2)}×</span>
+        </div>
+      </div>`;
+    out += '</div>';
+
+    // --- Palettes ---
+    if (colorVars.length) {
+      out += '<div class="visual-section">';
+      out += '<div class="visual-section-title">Palette presets</div>';
+      out += '<div class="palette-group-tabs">';
+      for (const g of PALETTE_GROUPS) {
+        out += `<div class="palette-group-tab${g === activePaletteGroup ? ' active' : ''}" data-kind="palette-group" data-group="${g}">${g}</div>`;
+      }
+      out += '</div>';
+      out += '<div class="palette-grid">';
+      const varNames = colorVars.map(v => v.name);
+      for (let pi = 0; pi < PALETTES.length; pi++) {
+        const p = PALETTES[pi];
+        if (p.group !== activePaletteGroup) continue;
+        const colors = chipSwatchesFor(p, varNames);
+        const swatches = colors.map(c => `<div class="sw" style="background:${c}"></div>`).join('');
+        out += `
+          <div class="palette-chip" data-kind="palette" data-index="${pi}" title="${p.name}">
+            <div class="swatches">${swatches}</div>
+            <div class="palette-name">${p.name}</div>
+          </div>`;
+      }
+      out += '</div>';
+      out += '</div>';
+    }
+
+    if (colorVars.length) {
+      out += '<div class="visual-section">';
+      out += '<div class="visual-section-title">Colors</div>';
+      for (const v of colorVars) {
+        const hex = toHex(v.value);
+        const safeName = v.name.replace(/"/g, '&quot;');
+        const safeValue = v.value.replace(/"/g, '&quot;');
+        out += `
+          <div class="field">
+            <div class="field-label" title="${safeName}">${safeName}</div>
+            <div class="field-color">
+              <input type="color" data-kind="color" data-var="${safeName}" value="${hex}" />
+              <input type="text" data-kind="color-text" data-var="${safeName}" value="${safeValue}" />
+            </div>
+          </div>`;
+      }
+      out += '</div>';
+    }
+
+    if (textNodes.length) {
+      out += '<div class="visual-section">';
+      out += '<div class="visual-section-title">Text</div>';
+      textNodes.forEach((n, i) => {
+        const path = nodePath(n);
+        const label = describeNode(n, i);
+        const val = n.nodeValue;
+        const isMultiline = val.length > 50 || val.includes('\n');
+        const safeVal = val.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        out += `
+          <div class="field">
+            <div class="field-label" title="${label}">${label}</div>
+            <div class="field-text">
+              ${isMultiline
+                ? `<textarea data-kind="text" data-path="${path}" rows="2">${safeVal}</textarea>`
+                : `<input type="text" data-kind="text" data-path="${path}" value="${safeVal}" />`}
+            </div>
+          </div>`;
+      });
+      out += '</div>';
+    }
+
+    if (!colorVars.length && !textNodes.length) {
+      out = '<div class="visual-empty">No editable colors or text found in this HTML.</div>';
+    }
+
+    form.innerHTML = out;
+    // Stash var order on the form node for handlers.
+    form.dataset.varOrder = JSON.stringify(colorVars.map(v => v.name));
+
+    // Restore focus.
+    if (focusKey) {
+      const el = form.querySelector(`[data-focus-key="${CSS.escape(focusKey)}"]`)
+        || form.querySelector(`[data-kind="${focusKey.kind}"][${focusKey.attr}="${focusKey.value}"]`);
+      if (el) {
+        el.focus();
+        if (focusSelection != null && el.setSelectionRange) {
+          try { el.setSelectionRange(focusSelection, focusSelection); } catch (e) {}
+        }
+      }
+    }
+
+    wireVisualHandlers();
+  }
+
+  function rememberFocus(el) {
+    const kind = el.dataset.kind;
+    if (kind === 'text') {
+      focusKey = { kind, attr: 'data-path', value: el.dataset.path };
+    } else if (kind === 'color' || kind === 'color-text') {
+      focusKey = { kind, attr: 'data-var', value: el.dataset.var };
+    }
+    focusSelection = (el.selectionStart != null) ? el.selectionStart : null;
+  }
+
+  function wireVisualHandlers() {
+    const form = $('visual-form');
+
+    // Font family
+    const fontSel = form.querySelector('[data-kind="font"]');
+    if (fontSel) {
+      fontSel.addEventListener('change', () => {
+        currentHtml = applyFontFamily(currentHtml, fontSel.value);
+        markDirty();
+        schedulePreview();
+      });
+    }
+
+    // Font scale
+    const scaleSlider = form.querySelector('[data-kind="font-scale"]');
+    if (scaleSlider) {
+      scaleSlider.addEventListener('input', () => {
+        userTouchedScale = true;
+        const m = parseFloat(scaleSlider.value);
+        $('font-scale-value').textContent = m.toFixed(2) + '×';
+        currentHtml = applyFontScale(currentHtml, m);
+        markDirty();
+        schedulePreview();
+      });
+    }
+
+    // Palette group filter
+    form.querySelectorAll('[data-kind="palette-group"]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        activePaletteGroup = tab.dataset.group;
+        buildVisualForm(currentHtml);
+      });
+    });
+
+    // Palette presets
+    const varOrder = JSON.parse(form.dataset.varOrder || '[]');
+    form.querySelectorAll('[data-kind="palette"]').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const idx = parseInt(chip.dataset.index, 10);
+        const palette = PALETTES[idx];
+        if (!palette) return;
+        currentHtml = applyPalette(currentHtml, palette, varOrder);
+        markDirty();
+        focusKey = null;
+        buildVisualForm(currentHtml);
+        schedulePreview();
+      });
+    });
+
+    form.querySelectorAll('[data-kind="text"]').forEach(el => {
+      el.addEventListener('input', () => {
+        rememberFocus(el);
+        updateTextNode(el.dataset.path, el.value);
+      });
+    });
+
+    form.querySelectorAll('[data-kind="color"]').forEach(el => {
+      el.addEventListener('input', () => {
+        rememberFocus(el);
+        const newVal = el.value;
+        currentHtml = replaceCssVar(currentHtml, el.dataset.var, newVal);
+        // Also update the paired text input.
+        const text = form.querySelector(`[data-kind="color-text"][data-var="${CSS.escape(el.dataset.var)}"]`);
+        if (text) text.value = newVal;
+        markDirty();
+        schedulePreview();
+      });
+    });
+
+    form.querySelectorAll('[data-kind="color-text"]').forEach(el => {
+      el.addEventListener('input', () => {
+        rememberFocus(el);
+        const newVal = el.value;
+        currentHtml = replaceCssVar(currentHtml, el.dataset.var, newVal);
+        if (looksLikeColor(newVal)) {
+          const picker = form.querySelector(`[data-kind="color"][data-var="${CSS.escape(el.dataset.var)}"]`);
+          if (picker) picker.value = toHex(newVal);
+        }
+        markDirty();
+        schedulePreview();
+      });
+    });
+  }
+
+  function updateTextNode(path, newValue) {
+    // Re-parse, find node by index path, replace its text, re-serialize.
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(currentHtml, 'text/html');
+    const indices = path.split('/').map(Number);
+    let node = doc.body;
+    for (const idx of indices) {
+      if (!node || !node.childNodes[idx]) { node = null; break; }
+      node = node.childNodes[idx];
+    }
+    if (!node) return;
+    node.nodeValue = newValue;
+    currentHtml = serializeDoc(doc);
+    markDirty();
+    schedulePreview();
+  }
+
+  function serializeDoc(doc) {
+    // <!DOCTYPE html> + outerHTML of <html>
+    const dt = doc.doctype
+      ? `<!DOCTYPE ${doc.doctype.name}>\n`
+      : '<!DOCTYPE html>\n';
+    return dt + doc.documentElement.outerHTML;
+  }
+
+  // ---------- Toast ----------
+  function showToast(msg, kind = 'ok', html = false) {
+    const t = $('toast');
+    t.className = 'toast ' + kind;
+    if (html) t.innerHTML = msg; else t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { t.style.display = 'none'; }, 8000);
+  }
+
+  // ---------- API ----------
+  async function loadCampaigns() {
+    const r = await fetch('/api/campaigns').then(r => r.json());
+    const sel = $('campaign-select');
+    sel.innerHTML = '';
+    if (!r.campaigns || r.campaigns.length === 0) {
+      const opt = document.createElement('option');
+      opt.textContent = '(no campaigns)';
+      opt.value = '';
+      sel.appendChild(opt);
+      return;
+    }
+    for (const c of r.campaigns) {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = c;
+      sel.appendChild(opt);
+    }
+  }
+
+  async function populateSourceSelect(campaign) {
+    const sel = $('source-select');
+    sel.innerHTML = '<option value="">— pick source —</option>';
+
+    // Campaign assets group (shown first — primary use case).
+    if (campaign) {
+      try {
+        const r = await fetch('/api/campaign-assets/' + encodeURIComponent(campaign)).then(r => r.json());
+        if (r.assets && r.assets.length) {
+          const grp = document.createElement('optgroup');
+          grp.label = `Campaign: ${campaign}`;
+          for (const name of r.assets) {
+            const opt = document.createElement('option');
+            opt.value = 'campaign:' + name;
+            opt.textContent = name.replace(/\.html$/, '');
+            grp.appendChild(opt);
+          }
+          sel.appendChild(grp);
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    // Templates group (starting point for new ads).
+    try {
+      const r = await fetch('/api/templates').then(r => r.json());
+      if (r.templates && r.templates.length) {
+        const grp = document.createElement('optgroup');
+        grp.label = 'Templates';
+        for (const name of r.templates) {
+          const opt = document.createElement('option');
+          opt.value = 'template:' + name;
+          opt.textContent = name.replace(/\.html$/, '');
+          grp.appendChild(opt);
+        }
+        sel.appendChild(grp);
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  async function loadSource(value) {
+    if (!value) return;
+    const [kind, name] = value.split(':', 2);
+    let url;
+    if (kind === 'campaign') {
+      const campaign = $('campaign-select').value;
+      if (!campaign) return;
+      url = `/api/campaign-asset/${encodeURIComponent(campaign)}/${encodeURIComponent(name)}`;
+    } else if (kind === 'template') {
+      url = '/api/templates/' + encodeURIComponent(name);
+    } else {
+      return;
+    }
+
+    const html = await fetch(url).then(r => r.text());
+    currentHtml = html;
+    // Pre-fill filename. For campaign assets this means re-render overwrites
+    // in place; for templates it seeds a reasonable default.
+    $('filename').value = name.replace(/\.html$/, '');
+    focusKey = null;
+    focusSelection = null;
+    userTouchedScale = false;
+    // Sync the format dropdown to the loaded body dims.
+    const dims = detectBodyDims(html);
+    if (dims) {
+      const key = `${dims.w}x${dims.h}`;
+      const fmtSel = $('format-select');
+      if ([...fmtSel.options].some(o => o.value === key)) {
+        fmtSel.value = key;
+      }
+    }
+    if (activeTab === 'code') {
+      suppressCodeSync = true;
+      editor.setValue(html);
+      suppressCodeSync = false;
+    } else {
+      buildVisualForm(html);
+    }
+    refreshPreview();
+  }
+
+  $('format-select').addEventListener('change', (e) => {
+    const [wStr, hStr] = e.target.value.split('x');
+    const width = parseInt(wStr, 10);
+    const height = parseInt(hStr, 10);
+    const before = detectBodyDims(currentHtml);
+    currentHtml = applyFormat(currentHtml, width, height);
+
+    // Auto-bump font scale if the user hasn't touched the slider: when
+    // going from a shorter to taller canvas, content that was fitting
+    // 100% suddenly fills less. Scaling fonts by the height ratio keeps
+    // the design fitting edge-to-edge.
+    if (!userTouchedScale && before && before.h && height !== before.h) {
+      const ratio = height / before.h;
+      const currentScale = detectFontScale(currentHtml);
+      // Compute a fresh multiplier from the original baseline so we don't
+      // compound: the marker's snapshot is pre-scale, so just multiply.
+      let newMultiplier = currentScale * ratio;
+      newMultiplier = Math.max(0.7, Math.min(1.5, newMultiplier));
+      currentHtml = applyFontScale(currentHtml, newMultiplier);
+    }
+
+    markDirty();
+    if (activeTab === 'code') {
+      suppressCodeSync = true;
+      editor.setValue(currentHtml);
+      suppressCodeSync = false;
+    } else {
+      buildVisualForm(currentHtml);
+    }
+    refreshPreview();
+  });
+
+  $('source-select').addEventListener('change', (e) => loadSource(e.target.value));
+  $('campaign-select').addEventListener('change', async (e) => {
+    await populateSourceSelect(e.target.value);
+  });
+  $('refresh-btn').addEventListener('click', refreshPreview);
+
+  $('render-btn').addEventListener('click', async () => {
+    const campaign = $('campaign-select').value;
+    const filename = $('filename').value.trim();
+    const scale = parseInt($('scale').value, 10) || 1;
+    if (!campaign) { showToast('Pick a campaign first.', 'err'); return; }
+    if (!filename) { showToast('Enter a filename.', 'err'); return; }
+
+    const btn = $('render-btn');
+    btn.disabled = true;
+    btn.textContent = 'Rendering…';
+    try {
+      const res = await fetch('/api/save-and-render', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaign,
+          filename,
+          html: stripEditorMarkers(currentHtml),
+          scale,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Render failed');
+
+      const fillWarn = data.fillRatio < 0.9
+        ? `<div style="color:#f5a524;margin-top:4px">⚠ Content fills only ${Math.round(data.fillRatio*100)}% of canvas height.</div>`
+        : '';
+      showToast(`
+        <div><strong>Saved &amp; rendered</strong></div>
+        <div style="color:#8a8b95;font-size:11px;margin-top:4px">${data.htmlPath}</div>
+        <div style="color:#8a8b95;font-size:11px">${data.pngPath} · ${data.dimensions.width}×${data.dimensions.height} @ ${data.dimensions.scale}x · ${(data.size/1024|0)} KB</div>
+        ${fillWarn}
+        <a href="${data.pngUrl}" target="_blank"><img src="${data.pngUrl}" alt="rendered ad" /></a>
+      `, 'ok', true);
+    } catch (e) {
+      showToast('Error: ' + e.message, 'err');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save & Render PNG';
+    }
+  });
+
+  (async function init() {
+    await loadCampaigns();
+    const campaign = $('campaign-select').value;
+    await populateSourceSelect(campaign);
+    const src = $('source-select');
+    // Default to the first campaign asset if one exists; otherwise first template.
+    let firstReal = null;
+    for (let i = 0; i < src.options.length; i++) {
+      if (src.options[i].value) { firstReal = src.options[i]; break; }
+    }
+    if (firstReal) {
+      src.value = firstReal.value;
+      await loadSource(firstReal.value);
+    }
+  })();
+</script>
+</body>
+</html>
