@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --sky: #cfe3eb;
+    --water-top: #2b5d72;
+    --water-bottom: #0a1f2b;
+    --ink-top: #102a36;
+    --ink-bottom: #e8eef2;
+    --ice-top: #f4f7f9;
+    --ice-shadow: #c5d2d8;
+    --ice-deep: #6f8a98;
+    --accent: #ffb547;
+    --muted-top: rgba(16,42,54,0.55);
+    --muted-bot: rgba(232,238,242,0.55);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+    color: var(--ink-top);
+  }
+
+  /* background layers (z=1) — purely color */
+  .bg-sky {
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 36%;
+    background: var(--sky);
+    z-index: 1;
+  }
+  .bg-water {
+    position: absolute;
+    top: 36%; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to bottom, var(--water-top), var(--water-bottom));
+    z-index: 1;
+  }
+
+  /* iceberg (z=2) — sits over the backgrounds, under the text */
+  .iceberg-wrap {
+    position: absolute;
+    top: 4%;
+    right: -40px;
+    width: 480px;
+    height: 920px;
+    z-index: 2;
+  }
+  .iceberg-wrap svg { width: 100%; height: 100%; display: block; }
+
+  /* waterline (z=3) — bright stripe across */
+  .waterline {
+    position: absolute;
+    left: 0; right: 0;
+    top: 36%;
+    height: 4px;
+    background: rgba(255,255,255,0.45);
+    z-index: 3;
+  }
+
+  /* text containers (z=4) — over everything */
+  .above {
+    position: absolute;
+    top: 0; left: 0;
+    width: 60%;
+    height: 36%;
+    padding: 60px 0 0 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 4;
+  }
+  .below {
+    position: absolute;
+    top: 36%; left: 0;
+    width: 62%;
+    bottom: 0;
+    padding: 0 0 60px 70px;
+    color: var(--ink-bottom);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 16px;
+    z-index: 4;
+  }
+
+  .tag {
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted-top);
+  }
+  .symptom {
+    font-family: "Times New Roman", Georgia, serif;
+    font-style: italic;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -1px;
+  }
+  .below-tag {
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .root {
+    font-size: 30px;
+    font-weight: 800;
+    color: rgba(232,238,242,0.9);
+    line-height: 1.2;
+  }
+  .reveal {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin-top: 6px;
+  }
+  .reveal em { font-style: normal; color: var(--accent); }
+  .sub {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--muted-bot);
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<!--
+  PS-04 — ICEBERG
+  ================
+  The visible symptom is what the buyer sees. The real cause is
+  bigger and underneath. The system is the dive — naming and
+  fixing what's under the water.
+
+  LAYOUT (z-index stack):
+  - z=1: solid sky band (top 36%) + water gradient (bottom 64%)
+  - z=2: iceberg SVG straddling the seam, right side
+  - z=3: thin waterline stripe
+  - z=4: text on the left, never colliding with the iceberg
+
+  REQUIRED:
+  - Iceberg tip clearly smaller than the underwater bulk
+  - "Above" copy uses ICP's literal symptom
+  - "Below" copy names the ROOT cause + the SYSTEM
+-->
+  <div class="bg-sky"></div>
+  <div class="bg-water"></div>
+
+  <div class="iceberg-wrap">
+    <svg viewBox="0 0 480 920" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- waterline conceptually at y ≈ 331 (36% of 920) -->
+
+      <!-- tip above waterline -->
+      <path d="M 230 130 L 175 330 L 360 330 L 320 170 L 270 100 Z" fill="var(--ice-top)"/>
+      <path d="M 270 100 L 230 130 L 245 240 L 295 260 L 320 170 Z" fill="var(--ice-shadow)" opacity="0.65"/>
+
+      <!-- massive bulk below waterline -->
+      <path d="M 90 330 L 50 480 L 70 660 L 160 800 L 320 850 L 440 750 L 470 580 L 430 410 L 380 340 L 360 330 L 175 330 Z"
+            fill="var(--ice-shadow)"/>
+      <!-- darker depth -->
+      <path d="M 130 450 L 100 580 L 160 740 L 280 800 L 400 750 L 440 620 L 410 460 L 350 410 L 200 410 Z"
+            fill="var(--ice-deep)" opacity="0.5"/>
+      <!-- highlight cracks -->
+      <path d="M 220 340 L 240 470 L 200 620 L 250 760" stroke="rgba(255,255,255,0.32)" stroke-width="3" fill="none"/>
+      <path d="M 360 360 L 340 520 L 390 700" stroke="rgba(255,255,255,0.22)" stroke-width="3" fill="none"/>
+    </svg>
+  </div>
+
+  <div class="waterline"></div>
+
+  <div class="above">
+    <div class="tag">What you see</div>
+    <div class="symptom">"Our cost per lead<br>keeps creeping up."</div>
+  </div>
+
+  <div class="below">
+    <div class="below-tag">What's actually moving</div>
+    <div class="root">Your offer doesn't filter — so paid traffic, your team and your calendar all carry the wrong people.</div>
+    <div class="reveal">The full intake system —<br><em>filter, qualify, book.</em></div>
+    <div class="sub">CPL drops because the right people convert · not because clicks got cheaper</div>
+  </div>
+</body>
+</html>

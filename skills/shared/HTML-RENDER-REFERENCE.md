@@ -46,15 +46,29 @@ The `<body>` element defines the output dimensions. Default is **1080×1080 (squ
 
 ## Render Workflow
 
+**Order matters: copy → image. Always.** Hierarchy is Ad → Copy → Images. The HTML and PNG are both *images* of the copy.
+
 ### 1. Write the HTML
 
-Create a single `.html` file. Set body dimensions to 1080×1080.
+Create the ad folder: `campaigns/{slug}/ads/{ad-name}/images/`. Inside `images/`, create `{ad-name}.html` and set body dimensions to 1080×1080.
 
 ### 2. Render to PNG
 
+The PNG goes alongside the HTML inside `images/`.
+
 ```bash
-node skills/shared/render-static.js <input.html> [output-dir] [--prefix name] [--scale N]
+node skills/shared/render-static.js \
+  campaigns/{slug}/ads/{ad-name}/images/{ad-name}.html \
+  campaigns/{slug}/ads/{ad-name}/images/
 ```
+
+### 3. Seed COPY.md
+
+```bash
+node skills/shared/tools/backfill-copy.js
+```
+
+This writes `campaigns/{slug}/ads/{ad-name}/COPY.md` and `copy.json` — the verbatim ad copy auto-extracted from the rendered HTML. Open `COPY.md` and clean up any auto-extraction quirks (dense designs sometimes flatten table cells into one line). The file is just the copy — no angle, no promise, no image direction. The designer infers those from the copy using the skills in `skills/`.
 
 The renderer:
 - Launches headless Chromium via `playwright-core`

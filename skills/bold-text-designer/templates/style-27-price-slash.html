@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #fff5d6;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.5);
+    --slash: rgba(26,26,26,0.45);
+    --accent: #d92d20;
+    --stamp-bg: #1a1a1a;
+    --stamp-text: #ffd23f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px;
+    text-align: center;
+  }
+  .kicker {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .old {
+    position: relative;
+    font-size: 140px;
+    font-weight: 900;
+    letter-spacing: -6px;
+    line-height: 0.9;
+    color: var(--slash);
+    display: inline-block;
+  }
+  .old .strike {
+    position: absolute;
+    top: 50%; left: -6%;
+    width: 112%;
+    height: 12px;
+    background: var(--accent);
+    transform: translateY(-50%) rotate(-8deg);
+    border-radius: 4px;
+  }
+  .new {
+    position: relative;
+    font-size: 240px;
+    font-weight: 900;
+    letter-spacing: -10px;
+    line-height: 0.9;
+    color: var(--text);
+    display: inline-block;
+  }
+  .stamp {
+    position: absolute;
+    top: -20px;
+    right: -90px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: 12px;
+    transform: rotate(8deg);
+    box-shadow: 0 6px 0 rgba(0,0,0,0.18);
+    white-space: nowrap;
+  }
+  .footer {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .footer em { font-style: normal; color: var(--accent); }
+  .sub {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+<!--
+  STYLE 27 — PRICE SLASH
+  ======================
+  Use when the ad's beat is a PRICE DROP. The visceral arithmetic does
+  the work — no copy needed beyond labels.
+
+  REQUIRED:
+  - .old = the anchor price (struck through, muted)
+  - .new = the new price (big, dominant)
+  - .stamp = the savings claim or qualifier ("SAVE $X" / "FOUNDING")
+  - Footer names what they get for the new price in ONE line.
+
+  DO NOT:
+  - Stack a discount badge AND a urgency line AND a value list. One beat.
+-->
+  <div class="kicker">Founding rate · this quarter</div>
+  <div class="stage">
+    <div class="old">$8,000<div class="strike"></div></div>
+    <div class="new">
+      $3,500
+      <div class="stamp">Save 56%</div>
+    </div>
+  </div>
+  <div>
+    <div class="footer">The complete flywheel · <em>performance-based</em></div>
+    <div class="sub">3 firms · expires June 1</div>
+  </div>
+</body>
+</html>

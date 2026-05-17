@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #f4ede2;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --them: #1a1a1a;
+    --them-fill: rgba(26,26,26,0.08);
+    --you: #d92d20;
+    --you-fill: rgba(217,45,32,0.1);
+    --accent: #d92d20;
+    --rule: rgba(26,26,26,0.2);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 22px;
+    padding: 60px 60px 50px;
+  }
+  .headline {
+    text-align: center;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.04;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .root {
+    margin: 0 auto;
+    padding: 18px 28px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 14px;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .tree {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    position: relative;
+  }
+
+  /* the fork lines from root down */
+  .tree::before {
+    content: "";
+    position: absolute;
+    top: -22px;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: var(--rule);
+  }
+
+  .branch {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    padding-top: 10px;
+    height: 100%;
+  }
+  .branch::before {
+    content: "";
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    width: 2px;
+    height: 22px;
+    background: var(--rule);
+  }
+  .branch.them::before { background: rgba(26,26,26,0.4); }
+  .branch.you::before  { background: var(--accent); }
+
+  .branch .who {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .branch.them .who { color: var(--text); }
+  .branch.you  .who { color: var(--accent); }
+
+  .node {
+    position: relative;
+    padding: 22px 18px;
+    border-radius: 12px;
+    font-size: 24px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .branch.them .node { background: var(--them-fill); color: var(--text); border: 2px solid rgba(26,26,26,0.18); }
+  .branch.you  .node { background: var(--you-fill);  color: var(--text); border: 2px solid rgba(217,45,32,0.35); }
+
+  /* connector lines between nodes */
+  .node:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 14px;
+    background: var(--rule);
+  }
+  .branch.you .node:not(:last-child)::after { background: var(--accent); }
+
+  .outcome {
+    margin-top: 6px;
+    padding: 26px 18px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+    flex-shrink: 0;
+  }
+  .branch.them .outcome { background: var(--text);   color: var(--bg);   }
+  .branch.you  .outcome { background: var(--accent); color: #fff;        }
+  .outcome em { font-style: normal; }
+
+  .footer {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .footer em { font-style: normal; color: var(--accent); }
+</style>
+</head>
+<body>
+<!--
+  STYLE 40 — DECISION TREE FORKS (where the choice leads)
+  =======================================================
+  Use when the ad's beat is FUTURE PROJECTION — get the buyer to feel
+  which path they'll be on in 6 months. Two branches from one root
+  question. Each branch tells a 3-step story ending in the honest
+  outcome.
+
+  REQUIRED:
+  - Root = the decision the buyer is making right now.
+  - 3 nodes per branch + 1 outcome card. Same structure both sides.
+  - "Them" branch outcome must be honestly bad (not caricature). "You"
+    outcome reveals the SYSTEM + commercial terms.
+  - Use specific timing/commitment language, not adjectives.
+
+  DO NOT:
+  - Make the competitor branch obviously stupid. The buyer needs to
+    feel they could choose either; the FORECAST is what differentiates.
+-->
+  <div class="headline">Pick once.<br><em>Live with it for 12 months.</em></div>
+
+  <div class="root">Choose your marketing partner</div>
+
+  <div class="tree">
+    <div class="branch them">
+      <div class="who">National firm path</div>
+      <div class="node">Sign 12-mo contract</div>
+      <div class="node">Mediocre months 1–6 while they "ramp"</div>
+      <div class="node">Want out · contractually can't</div>
+      <div class="outcome">Trapped through month 12.</div>
+    </div>
+
+    <div class="branch you">
+      <div class="who">Flywheel path</div>
+      <div class="node">Performance terms · no setup</div>
+      <div class="node">First signed case · month 1</div>
+      <div class="node">Renew if it works · leave if it doesn't</div>
+      <div class="outcome">25+ cases / mo. Or you walk.</div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

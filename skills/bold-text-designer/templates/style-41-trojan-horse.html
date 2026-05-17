@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --pitch-bg: #ffffff;
+    --pitch-border: rgba(26,26,26,0.18);
+    --reveal-bg: #1a1a1a;
+    --reveal-text: #faf6ef;
+    --bad: #d92d20;
+    --good: #2d7a4f;
+    --accent: #d92d20;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 60px 60px 50px;
+  }
+  .headline {
+    text-align: center;
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.04;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  /* PITCH (the clean version they show you) */
+  .pitch {
+    background: var(--pitch-bg);
+    border: 2px solid var(--pitch-border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pitch .tag {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .pitch .promise {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .pitch .promise em { font-style: normal; color: var(--good); }
+  .pitch .features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .pitch .features span::before { content: "✓ "; color: var(--good); }
+
+  .seam {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .seam .rule {
+    flex: 1;
+    height: 2px;
+    background: var(--accent);
+    max-width: 280px;
+  }
+
+  /* INSIDE (the hidden costs you find out about month 4) */
+  .inside {
+    flex: 1;
+    background: var(--reveal-bg);
+    color: var(--reveal-text);
+    border-radius: 14px;
+    padding: 32px 34px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto repeat(3, 1fr);
+    gap: 14px 28px;
+  }
+  .inside .tag {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--bad);
+  }
+  .cost {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: rgba(250,246,239,0.95);
+  }
+  .cost::before {
+    content: "✗";
+    color: var(--bad);
+    font-weight: 900;
+    font-size: 24px;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  .reveal {
+    background: var(--good);
+    color: #fff;
+    border-radius: 14px;
+    padding: 20px 26px;
+    text-align: center;
+  }
+  .reveal .lead {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+  }
+  .reveal .sub {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+<!--
+  STYLE 41 — TROJAN HORSE (competitor's hidden cost)
+  ==================================================
+  Use when the ad's beat is EXPOSING THE FINE PRINT. Top = competitor's
+  offer exactly as pitched (clean, simple). Middle seam = "WHAT'S
+  INSIDE." Bottom = the dissection — hidden costs the buyer discovers
+  month 4. Final reveal: your offer with those same costs removed.
+
+  REQUIRED:
+  - Top pitch = HONEST representation of what they show in the sales
+    deck. Don't strawman; use their real language.
+  - Inside grid = 4-6 specific hidden costs. Use real industry mechanics
+    (lock-ins, channel restrictions, agency sub-contracting).
+  - Reveal pill = your system with those same mechanics inverted.
+
+  DO NOT:
+  - Use this if you can't substantiate the hidden costs. This style is
+    devastating if true and a lawsuit if not.
+-->
+  <div class="headline">It looks great<br>on the <em>pitch deck.</em></div>
+
+  <div class="pitch">
+    <div class="tag">What they show you</div>
+    <div class="promise">"We'll handle your marketing — <em>full service.</em>"</div>
+    <div class="features">
+      <span>Dedicated team</span>
+      <span>Industry experts</span>
+      <span>Proven framework</span>
+      <span>Full reporting</span>
+    </div>
+  </div>
+
+  <div class="seam"><span class="rule"></span>What's inside<span class="rule"></span></div>
+
+  <div class="inside">
+    <div class="tag">What you find out month 4</div>
+    <div class="cost">12-month lock — no exit clause</div>
+    <div class="cost">"Dedicated team" = junior + offshore</div>
+    <div class="cost">Channel restrictions block your best partners</div>
+    <div class="cost">Performance bonus stacked on top of retainer</div>
+    <div class="cost">Reporting hides cost-per-case math</div>
+    <div class="cost">You own zero of the assets they build</div>
+  </div>
+
+  <div class="reveal">
+    <div class="lead">The flywheel · no lock, no offshore, no hidden bonus, all assets yours.</div>
+    <div class="sub">Performance-based · 3 firms this month</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f1419;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --them: #ffffff;
+    --you: #36e0a4;
+    --paper: #1a2230;
+    --paper-border: rgba(255,255,255,0.12);
+    --rule: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 26px;
+    padding: 60px 60px 50px;
+  }
+  .receipts-wrap { flex: 1; display: flex; align-items: stretch; }
+  .headline {
+    text-align: center;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1.6px;
+    line-height: 1.04;
+  }
+  .headline em { font-style: normal; color: var(--you); }
+
+  .receipts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    width: 100%;
+    align-items: stretch;
+  }
+  .receipt {
+    background: var(--paper);
+    border: 1px solid var(--paper-border);
+    border-radius: 14px;
+    padding: 28px 26px 22px;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .receipt .lines { flex: 1; justify-content: center; }
+  .receipt .tag {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .receipt .name {
+    font-family: "Inter", sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .receipt.them .name { color: var(--them); }
+  .receipt.you  .name { color: var(--you);  }
+
+  .lines { display: flex; flex-direction: column; gap: 12px; }
+  .line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .line .lbl { opacity: 0.75; }
+  .line .amt { font-weight: 900; }
+  .receipt.them .amt.bad { color: #ff7a7a; }
+  .receipt.you  .amt.ok  { color: var(--you); }
+
+  .total {
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 2px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: "Inter", sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .receipt.them .total .v { color: #ff7a7a; }
+  .receipt.you  .total .v { color: var(--you); }
+
+  .footer {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .footer em { font-style: normal; color: var(--you); }
+</style>
+</head>
+<body>
+<!--
+  STYLE 38 — TWO RECEIPTS (pricing transparency)
+  ==============================================
+  Use when the ad's beat is COMMERCIAL ASYMMETRY. Two itemized invoices,
+  same outcome promised, very different bills. The proof is the line
+  items — no marketing copy needed.
+
+  REQUIRED:
+  - Same line LABELS on both receipts (Setup, Retainer, Cancellation).
+    Different VALUES. Comparability is the whole mechanism.
+  - Competitor invoice must be HONEST about their real terms — do not
+    fabricate $50K setups. The ad dies the moment a prospect knows.
+  - Both totals at the bottom, both prominent.
+
+  DO NOT:
+  - Hide the competitor's wins. If they include "white-glove onboarding"
+    for the setup fee, that's an honest reason for the cost.
+-->
+  <div class="headline">Same outcome.<br><em>Different bill.</em></div>
+
+  <div class="receipts-wrap"><div class="receipts">
+    <div class="receipt them">
+      <div class="tag">National firm · est. invoice</div>
+      <div class="name">12-mo agency contract</div>
+      <div class="lines">
+        <div class="line"><span class="lbl">Setup fee</span><span class="amt bad">$25,000</span></div>
+        <div class="line"><span class="lbl">Monthly retainer</span><span class="amt bad">$12,000</span></div>
+        <div class="line"><span class="lbl">Performance bonus</span><span class="amt bad">+ 8% of cases</span></div>
+        <div class="line"><span class="lbl">Cancellation</span><span class="amt bad">12-mo lock</span></div>
+        <div class="line"><span class="lbl">Channel restrictions</span><span class="amt bad">Yes</span></div>
+      </div>
+      <div class="total"><span>Year 1</span><span class="v">$169K+</span></div>
+    </div>
+
+    <div class="receipt you">
+      <div class="tag">The flywheel · your invoice</div>
+      <div class="name">Performance-based</div>
+      <div class="lines">
+        <div class="line"><span class="lbl">Setup fee</span><span class="amt ok">$0</span></div>
+        <div class="line"><span class="lbl">Monthly retainer</span><span class="amt ok">$0</span></div>
+        <div class="line"><span class="lbl">Performance fee</span><span class="amt ok">Only when you win</span></div>
+        <div class="line"><span class="lbl">Cancellation</span><span class="amt ok">Any time</span></div>
+        <div class="line"><span class="lbl">Channel restrictions</span><span class="amt ok">None</span></div>
+      </div>
+      <div class="total"><span>Year 1</span><span class="v">Pay if it works</span></div>
+    </div>
+  </div></div>
+
+  <div class="footer">The complete marketing flywheel · <em>3 firms this month</em></div>
+</body>
+</html>

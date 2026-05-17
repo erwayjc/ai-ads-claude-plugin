@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #f3eee5;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --accent: #d63a2f;
+    --card: #ffffff;
+    --rule: rgba(26,26,26,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px 70px 60px;
+  }
+  .headline {
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.05;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 12px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+  .step {
+    background: var(--card);
+    border: 2px solid var(--rule);
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    align-items: center;
+    gap: 22px;
+    box-shadow: 0 3px 0 rgba(0,0,0,0.05);
+  }
+  .num {
+    font-family: "Inter", sans-serif;
+    font-size: 84px;
+    font-weight: 900;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .body { line-height: 1.15; }
+  .label {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.6px;
+  }
+  .desc {
+    margin-top: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .when {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1.5px solid var(--rule);
+    padding: 8px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 47 — NUMBERED STEPS (methodology beat)
+  ============================================
+  Use when the ad's beat is "here is our method — four named steps in
+  order." Big oversized numerals in accent + named step + one-line
+  description + time-bound pill. Reads as a method, not a brochure.
+
+  REQUIRED:
+  - Exactly 4 steps. 3 is too sparse, 5+ collapses the type at 1080.
+  - Each step needs: name (verb-led), one-line description, time pill.
+  - Time pill = relative ("WEEK 1") not absolute. Keeps the method
+    portable across campaigns.
+  - Headline says "method" or "approach" or "playbook" — frames what
+    follows as a system, not a feature list.
+
+  DO NOT:
+  - Mix verbs and nouns in step names. "Audit · Build · Launch · Scale"
+    or "Diagnosis · Plan · Build · Measure" — pick a register.
+  - Add icons. The big numerals are doing that job.
+-->
+  <div>
+    <div class="headline">Our 4-step <em>case flow playbook.</em></div>
+    <div class="sub">Same method, every client. No "discovery phase" black hole.</div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="num">01</div>
+      <div class="body">
+        <div class="label">Audit</div>
+        <div class="desc">Cost-per-case, intake gaps, leaks in your current funnel — measured, not guessed.</div>
+      </div>
+      <div class="when">Week 1</div>
+    </div>
+
+    <div class="step">
+      <div class="num">02</div>
+      <div class="body">
+        <div class="label">Build</div>
+        <div class="desc">Ads, intake, reporting installed. Reviews and SEO wired in alongside.</div>
+      </div>
+      <div class="when">Week 2</div>
+    </div>
+
+    <div class="step">
+      <div class="num">03</div>
+      <div class="body">
+        <div class="label">Launch</div>
+        <div class="desc">First exclusive cases hit your intake. Weekly dashboard goes live.</div>
+      </div>
+      <div class="when">Week 3</div>
+    </div>
+
+    <div class="step">
+      <div class="num">04</div>
+      <div class="body">
+        <div class="label">Scale</div>
+        <div class="desc">Spend climbs only where cost-per-case holds. 25+ exclusive cases / mo.</div>
+      </div>
+      <div class="when">Day 90</div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.45);
+    --x: rgba(26,26,26,0.4);
+    --accent: #2d7a4f;
+    --reveal-bg: #1a1a1a;
+    --reveal-text: #faf6ef;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 24px;
+    padding: 70px;
+  }
+  .headline {
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.0;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .nots {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--x);
+    text-decoration: line-through;
+    text-decoration-color: rgba(26,26,26,0.35);
+    text-decoration-thickness: 3px;
+    letter-spacing: -0.5px;
+  }
+  .row .mark {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--x);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 900;
+    text-decoration: none;
+    color: var(--x);
+  }
+
+  .divider {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .divider .rule {
+    display: inline-block;
+    width: 80px;
+    height: 2px;
+    background: var(--muted);
+    vertical-align: middle;
+    margin: 0 14px;
+  }
+
+  .yes {
+    background: var(--reveal-bg);
+    color: var(--reveal-text);
+    border-radius: 18px;
+    padding: 30px 36px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .yes .mark {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .yes .text {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.8px;
+    line-height: 1.1;
+  }
+  .yes .text em { font-style: normal; color: var(--accent); }
+  .footer {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .footer em { font-style: normal; color: var(--accent); }
+</style>
+</head>
+<body>
+<!--
+  STYLE 31 — DISQUALIFIER FILTER (premium-by-exclusion)
+  =====================================================
+  Use when the ad's beat is QUALIFYING THE ICP HARD. Inverts "this is
+  for you." Three explicit "not for you" rows in muted/strikethrough,
+  then ONE accent reveal row of who it IS for.
+
+  REQUIRED:
+  - 3 ✗ rows = the specific ICPs that should NOT apply (size, niche,
+    revenue floor). Strikethrough + muted color.
+  - 1 ✓ reveal = the exact ICP that SHOULD apply. Accent + dark pill.
+  - Headline frames the filtering as a feature, not a flaw.
+
+  DO NOT:
+  - Use vague disqualifiers ("not for everyone"). Be specific — solo
+    attorneys / GP firms / under $2M — or the filter is theater.
+  - Add a 4th ✗. Three is the lid for rhythm.
+-->
+  <div class="headline">Not for everyone.<br><em>By design.</em></div>
+
+  <div class="nots">
+    <div class="row"><span class="mark">✗</span>Solo attorneys</div>
+    <div class="row"><span class="mark">✗</span>General-practice firms</div>
+    <div class="row"><span class="mark">✗</span>Under $2M annual revenue</div>
+  </div>
+
+  <div class="divider"><span class="rule"></span>only for<span class="rule"></span></div>
+
+  <div class="yes">
+    <span class="mark">✓</span>
+    <div class="text">PI firms <em>$2M–$15M</em><br>ready to scale to 25+ cases/mo</div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

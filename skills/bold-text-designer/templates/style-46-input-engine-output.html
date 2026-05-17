@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #131516;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #ffd23f;
+    --panel: #1e2326;
+    --panel-border: rgba(255,255,255,0.10);
+    --engine: #ffd23f;
+    --engine-text: #131516;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px 60px 60px;
+  }
+  .headline {
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.05;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 14px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 14px;
+  }
+  .zone {
+    border-radius: 16px;
+    padding: 22px 18px;
+    text-align: center;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+  .zone.io {
+    background: var(--panel);
+    border: 2px solid var(--panel-border);
+  }
+  .zone.engine {
+    background: var(--engine);
+    color: var(--engine-text);
+    box-shadow: 0 0 0 14px rgba(255,210,63,0.12);
+  }
+  .role {
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .zone.engine .role { color: rgba(19,21,22,0.7); }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+  }
+  .zone.engine .item {
+    background: rgba(19,21,22,0.08);
+    border-color: rgba(19,21,22,0.18);
+    color: var(--engine-text);
+  }
+
+  .big {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .big .unit {
+    display: block;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    opacity: 0.7;
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+  .arrow svg { display: block; }
+
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 46 — INPUT → ENGINE → OUTPUT (black-box beat)
+  ===================================================
+  Use when the ad's beat is "you give us X, the system produces Y."
+  Three labeled zones with arrows between them. The middle (engine) is
+  the accent and reads as the proprietary part — the buyer doesn't need
+  to understand it, only see that it transforms input into outcome.
+
+  REQUIRED:
+  - LEFT (Input): what the buyer hands over — budget, brief, access.
+    Keep concrete and short. 2–4 items max.
+  - MIDDLE (Engine): the system name + 2–3 internal components, accent
+    background. This is the only zone the eye should land on second.
+  - RIGHT (Output): the OUTCOME, as a big number with a unit underneath.
+    Not features, not stages — the result.
+  - Headline names the transformation in plain words.
+
+  DO NOT:
+  - List 5+ components inside the engine. The engine is intentionally
+    opaque — too much detail breaks the black-box metaphor.
+  - Use this style for cyclical/iterative work — use flywheel (22).
+-->
+  <div>
+    <div class="headline">You bring the case.<br>We bring the <em>case flow.</em></div>
+    <div class="sub">One system. One input. One outcome you can count on.</div>
+  </div>
+
+  <div class="stage">
+    <div class="zone io">
+      <div class="role">Input</div>
+      <div class="items">
+        <div class="item">Practice areas</div>
+        <div class="item">Service area</div>
+        <div class="item">Intake hours</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="44" height="36" viewBox="0 0 44 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 18 H36 M28 8 L40 18 L28 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="zone engine">
+      <div class="role">The Flywheel</div>
+      <div class="items">
+        <div class="item">Ads + Intake</div>
+        <div class="item">SEO + Reviews</div>
+        <div class="item">Brand + Reporting</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="44" height="36" viewBox="0 0 44 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 18 H36 M28 8 L40 18 L28 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="zone io">
+      <div class="role">Output</div>
+      <div class="big">
+        25+
+        <span class="unit">Exclusive cases / mo</span>
+      </div>
+      <div class="items">
+        <div class="item">Predictable. Reported weekly.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

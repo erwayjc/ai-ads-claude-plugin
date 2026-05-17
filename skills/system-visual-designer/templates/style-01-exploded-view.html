@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0c0f12;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #ffb547;
+    --panel: #161b20;
+    --panel-border: rgba(255,255,255,0.10);
+    --leader: rgba(255,255,255,0.35);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 60px 60px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+  .headline {
+    position: relative;
+    z-index: 2;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.0;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    position: relative;
+    z-index: 2;
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding-top: 20px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 360px 1fr;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+  }
+  .row .layer {
+    grid-column: 2;
+  }
+  .layer {
+    background: var(--panel);
+    border: 1.5px solid var(--panel-border);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.4);
+  }
+  .layer .layer-name {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+  }
+  .layer .layer-meta {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .layer.outcome {
+    background: var(--accent);
+    color: #1a1308;
+    border-color: rgba(0,0,0,0.18);
+    box-shadow: 0 0 0 12px rgba(255,181,71,0.10), 0 12px 28px rgba(0,0,0,0.4);
+  }
+  .layer.outcome .layer-meta { color: rgba(26,19,8,0.65); }
+
+  .callout-left, .callout-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--text);
+  }
+  .callout-left { justify-content: flex-end; text-align: right; }
+  .callout-right { justify-content: flex-start; text-align: left; }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    box-shadow: 0 0 0 4px rgba(255,181,71,0.18);
+  }
+  .leader {
+    flex-grow: 1;
+    height: 1px;
+    background: var(--leader);
+    min-width: 40px;
+  }
+  .callout-text {
+    max-width: 200px;
+    line-height: 1.25;
+  }
+  .callout-text .tag {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 01 — EXPLODED VIEW
+  ===================================================
+  Use when the ad's beat is "look at all the parts we built."
+  The diagram is an IKEA-style exploded view: the system pulled apart
+  into stacked layers with leader-line callouts on the sides. The top
+  layer is the OUTCOME in the accent color; everything below is the
+  named machinery that produces it.
+
+  REQUIRED:
+  - 5 stacked layers (outcome + 4 components). Don't add more — the
+    silhouette starts to look like a list instead of a machine.
+  - Leader callouts on alternating sides for the 4 component layers.
+    Each callout: small UPPERCASE tag + 2–4 word descriptor.
+  - Outcome on top, accent color, glow ring around it.
+  - Grid background to give the schematic/blueprint feel.
+
+  DO NOT:
+  - Put icons inside the layers. Names only — the exploded view does
+    the visual work; icons compete with it.
+  - Use a light background. The schematic feel requires dark.
+-->
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="headline">One system. <em>Five moving parts.</em></div>
+    <div class="sub">Built · Integrated · Managed</div>
+  </div>
+
+  <div class="stage">
+    <div class="row">
+      <div></div>
+      <div class="layer outcome">
+        <div class="layer-name">Predictable Case Flow</div>
+        <div class="layer-meta">Outcome</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="row">
+      <div class="callout-left">
+        <div class="callout-text">
+          <span class="tag">Channel · 01</span>
+          Paid ads + retargeting
+        </div>
+        <div class="leader"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="layer">
+        <div class="layer-name">Paid Acquisition</div>
+        <div class="layer-meta">Layer 01</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="row">
+      <div></div>
+      <div class="layer">
+        <div class="layer-name">Instant Intake</div>
+        <div class="layer-meta">Layer 02</div>
+      </div>
+      <div class="callout-right">
+        <div class="dot"></div>
+        <div class="leader"></div>
+        <div class="callout-text">
+          <span class="tag">Channel · 02</span>
+          90-second response, 24/7
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="callout-left">
+        <div class="callout-text">
+          <span class="tag">Channel · 03</span>
+          AI-driven local SEO
+        </div>
+        <div class="leader"></div>
+        <div class="dot"></div>
+      </div>
+      <div class="layer">
+        <div class="layer-name">Organic Visibility</div>
+        <div class="layer-meta">Layer 03</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="row">
+      <div></div>
+      <div class="layer">
+        <div class="layer-name">Reviews + Brand</div>
+        <div class="layer-meta">Layer 04</div>
+      </div>
+      <div class="callout-right">
+        <div class="dot"></div>
+        <div class="leader"></div>
+        <div class="callout-text">
+          <span class="tag">Channel · 04</span>
+          Google reviews, social proof
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Performance-based · <em>3 firms this month</em></div>
+</body>
+</html>

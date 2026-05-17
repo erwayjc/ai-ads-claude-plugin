@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --filled: #1a1a1a;
+    --open: rgba(26,26,26,0.18);
+    --accent: #ff5a1f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px;
+    text-align: center;
+  }
+  .headline {
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.0;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    width: 820px;
+  }
+  .slot {
+    aspect-ratio: 1 / 1;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1px;
+  }
+  .filled {
+    background: var(--filled);
+    color: var(--bg);
+  }
+  .filled::before { content: "✓"; font-size: 70px; line-height: 1; }
+  .open {
+    background: transparent;
+    border: 4px dashed var(--accent);
+    color: var(--accent);
+  }
+  .open::before { content: ""; }
+  .legend {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .legend .dot {
+    display: inline-block;
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  .legend .dot.f { background: var(--filled); }
+  .legend .dot.o { background: transparent; border: 3px dashed var(--accent); }
+  .footer {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .footer em { font-style: normal; color: var(--accent); }
+  .footer .meta {
+    display: block;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<!--
+  STYLE 29 — OPEN SLOTS COUNTER (visual scarcity)
+  ===============================================
+  Use when the ad's beat is HONEST CAPACITY SCARCITY. The grid carries
+  the scarcity — no countdown clock, no fake urgency. 7 filled, 3 open
+  is the default ratio.
+
+  REQUIRED:
+  - Headline names how many spots are left, specifically.
+  - Grid = 10 slots. Filled = clients already on (solid). Open = available
+    (dashed accent). Ratio should match the headline number.
+  - Footer = the offer + qualifier (who can apply).
+
+  DO NOT:
+  - Use this if the scarcity is fake. The visual makes the claim concrete;
+    if it isn't true, the ad becomes a liability.
+  - Pulse / animate. This is a static-image catalog.
+-->
+  <div>
+    <div class="headline">3 spots left.<br><em>This month only.</em></div>
+    <div class="sub">May cohort · PI law firms</div>
+  </div>
+
+  <div class="stage">
+    <div class="grid">
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot filled"></div>
+      <div class="slot open"></div>
+      <div class="slot open"></div>
+      <div class="slot open"></div>
+    </div>
+    <div class="legend">
+      <span><span class="dot f"></span>Signed</span>
+      <span><span class="dot o"></span>Open</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    The complete marketing flywheel · <em>performance-based</em>
+    <span class="meta">Apply by friday · 1 call to qualify</span>
+  </div>
+</body>
+</html>

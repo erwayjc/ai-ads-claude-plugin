@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #121b2e;
+    --panel-border: rgba(255,255,255,0.08);
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #36e0a4;
+    --tile: #1a2640;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 28px;
+    padding: 60px 60px 50px;
+  }
+  .headline {
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .dashboard {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
+    padding: 36px 36px 32px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 28px;
+    height: 100%;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .bar .brand {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .bar .status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+  .bar .dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(54,224,164,0.18);
+  }
+
+  .hero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero .lbl {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .hero .num {
+    font-size: 320px;
+    font-weight: 900;
+    letter-spacing: -14px;
+    line-height: 0.85;
+    color: var(--accent);
+  }
+  .hero .sub {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    margin-top: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .tile {
+    background: var(--tile);
+    border-radius: 12px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tile .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .tile .name {
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .tile .live {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .tile .live .d {
+    width: 7px; height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .tile .meta {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 25 — INTEGRATED DASHBOARD (one screen, one source of truth)
+  =================================================================
+  Use when the ad's beat is: the SYSTEM is the solution and the proof
+  is that every channel reports to ONE place. The unified pane of glass
+  IS the evidence.
+
+  REQUIRED:
+  - .hero .num is the OUTCOME metric the buyer actually cares about
+    (cases this month, signed retainers, qualified consults).
+  - 4 .tile entries — one per system component. Each shows "LIVE" so
+    the integration reads as truthful, not aspirational.
+  - Headline names the wholeness ("one dashboard", "one number that
+    matters", "every channel in one place").
+
+  DO NOT:
+  - Show 4 different KPIs in the tiles that compete with the hero number.
+    Tiles describe the SOURCES; the hero is the single outcome.
+  - Render a real product UI — this is a stylized artifact, not a mockup.
+-->
+  <div class="headline">One dashboard. Every channel.<br><em>One number that matters.</em></div>
+
+  <div class="dashboard">
+    <div class="bar">
+      <div class="brand">Flywheel · May</div>
+      <div class="status"><span class="dot"></span> All channels live</div>
+    </div>
+
+    <div class="hero">
+      <div class="lbl">Signed cases this month</div>
+      <div class="num">27</div>
+      <div class="sub">+6 vs. last month · pacing to 31</div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="row"><span class="name">Paid Ads</span><span class="live"><span class="d"></span>Live</span></div>
+        <div class="meta">412 leads · $138 CPL</div>
+      </div>
+      <div class="tile">
+        <div class="row"><span class="name">Intake</span><span class="live"><span class="d"></span>Live</span></div>
+        <div class="meta">94% answered &lt; 60s</div>
+      </div>
+      <div class="tile">
+        <div class="row"><span class="name">SEO</span><span class="live"><span class="d"></span>Live</span></div>
+        <div class="meta">38 organic consults</div>
+      </div>
+      <div class="tile">
+        <div class="row"><span class="name">Reviews</span><span class="live"><span class="d"></span>Live</span></div>
+        <div class="meta">4.9★ · 22 new this mo.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

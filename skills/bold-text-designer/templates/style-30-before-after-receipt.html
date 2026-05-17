@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f1419;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #36e0a4;
+    --bad: rgba(255,255,255,0.45);
+    --card-before: #1a2230;
+    --card-before-border: rgba(255,255,255,0.08);
+    --card-after: #122e22;
+    --card-after-border: #36e0a4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr 1fr auto;
+    gap: 18px;
+    padding: 60px 70px 50px;
+  }
+  .headline {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1.6px;
+    line-height: 1.04;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .card {
+    border-radius: 18px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr;
+    gap: 14px 20px;
+    align-items: center;
+  }
+  .card.before {
+    background: var(--card-before);
+    border: 1px solid var(--card-before-border);
+    color: var(--bad);
+  }
+  .card.after {
+    background: var(--card-after);
+    border: 2px solid var(--card-after-border);
+    color: var(--text);
+    transform: scale(1.02);
+  }
+  .tag {
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
+  .before .tag { background: rgba(255,255,255,0.08); color: var(--muted); }
+  .after  .tag { background: var(--accent); color: #0f1419; }
+  .month {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: right;
+    opacity: 0.75;
+  }
+  .stats {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: end;
+  }
+  .stat .num {
+    font-size: 88px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 0.9;
+  }
+  .after .stat .num { color: var(--accent); }
+  .stat .lbl {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    opacity: 0.75;
+  }
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 30 — BEFORE → AFTER RECEIPT
+  ==================================
+  Use when the ad's beat is OUTCOME PROOF over time. Two snapshots tell
+  the whole story — no chart, no arrows. The gap between the two cards
+  IS the message.
+
+  REQUIRED:
+  - Top card (before): muted styling, the starting state. Real numbers.
+  - Bottom card (after): accent border + slight scale-up. The improved
+    state. Same 3 metrics, same labels, so the comparison is direct.
+  - Headline frames the transformation period ("3 months", "one quarter").
+
+  DO NOT:
+  - Vary which metrics appear in each card — that breaks comparability.
+  - Make the "before" look bad (red Xs, sad faces). The honest numbers
+    do the work.
+-->
+  <div class="headline">Same firm. Same city.<br><em>Three months apart.</em></div>
+
+  <div class="card before">
+    <div class="tag">Month 1</div>
+    <div class="month">Before</div>
+    <div class="stats">
+      <div class="stat"><div class="num">4</div><div class="lbl">Cases signed</div></div>
+      <div class="stat"><div class="num">$890</div><div class="lbl">Cost / lead</div></div>
+      <div class="stat"><div class="num">22%</div><div class="lbl">Show rate</div></div>
+    </div>
+  </div>
+
+  <div class="card after">
+    <div class="tag">Month 3</div>
+    <div class="month">After</div>
+    <div class="stats">
+      <div class="stat"><div class="num">27</div><div class="lbl">Cases signed</div></div>
+      <div class="stat"><div class="num">$140</div><div class="lbl">Cost / lead</div></div>
+      <div class="stat"><div class="num">71%</div><div class="lbl">Show rate</div></div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

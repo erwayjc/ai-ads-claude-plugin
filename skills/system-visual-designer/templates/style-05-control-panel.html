@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel-bg: #161616;
+    --panel-2: #1f1f1f;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #ff3d3d;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --grid: rgba(255,255,255,0.05);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background:
+      radial-gradient(circle at 50% 30%, #1c1c1c 0%, var(--bg) 70%),
+      var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 60px 50px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .headline {
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.0;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 10px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .panel {
+    margin-top: 30px;
+    background: linear-gradient(180deg, var(--panel-bg) 0%, var(--panel-2) 100%);
+    border: 1.5px solid rgba(255,255,255,0.10);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 30px 60px rgba(0,0,0,0.5);
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 18px;
+  }
+
+  /* status bar */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(255,255,255,0.10);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .status-bar .lights {
+    display: flex;
+    gap: 6px;
+  }
+  .light {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+  }
+  .light.on.g { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .light.on.a { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .light.on.r { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .sys-name {
+    color: var(--text);
+    letter-spacing: 3px;
+  }
+
+  /* gauges row */
+  .gauges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .gauge {
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .gauge .label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .gauge .value {
+    margin-top: 6px;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1.2px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .gauge .meter {
+    margin-top: 10px;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .gauge .meter .fill { height: 100%; background: var(--accent); }
+
+  /* channels grid */
+  .channels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .ch {
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+  }
+  .ch .ch-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ch .ch-name {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: -0.2px;
+  }
+  .ch .ch-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+  .ch .ch-stat {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .ch .ch-meta {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 05 — CONTROL PANEL
+  ===================================================
+  Use when the ad's beat is "this is a real, running system — not a
+  pitch deck." A fake product surface: status bar with live lights,
+  three gauges showing live metrics, and a grid of channel cards each
+  with its own status indicator. The proprietary signal is that the
+  system has *operators* — somebody is watching the dashboard.
+
+  REQUIRED:
+  - Top status bar: 3 status lights (one accent-red to show urgency
+    or scarcity), system name in monospace.
+  - 3 gauges: live metrics with bar meters in the accent color.
+  - 4–8 channel tiles below, each with a green/amber dot showing
+    operational state.
+  - Use a monospace font for numerical/operational text. The mix of
+    sans-serif and mono is what reads as "product UI" not "ad".
+
+  DO NOT:
+  - Use real screenshots — this is a stylized representation, not a
+    real product UI. Real UI screenshots get cluttered and lose the
+    schematic feel.
+  - Add charts/graphs inside the panel — gauges and meters are enough.
+-->
+  <div>
+    <div class="headline">The system, <em>live.</em></div>
+    <div class="sub">Operating · Reported · Tuned</div>
+  </div>
+
+  <div class="panel">
+    <div class="status-bar">
+      <div class="sys-name">CASE FLYWHEEL · v2026.Q2</div>
+      <div class="lights">
+        <div class="light on g"></div>
+        <div class="light on a"></div>
+        <div class="light on r"></div>
+      </div>
+    </div>
+
+    <div class="gauges">
+      <div class="gauge">
+        <div class="label">Cases / month</div>
+        <div class="value">27</div>
+        <div class="meter"><div class="fill" style="width: 90%"></div></div>
+      </div>
+      <div class="gauge">
+        <div class="label">Response time</div>
+        <div class="value">52s</div>
+        <div class="meter"><div class="fill" style="width: 78%"></div></div>
+      </div>
+      <div class="gauge">
+        <div class="label">Slots open</div>
+        <div class="value">2/3</div>
+        <div class="meter"><div class="fill" style="width: 33%"></div></div>
+      </div>
+    </div>
+
+    <div class="channels">
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Paid Ads</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">$48</div><div class="ch-meta">CPL</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Intake</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">24/7</div><div class="ch-meta">Live</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">AI SEO</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">+18</div><div class="ch-meta">Pages mo</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Reviews</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">4.8★</div><div class="ch-meta">90d avg</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Social</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">12</div><div class="ch-meta">Posts/wk</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Site</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">99.9%</div><div class="ch-meta">Uptime</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Tracking</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">100%</div><div class="ch-meta">Attribution</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Report</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">Mon</div><div class="ch-meta">Weekly</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Performance-based · <em>3 firms this month</em></div>
+</body>
+</html>

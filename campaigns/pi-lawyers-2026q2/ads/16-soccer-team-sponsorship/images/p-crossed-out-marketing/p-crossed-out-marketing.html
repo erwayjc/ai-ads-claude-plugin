@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #fdf6ed;
+    --text: #18120c;
+    --muted: rgba(24,18,12,0.55);
+    --strike: #dc2626;
+    --accent: #dc2626;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto auto;
+    padding: 40px 64px 40px 64px;
+    gap: 24px;
+  }
+  .eyebrow {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .eyebrow em { font-style: normal; color: var(--accent); }
+  .list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+    padding: 6px 0;
+  }
+  .item {
+    position: relative;
+    display: inline-block;
+    font-size: 86px;
+    font-weight: 900;
+    letter-spacing: -2.6px;
+    line-height: 1.0;
+    color: var(--muted);
+    text-align: center;
+    padding: 4px 14px;
+  }
+  .item::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -2%;
+    width: 104%;
+    height: 16px;
+    background: var(--strike);
+    transform: translateY(-50%) rotate(-2deg) skewX(-4deg);
+    border-radius: 40% 60% 50% 60%;
+    box-shadow: 2px 4px 0 rgba(220,38,38,0.22);
+  }
+  .item:nth-child(2)::after { transform: translateY(-50%) rotate(1.4deg) skewX(-2deg); }
+  .item:nth-child(3)::after { transform: translateY(-50%) rotate(-1.2deg) skewX(-5deg); }
+  .item:nth-child(4)::after { transform: translateY(-50%) rotate(2deg) skewX(-3deg); }
+  .arrow {
+    text-align: center;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 900;
+  }
+  .reveal {
+    text-align: center;
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: -1.4px;
+    line-height: 1.08;
+    padding: 36px 36px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 22px;
+  }
+  .reveal em { font-style: normal; color: var(--accent); }
+  .footer {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 2.6px;
+    text-transform: uppercase;
+  }
+  .footer em { font-style: normal; color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="eyebrow">PI Firms — <em>stop bolting on tactics</em></div>
+
+  <div class="list">
+    <div class="item">More Facebook ads</div>
+    <div class="item">Bigger billboard</div>
+    <div class="item">Another SEO agency</div>
+    <div class="item">Pay-per-lead vendor</div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="reveal">One performance-based <em>case lead flywheel.</em><br>Installed and managed for you.</div>
+
+  <div class="footer">Exclusive · invitation-only · <em>live in 3 days</em></div>
+</body>
+</html>

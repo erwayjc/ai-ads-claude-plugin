@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --accent: #2d7a4f;
+    --patch-a: #c9b89a;
+    --patch-b: #a89a82;
+    --patch-c: #d6c4a3;
+    --patch-d: #b7a589;
+    --stitch: rgba(26,26,26,0.45);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1.05fr 1fr auto;
+    gap: 24px;
+    padding: 60px 60px 50px;
+  }
+  .headline {
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: -1.8px;
+    line-height: 1.04;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .panel {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    height: 100%;
+  }
+  .panel .tag {
+    position: absolute;
+    top: 16px; left: 20px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: rgba(255,255,255,0.85);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    z-index: 2;
+  }
+  .panel .label {
+    position: absolute;
+    bottom: 18px; left: 0; right: 0;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    color: var(--text);
+    z-index: 2;
+  }
+
+  /* TOP: patchwork — 4 mismatched panels with visible stitches */
+  .patchwork {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.1fr 0.9fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 6px;
+    background: var(--stitch);
+    padding: 6px;
+  }
+  .patchwork > div {
+    background: var(--patch-a);
+    position: relative;
+  }
+  .patchwork > div:nth-child(2) { background: var(--patch-b); }
+  .patchwork > div:nth-child(3) { background: var(--patch-c); }
+  .patchwork > div:nth-child(4) { background: var(--patch-d); }
+  .patchwork > div:nth-child(5) { background: var(--patch-c); }
+  .patchwork > div:nth-child(6) { background: var(--patch-a); }
+  .patchwork > div:nth-child(7) { background: var(--patch-d); }
+  .patchwork > div:nth-child(8) { background: var(--patch-b); }
+  .patchwork > div .vname {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(26,26,26,0.7);
+    text-align: center;
+    padding: 6px;
+  }
+
+  /* BOTTOM: one solid cloth */
+  .cloth {
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    gap: 14px;
+    height: 100%;
+  }
+  .cloth .sys {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  .cloth .components {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .cloth .tag, .patchwork .tag {
+    /* keep label visible */
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 24 — ANTI-PATCHWORK (broken stitches vs. one cloth)
+  =========================================================
+  Use when the ad's beat is: the SYSTEM is the solution and the pain
+  point is FRAGMENTATION (too many vendors, too many tools, no one
+  accountable). Top = 8 mismatched patches stitched together = the
+  current stack. Bottom = one solid cloth = the system.
+
+  REQUIRED:
+  - Top patches should each carry a vendor/tool name in the .vname slot
+    (Ad Agency, SEO Firm, Intake VA, Web Dev, Review Tool, Branding, etc.).
+  - Bottom .cloth: name the SYSTEM (not a sub-feature) + its components.
+  - Headline contrasts the seams ("Stop stitching vendors") with the whole.
+
+  DO NOT:
+  - Make the patchwork visually pleasing — it must feel uneven.
+  - Promote a single mechanism in the cloth section. The cloth IS the
+    full offer.
+-->
+  <div class="headline">Stop stitching vendors.<br><em>Run one system.</em></div>
+
+  <div class="panel patchwork">
+    <span class="tag">Your stack today</span>
+    <div><span class="vname">Ad Agency</span></div>
+    <div><span class="vname">SEO Firm</span></div>
+    <div><span class="vname">Intake VA</span></div>
+    <div><span class="vname">Web Dev</span></div>
+    <div><span class="vname">Review Tool</span></div>
+    <div><span class="vname">Branding</span></div>
+    <div><span class="vname">CRM</span></div>
+    <div><span class="vname">Analytics</span></div>
+  </div>
+
+  <div class="panel cloth">
+    <span class="tag">One system</span>
+    <div class="sys">The complete marketing flywheel</div>
+    <div class="components">Ads · Intake · Branding · SEO · Reviews</div>
+  </div>
+
+  <div class="footer">One invoice. One number. <em>Performance-based.</em></div>
+</body>
+</html>

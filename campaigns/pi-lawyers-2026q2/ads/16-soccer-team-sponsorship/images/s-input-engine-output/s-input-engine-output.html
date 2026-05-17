@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #050505;
+    --text: #e8ffe0;
+    --muted: rgba(232,255,224,0.55);
+    --accent: #a3e635;
+    --panel: #0e120a;
+    --panel-border: rgba(163,230,53,0.18);
+    --engine: #a3e635;
+    --engine-text: #050505;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 40px 32px 36px;
+    gap: 26px;
+  }
+  .header-block { padding-top: 10px; }
+  .headline {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2.4px;
+    line-height: 1.02;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 18px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 1fr auto 1.18fr auto 1fr;
+    align-items: stretch;
+    gap: 10px;
+    min-height: 620px;
+  }
+  .zone {
+    border-radius: 20px;
+    padding: 32px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .zone.io {
+    background: var(--panel);
+    border: 2px solid var(--panel-border);
+  }
+  .zone.engine {
+    background: var(--engine);
+    color: var(--engine-text);
+    box-shadow: 0 0 0 12px rgba(163,230,53,0.10), 0 0 80px rgba(163,230,53,0.18);
+    position: relative;
+  }
+  .role {
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .zone.engine .role { color: rgba(5,5,5,0.7); }
+
+  .zone.io .lead {
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -1.2px;
+    line-height: 1.06;
+    margin-top: 8px;
+  }
+  .zone.io .lead em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .engine-title {
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: -1.2px;
+    line-height: 1.04;
+    margin-top: 4px;
+  }
+  .engine-sub {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(5,5,5,0.65);
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .zone.engine .item {
+    background: rgba(5,5,5,0.10);
+    border: 1px solid rgba(5,5,5,0.20);
+    color: var(--engine-text);
+    border-radius: 12px;
+    padding: 13px 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+  }
+
+  .io-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .io-item {
+    background: rgba(163,230,53,0.06);
+    border: 1px solid rgba(163,230,53,0.22);
+    border-radius: 12px;
+    padding: 14px 10px;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.1px;
+  }
+
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+  }
+  .arrow svg { display: block; filter: drop-shadow(0 0 10px rgba(163,230,53,0.45)); }
+
+  .footer {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 0.2px;
+    padding-bottom: 6px;
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+  <div class="header-block">
+    <div class="headline">You set the criteria.<br>The flywheel sends the <em>referrals.</em></div>
+    <div class="sub">Black-box system. Performance-based. Invitation only.</div>
+  </div>
+
+  <div class="stage">
+    <div class="zone io">
+      <div class="role">Input</div>
+      <div class="lead">Your referral <em>criteria</em></div>
+      <div class="io-items">
+        <div class="io-item">Case type + value</div>
+        <div class="io-item">Service area</div>
+        <div class="io-item">Monthly capacity</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="40" height="34" viewBox="0 0 44 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 18 H36 M28 8 L40 18 L28 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="zone engine">
+      <div class="role">The PI Flywheel</div>
+      <div class="engine-title">Installed + managed for you</div>
+      <div class="engine-sub">Done-for-you</div>
+      <div class="items">
+        <div class="item">Paid ads</div>
+        <div class="item">Speed-to-lead intake</div>
+        <div class="item">AI SEO</div>
+        <div class="item">Brand + reviews</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="40" height="34" viewBox="0 0 44 36" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 18 H36 M28 8 L40 18 L28 28" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="zone io">
+      <div class="role">Output</div>
+      <div class="lead"><em>Exclusive</em> referrals matching your criteria</div>
+      <div class="io-items">
+        <div class="io-item">Never shared</div>
+        <div class="io-item">25+ / month</div>
+        <div class="io-item">Pay only on fit</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">One input. One engine. <em>One outcome.</em></div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f1419;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #ffd23f;
+    --node-bg: #1c232c;
+    --node-border: rgba(255,255,255,0.12);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px 70px 60px;
+  }
+  .headline {
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .wheel {
+    position: relative;
+    width: 720px;
+    height: 720px;
+  }
+  .core {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0f1419;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 0 0 14px rgba(255,210,63,0.15);
+  }
+  .core .num {
+    font-size: 78px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+  }
+  .core .lbl {
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.85;
+  }
+  .node {
+    position: absolute;
+    width: 168px;
+    padding: 16px 14px;
+    background: var(--node-bg);
+    border: 2px solid var(--node-border);
+    border-radius: 14px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+  }
+  /* 5 nodes arranged around the wheel — angles 270°, 342°, 54°, 126°, 198° */
+  .n1 { top: 0;    left: 50%; transform: translate(-50%, 0); }
+  .n2 { top: 28%;  right: 0;  transform: translate(0, -50%); }
+  .n3 { bottom: 8%; right: 8%; }
+  .n4 { bottom: 8%; left: 8%; }
+  .n5 { top: 28%;  left: 0;   transform: translate(0, -50%); }
+
+  .arrows { position: absolute; inset: 0; pointer-events: none; }
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.3px;
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 800; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 22 — FLYWHEEL DIAGRAM
+  ============================
+  Use when the ad's beat is: the SYSTEM is the solution. The five-node
+  ring + central outcome literally shows the system as one closed loop,
+  not five separate vendors.
+
+  REQUIRED:
+  - Replace the 5 node labels with the components of the actual system.
+  - Center "core" must show the OUTCOME (not a sub-feature, not a brand
+    name). Big number + short label underneath.
+  - Headline names what the system replaces ("five vendors", "a stitched
+    stack", "scattered tools") — accent the noun.
+
+  DO NOT:
+  - Use this for any single-mechanism ad (speed-to-lead, AI SEO, intake).
+    The whole point is that the loop is the product.
+  - Add a 6th node. Five is the lid for readability at 1080.
+-->
+  <div class="headline">One flywheel.<br><em>Not five vendors.</em></div>
+
+  <div class="stage">
+    <div class="wheel">
+      <svg class="arrows" viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#ffd23f"/>
+          </marker>
+        </defs>
+        <!-- circular loop -->
+        <circle cx="360" cy="360" r="260" fill="none" stroke="#ffd23f" stroke-width="3" stroke-dasharray="6 10" opacity="0.55"/>
+        <!-- 5 directional arrows around the ring -->
+        <path d="M 540 200 A 260 260 0 0 1 600 360" fill="none" stroke="#ffd23f" stroke-width="4" marker-end="url(#arr)"/>
+        <path d="M 600 360 A 260 260 0 0 1 480 560" fill="none" stroke="#ffd23f" stroke-width="4" marker-end="url(#arr)"/>
+        <path d="M 480 560 A 260 260 0 0 1 240 560" fill="none" stroke="#ffd23f" stroke-width="4" marker-end="url(#arr)"/>
+        <path d="M 240 560 A 260 260 0 0 1 120 360" fill="none" stroke="#ffd23f" stroke-width="4" marker-end="url(#arr)"/>
+        <path d="M 120 360 A 260 260 0 0 1 180 200" fill="none" stroke="#ffd23f" stroke-width="4" marker-end="url(#arr)"/>
+      </svg>
+
+      <div class="node n1">Paid Ads</div>
+      <div class="node n2">Intake</div>
+      <div class="node n3">Branding</div>
+      <div class="node n4">Reviews</div>
+      <div class="node n5">SEO</div>
+
+      <div class="core">
+        <div class="num">25+</div>
+        <div class="lbl">cases / mo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">The complete marketing flywheel · <em>performance-based</em></div>
+</body>
+</html>

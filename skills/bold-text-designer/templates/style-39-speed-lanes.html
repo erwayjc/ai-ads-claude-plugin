@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #faf6ef;
+    --text: #1a1a1a;
+    --muted: rgba(26,26,26,0.55);
+    --them-lane: rgba(26,26,26,0.08);
+    --them-fill: #1a1a1a;
+    --them-text: rgba(26,26,26,0.7);
+    --you-lane: rgba(255,90,31,0.12);
+    --you-fill: #ff5a1f;
+    --you-text: #ff5a1f;
+    --accent: #ff5a1f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 30px;
+    padding: 70px 60px 60px;
+  }
+  .headline {
+    text-align: center;
+    font-size: 56px;
+    font-weight: 900;
+    letter-spacing: -1.6px;
+    line-height: 1.04;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+
+  .lanes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+  }
+  .lane {
+    position: relative;
+  }
+  .lane .label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .lane .who {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .lane.them .who { color: var(--text); }
+  .lane.you  .who { color: var(--accent); }
+  .lane .time {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  .lane.them .time { color: var(--them-text); }
+  .lane.you  .time { color: var(--you-text); }
+
+  .track {
+    position: relative;
+    height: 78px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .lane.them .track { background: var(--them-lane); }
+  .lane.you  .track { background: var(--you-lane); }
+
+  .progress {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    border-radius: 12px;
+  }
+  .lane.them .progress { width: 100%; background: var(--them-fill); }
+  .lane.you  .progress { width: 32%;  background: var(--you-fill);  }
+  .finish {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -8px;
+    width: 6px;
+    height: 120%;
+    background: repeating-linear-gradient(0deg, #fff 0 8px, #1a1a1a 8px 16px);
+    border-radius: 2px;
+  }
+
+  /* checkpoint pins ON the track baseline */
+  .checkpoints {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 14px;
+    pointer-events: none;
+  }
+  .pin {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border: 3px solid rgba(0,0,0,0.6);
+    border-radius: 50%;
+  }
+  .lane.you .pin { border-color: var(--you-fill); }
+
+  /* checkpoint label rail below the track */
+  .ticks {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 6px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .ticks .t { flex: 1; text-align: center; }
+  .ticks .t:first-child { text-align: left; }
+  .ticks .t:last-child  { text-align: right; }
+  .lane.you .ticks .t.final { color: var(--accent); font-weight: 900; }
+
+  .axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 6px;
+    margin-top: 4px;
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+  .footer .strong {
+    display: block;
+    color: var(--text);
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+<!--
+  STYLE 39 — SPEED LANES (drag-strip / racetrack)
+  ===============================================
+  Use when the ad's beat is TIME-TO-VALUE. Two horizontal lanes, same
+  start line, different finish lines. The spatial gap IS the proof.
+
+  REQUIRED:
+  - Top lane (them) = full-width bar with 4 checkpoint pins. Their
+    checkpoints are honest (e.g., real onboarding milestones).
+  - Bottom lane (you) = SHORT bar (~30%) with 2-3 checkpoints, ending
+    early. The gap between the finishes is the message.
+  - Time labels at right (.time) make the differential concrete.
+  - Footer reveals system + commercial terms.
+
+  DO NOT:
+  - Shrink the competitor's bar — they need a credible path, just longer.
+  - Use this if your real ramp time isn't actually shorter. Lying with
+    bars is the most exposed kind of lying.
+-->
+  <div class="headline">Same start line.<br><em>Different finish line.</em></div>
+
+  <div class="lanes">
+    <div class="lane them">
+      <div class="label">
+        <div class="who">National Firm</div>
+        <div class="time">~ 90 days to first case</div>
+      </div>
+      <div class="track">
+        <div class="progress"><div class="finish"></div></div>
+        <div class="checkpoints">
+          <div class="pin"></div><div class="pin"></div><div class="pin"></div><div class="pin"></div>
+        </div>
+      </div>
+      <div class="ticks">
+        <span class="t">Discovery</span>
+        <span class="t">6-wk onboarding</span>
+        <span class="t">90-day ramp</span>
+        <span class="t">First case</span>
+      </div>
+    </div>
+
+    <div class="lane you">
+      <div class="label">
+        <div class="who">The Flywheel</div>
+        <div class="time">~ 14 days to first case</div>
+      </div>
+      <div class="track">
+        <div class="progress"><div class="finish"></div></div>
+        <div class="checkpoints" style="width: 32%; justify-content: space-between;">
+          <div class="pin"></div><div class="pin"></div><div class="pin"></div>
+        </div>
+      </div>
+      <div class="ticks" style="width: 36%;">
+        <span class="t">Apply</span>
+        <span class="t">Call</span>
+        <span class="t final">Live</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="strong">First case in 2 weeks. Not 3 months.</span>
+    The complete marketing flywheel · <em>performance-based</em>
+  </div>
+</body>
+</html>

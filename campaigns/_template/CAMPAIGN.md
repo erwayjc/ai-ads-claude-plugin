@@ -50,10 +50,10 @@
 - **Styles to try first:** {e.g., 02 Giant Stat, 11 Muted Purple Gradient, 20 Diagonal Stripe}
 - **Styles to avoid:** {if any}
 
-## 5. Assets
+## 5. Ads
 
-All HTML lives in `assets/html/`. All rendered PNGs land in `assets/images/`.
+Each ad gets its own folder: `ads/{ad-name}/`. The ad's identity is its `COPY.md` (and `copy.json`) at the top level; all visual artifacts (the rendered HTML and PNG) live under `ads/{ad-name}/images/`. Future image types (AI imagery, etc.) will go alongside them in `images/`.
 
-| File | Style | Status | Notes |
+| Ad name | Style | Status | Notes |
 |---|---|---|---|
 | _(add rows as you build)_ | | | |

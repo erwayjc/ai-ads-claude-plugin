@@ -1152,17 +1152,25 @@
     const sel = $('source-select');
     sel.innerHTML = '<option value="">— pick source —</option>';
 
-    // Campaign assets group (shown first — primary use case).
+    // Campaign assets group (shown first — primary use case). Uses `items`
+    // (richer shape) when present so copy-only ads are listed but disabled.
     if (campaign) {
       try {
         const r = await fetch('/api/campaign-assets/' + encodeURIComponent(campaign)).then(r => r.json());
-        if (r.assets && r.assets.length) {
+        const items = r.items || (r.assets || []).map(a => ({ name: a.replace(/\.html$/, ''), hasHtml: true, hasCopy: false }));
+        if (items.length) {
           const grp = document.createElement('optgroup');
           grp.label = `Campaign: ${campaign}`;
-          for (const name of r.assets) {
+          for (const it of items) {
             const opt = document.createElement('option');
-            opt.value = 'campaign:' + name;
-            opt.textContent = name.replace(/\.html$/, '');
+            if (it.hasHtml) {
+              opt.value = 'campaign:' + it.name + '.html';
+              opt.textContent = it.name;
+            } else {
+              opt.value = '';
+              opt.disabled = true;
+              opt.textContent = `${it.name}  (copy only — no HTML yet)`;
+            }
             grp.appendChild(opt);
           }
           sel.appendChild(grp);
@@ -1170,33 +1178,52 @@
       } catch (e) { /* ignore */ }
     }
 
-    // Templates group (starting point for new ads).
+    // Templates: one optgroup per skill. Server returns
+    // [{ skill, name }, ...] sorted by skill then name.
     try {
       const r = await fetch('/api/templates').then(r => r.json());
       if (r.templates && r.templates.length) {
-        const grp = document.createElement('optgroup');
-        grp.label = 'Templates';
-        for (const name of r.templates) {
-          const opt = document.createElement('option');
-          opt.value = 'template:' + name;
-          opt.textContent = name.replace(/\.html$/, '');
-          grp.appendChild(opt);
+        const bySkill = new Map();
+        for (const t of r.templates) {
+          if (!bySkill.has(t.skill)) bySkill.set(t.skill, []);
+          bySkill.get(t.skill).push(t.name);
         }
-        sel.appendChild(grp);
+        for (const [skill, names] of bySkill) {
+          const grp = document.createElement('optgroup');
+          grp.label = `Templates · ${skill}`;
+          for (const name of names) {
+            const opt = document.createElement('option');
+            opt.value = `template:${skill}/${name}`;
+            opt.textContent = name.replace(/\.html$/, '');
+            grp.appendChild(opt);
+          }
+          sel.appendChild(grp);
+        }
       }
     } catch (e) { /* ignore */ }
   }
 
   async function loadSource(value) {
     if (!value) return;
-    const [kind, name] = value.split(':', 2);
-    let url;
+    const colonIdx = value.indexOf(':');
+    const kind = value.slice(0, colonIdx);
+    const rest = value.slice(colonIdx + 1);
+    let url, filenameSeed;
     if (kind === 'campaign') {
       const campaign = $('campaign-select').value;
       if (!campaign) return;
-      url = `/api/campaign-asset/${encodeURIComponent(campaign)}/${encodeURIComponent(name)}`;
+      url = `/api/campaign-asset/${encodeURIComponent(campaign)}/${encodeURIComponent(rest)}`;
+      filenameSeed = rest;
     } else if (kind === 'template') {
-      url = '/api/templates/' + encodeURIComponent(name);
+      // `rest` is either "skill/name.html" (new form) or just "name.html"
+      // (legacy fallback). Parse a skill prefix if present.
+      const slashIdx = rest.indexOf('/');
+      const skill = slashIdx > 0 ? rest.slice(0, slashIdx) : null;
+      const name = slashIdx > 0 ? rest.slice(slashIdx + 1) : rest;
+      url = skill
+        ? `/api/templates/${encodeURIComponent(skill)}/${encodeURIComponent(name)}`
+        : `/api/templates/${encodeURIComponent(name)}`;
+      filenameSeed = name;
     } else {
       return;
     }
@@ -1205,7 +1232,7 @@
     currentHtml = html;
     // Pre-fill filename. For campaign assets this means re-render overwrites
     // in place; for templates it seeds a reasonable default.
-    $('filename').value = name.replace(/\.html$/, '');
+    $('filename').value = filenameSeed.replace(/\.html$/, '');
     focusKey = null;
     focusSelection = null;
     userTouchedScale = false;
