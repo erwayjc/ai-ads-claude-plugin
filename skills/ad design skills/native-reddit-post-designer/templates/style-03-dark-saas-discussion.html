@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #050505;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 20px 22px 20px;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .card {
+    width: 1040px;
+    background: #1a1a1b;
+    color: #d7dadc;
+    border-radius: 12px;
+    border: 1px solid #343536;
+    overflow: hidden;
+  }
+  .sub-header {
+    padding: 16px 26px; display: flex; align-items: center; gap: 12px;
+    font-size: 19px; color: #818384;
+  }
+  .sub-icon {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, #00d2ff, #0079d3);
+    color: #fff; font-weight: 700; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sub-name { color: #d7dadc; font-weight: 700; font-size: 22px; }
+  .post-body { padding: 4px 26px 8px 26px; }
+  .flair-row { display: flex; gap: 10px; margin-bottom: 8px; }
+  .flair-discuss {
+    background: #2a3f5f; color: #4fc3f7;
+    padding: 4px 14px; border-radius: 4px; font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .flair-award {
+    background: #5e2727; color: #ffbe5a;
+    padding: 4px 14px; border-radius: 4px; font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .title {
+    font-size: 32px; font-weight: 700; line-height: 1.25; color: #d7dadc;
+    margin-bottom: 12px;
+  }
+  .body-text { font-size: 23px; line-height: 1.5; color: #d7dadc; }
+  .body-text p { margin-bottom: 10px; }
+  .quote {
+    border-left: 3px solid #4fc3f7;
+    padding: 4px 0 4px 14px; color: #b8b8b8; margin: 6px 0;
+  }
+
+  .action-bar {
+    display: flex; gap: 24px; padding: 12px 26px 14px 26px;
+    color: #818384; font-size: 18px; font-weight: 700;
+    border-bottom: 1px solid #272729;
+  }
+  .vote { display: flex; align-items: center; gap: 6px; }
+  .vote .arrow { font-size: 24px; }
+  .vote .up { color: #ff4500; }
+  .vote .score { color: #d7dadc; font-size: 20px; }
+
+  .comments-header {
+    padding: 12px 26px;
+    color: #818384; font-size: 19px;
+    display: flex; gap: 18px; align-items: center;
+    border-bottom: 1px solid #272729;
+  }
+  .comments-header .sort { color: #d7dadc; font-weight: 700; }
+  .comment {
+    padding: 14px 26px 12px 26px;
+    border-bottom: 1px solid #272729;
+  }
+  .comment.last { border-bottom: none; }
+  .c-head {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 18px; color: #818384;
+  }
+  .c-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #b388ff, #5a2eb8);
+  }
+  .c-user { color: #d7dadc; font-weight: 700; font-size: 19px; }
+  .c-meta { color: #818384; }
+  .op-tag {
+    background: #0079d3; color: #fff; font-size: 14px; padding: 2px 8px; border-radius: 100px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .c-body { color: #d7dadc; font-size: 23px; line-height: 1.45; margin-top: 8px; margin-left: 42px; }
+  .c-actions { color: #818384; font-size: 17px; font-weight: 700; margin-top: 8px; margin-left: 42px; display: flex; gap: 16px; }
+  .indent {
+    margin-left: 42px;
+    border-left: 2px solid #343536;
+    padding-left: 16px;
+    margin-top: 6px;
+  }
+  .cta-pill {
+    margin-top: 0;
+    background: #4fc3f7; color: #050505;
+    font-weight: 800; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="sub-header">
+      <div class="sub-icon">SF</div>
+      <div>
+        <div class="sub-name">r/SaaSFounders</div>
+        <div style="color:#818384;font-size:16px;">Posted by u/lina_builds_b2b &middot; 22h ago</div>
+      </div>
+    </div>
+    <div class="post-body">
+      <div class="flair-row">
+        <span class="flair-discuss">Discussion</span>
+        <span class="flair-award">&starf; Gold</span>
+      </div>
+      <div class="title">the "we need more leads" instinct is killing more b2b saas teams than the recession is</div>
+      <div class="body-text">
+        <p>10-person b2b saas. q4 we doubled ad spend, hired an sdr, added 2 lead-magnet flows.</p>
+        <p>q1 review: trial signups up 41%. paid signups <em>down</em> 8%.</p>
+        <div class="quote">"we don&rsquo;t have a lead problem. we have an activation problem &mdash; we&rsquo;ve been outrunning it for 4 quarters."</div>
+        <p>anyone else hit this wall? what did you actually do (not what your last consultant said)</p>
+      </div>
+    </div>
+    <div class="action-bar">
+      <div class="vote"><span class="arrow up">&#9650;</span><span class="score">418</span><span class="arrow">&#9660;</span></div>
+      <div>&#128172; 92 Comments</div>
+      <div>Share</div>
+      <div>Save</div>
+      <div>Award</div>
+    </div>
+    <div class="comments-header">
+      <span class="sort">Top &#9662;</span>
+      <span>92 comments</span>
+    </div>
+    <div class="comment">
+      <div class="c-head">
+        <div class="c-avatar"></div>
+        <span class="c-user">u/dani_solo_saas</span>
+        <span class="c-meta">&middot; 18h ago &middot; <span style="color:#ff4500">&#9650; 264</span></span>
+      </div>
+      <div class="c-body">went thru the exact same thing in 2023. spent $90k chasing more pipeline. the actual fix was an onboarding teardown &mdash; 1 step in our setup flow was eating 61% of our trial signups.</div>
+      <div class="c-body" style="margin-top:6px;">there&rsquo;s a free audit worksheet floating around from one of the activation consultancies, link is on their site. fixed 1 step, 2.4x trial-to-paid. not magic, just a fresh pair of eyes.</div>
+      <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+    </div>
+    <div class="comment indent last">
+      <div class="c-head">
+        <div class="c-avatar" style="background:linear-gradient(135deg,#ffbe5a,#ff7a59);"></div>
+        <span class="c-user">u/skeptical_cto</span>
+        <span class="c-meta">&middot; 14h ago &middot; <span style="color:#ff4500">&#9650; 31</span></span>
+      </div>
+      <div class="c-body">"activation audit" people always say it's onboarding. sometimes it really is the icp shifting and you didn't notice.</div>
+      <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+    </div>
+  </div>
+  <div class="cta-pill">Get The Activation Worksheet &rarr;</div>
+</body>
+</html>

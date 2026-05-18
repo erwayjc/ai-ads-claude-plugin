@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f2f2f7;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', sans-serif;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+  }
+  .app-header {
+    width: 960px;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .app-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #34c759 0%, #007AFF 100%);
+    color: #fff;
+    font-weight: 800;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .app-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .app-cat {
+    font-size: 13px;
+    color: #8e8e93;
+    margin-top: 1px;
+  }
+  .app-rating-block {
+    margin-left: auto;
+    text-align: right;
+  }
+  .rating-num {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .rating-count {
+    font-size: 11px;
+    color: #8e8e93;
+    margin-top: 3px;
+  }
+  .reviews-shell {
+    width: 960px;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 24px 28px 22px 28px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  }
+  .shell-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e5ea;
+    margin-bottom: 18px;
+  }
+  .shell-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .see-all { font-size: 15px; color: #007AFF; font-weight: 500; }
+  .review {
+    padding-bottom: 16px;
+  }
+  .review + .review {
+    padding-top: 16px;
+    border-top: 1px solid #e5e5ea;
+  }
+  .stars-row {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 8px;
+  }
+  .star { width: 20px; height: 20px; }
+  .star.empty path { fill: #e5e5ea; }
+  .review-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .review-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+    color: #8e8e93;
+    margin-bottom: 12px;
+  }
+  .sub-pill {
+    background: #af52de;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+  .verified-pill {
+    background: #34c759;
+    color: #fff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+  .body {
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: #1c1c1e;
+    margin-bottom: 12px;
+  }
+  .helpful-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #8e8e93;
+  }
+  .helpful-q { color: #1c1c1e; font-size: 13px; }
+  .helpful-controls {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .thumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .cta-pill {
+    margin-top: 18px;
+    text-align: center;
+  }
+  .cta-pill .pill {
+    display: inline-block;
+    background: #007AFF;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 13px 26px;
+    border-radius: 999px;
+    box-shadow: 0 6px 18px rgba(0, 122, 255, 0.30);
+  }
+</style>
+</head>
+<body>
+  <div class="app-header">
+    <div class="app-icon">SO</div>
+    <div>
+      <div class="app-name">SaaS Ops · for B2B Founders</div>
+      <div class="app-cat">Business · Made for Founders ($1–5M ARR)</div>
+    </div>
+    <div class="app-rating-block">
+      <div class="rating-num">4.7 ★</div>
+      <div class="rating-count">412 Ratings</div>
+    </div>
+  </div>
+
+  <div class="reviews-shell">
+    <div class="shell-header">
+      <div class="shell-title">Ratings & Reviews</div>
+      <div class="see-all">See All</div>
+    </div>
+
+    <!-- Review 1 — detailed, 4-star (honest) -->
+    <div class="review">
+      <div class="stars-row">
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star empty" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+
+      <div class="review-title">Cancelled 6 vendors. Wish I'd done it 18 months ago.</div>
+      <div class="review-meta">
+        <span>dani_indiehacker</span>
+        <span>·</span>
+        <span>May 8, 2026</span>
+        <span class="verified-pill">VERIFIED</span>
+        <span class="sub-pill">SUBSCRIBER · 3 MO</span>
+      </div>
+
+      <div class="body">
+        We're a $2.4M ARR B2B SaaS in Denver. Before this, our "marketing" was a HubSpot seat we barely used, an SDR contractor, two ad freelancers, a fractional designer, and the founder (me) trying to glue it together. About $9K/mo all-in plus my Sundays.<br><br>
+        Switched in February. Now it's one retainer ($6.5K), pipeline is up ~38% QoQ, and I genuinely don't think about marketing more than the Tuesday 9am review. Honest gripe — onboarding was longer than they said (took ~5 weeks not 3), and you have to actually show up to the weekly review or you'll fall behind on context. But the trade is wildly worth it.<br><br>
+        For other founders w/ same stack — this is the one.
+      </div>
+
+      <div class="helpful-row">
+        <div class="helpful-q">Was this review helpful?</div>
+        <div class="helpful-controls">
+          <span class="thumb">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M7 22V11l5-9 1 .5c.5.5.7 1.2.5 2L12 9h7c1 0 2 1 2 2v3l-2 6c-.3.7-1 1-2 1H7"/></svg>
+            186
+          </span>
+          <span class="thumb">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M17 2v11l-5 9-1-.5c-.5-.5-.7-1.2-.5-2L12 15H5c-1 0-2-1-2-2v-3l2-6c.3-.7 1-1 2-1h10"/></svg>
+            7
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review 2 — short, emphatic, 5-star -->
+    <div class="review">
+      <div class="stars-row">
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg class="star" viewBox="0 0 24 24" fill="#ff9500"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+
+      <div class="review-title">Just did the walkthrough — worth it.</div>
+      <div class="review-meta">
+        <span>founder_kavi</span>
+        <span>·</span>
+        <span>May 10, 2026</span>
+        <span class="verified-pill">VERIFIED</span>
+      </div>
+
+      <div class="body">
+        $1.6M ARR · NYC · 3-person team. Did the 30-min walkthrough yesterday. Most useful intro call I've had this year — they didn't pitch, they ran my numbers and showed me where the gap is. Booking page on their site (walkthrough.example.com) if you want one too.
+      </div>
+
+      <div class="helpful-row">
+        <div class="helpful-q">Was this review helpful?</div>
+        <div class="helpful-controls">
+          <span class="thumb">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M7 22V11l5-9 1 .5c.5.5.7 1.2.5 2L12 9h7c1 0 2 1 2 2v3l-2 6c-.3.7-1 1-2 1H7"/></svg>
+            74
+          </span>
+          <span class="thumb">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2"><path d="M17 2v11l-5 9-1-.5c-.5-.5-.7-1.2-.5-2L12 15H5c-1 0-2-1-2-2v-3l2-6c.3-.7 1-1 2-1h10"/></svg>
+            2
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-pill">
+    <span class="pill">Book My Walkthrough →</span>
+  </div>
+</body>
+</html>

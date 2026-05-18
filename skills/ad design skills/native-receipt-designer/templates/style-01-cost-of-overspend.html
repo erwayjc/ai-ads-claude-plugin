@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #2a221a;
+    background-image:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.04), transparent 50%),
+      radial-gradient(circle at 70% 80%, rgba(0,0,0,0.3), transparent 60%);
+    font-family: 'Courier Prime', 'Courier New', monospace;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+  }
+  .receipt-wrap {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .perf-top, .perf-bot {
+    width: 1000px;
+    height: 22px;
+    display: block;
+  }
+  .receipt {
+    width: 1000px;
+    background: #f5f0e6;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.012) 0 2px, transparent 2px 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.012) 0 2px, transparent 2px 4px);
+    padding: 44px 56px;
+    font-size: 22px;
+    line-height: 1.5;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+    color: #1c1c1c;
+  }
+  .biz {
+    text-align: center;
+    font-weight: 700;
+    font-size: 34px;
+    letter-spacing: 2.5px;
+    margin-bottom: 6px;
+  }
+  .biz-sub {
+    text-align: center;
+    font-size: 17px;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 19px;
+    margin-bottom: 6px;
+  }
+  .dotted {
+    border-top: 2px dashed #1c1c1c;
+    margin: 18px 0;
+    opacity: 0.55;
+  }
+  .section-label {
+    font-weight: 700;
+    font-size: 19px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    margin-bottom: 9px;
+    font-variant-numeric: tabular-nums;
+  }
+  .item .desc { white-space: pre; }
+  .item .amt { white-space: pre; }
+  .totals .item { font-size: 22px; }
+  .totals .total {
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+    padding: 14px 0;
+    border-top: 2.5px solid #1c1c1c;
+    border-bottom: 4px double #1c1c1c;
+  }
+  .footer-note {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 22px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+  .barcode {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 2px;
+  }
+  .bar {
+    height: 52px;
+    background: #1c1c1c;
+  }
+  .barcode-num {
+    text-align: center;
+    font-size: 15px;
+    letter-spacing: 5px;
+    margin-top: 6px;
+  }
+  .stamp {
+    position: absolute;
+    top: 540px;
+    right: 150px;
+    transform: rotate(-9deg);
+    color: #b91c1c;
+    border: 5px solid #b91c1c;
+    padding: 12px 26px;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 4px;
+    opacity: 0.85;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="receipt-wrap" style="position:relative;">
+    <svg class="perf-top" viewBox="0 0 700 16" preserveAspectRatio="none">
+      <polygon fill="#f5f0e6" points="0,16 0,8 14,16 28,8 42,16 56,8 70,16 84,8 98,16 112,8 126,16 140,8 154,16 168,8 182,16 196,8 210,16 224,8 238,16 252,8 266,16 280,8 294,16 308,8 322,16 336,8 350,16 364,8 378,16 392,8 406,16 420,8 434,16 448,8 462,16 476,8 490,16 504,8 518,16 532,8 546,16 560,8 574,16 588,8 602,16 616,8 630,16 644,8 658,16 672,8 686,16 700,8 700,16"/>
+    </svg>
+    <div class="receipt">
+      <div class="biz">PI FIRM GROWTH CO.</div>
+      <div class="biz-sub">— STORE #042 · AUSTIN, TX —</div>
+      <div class="meta-row">
+        <span>04/28/2026  14:22</span>
+        <span>TXN# 8841-PI</span>
+      </div>
+      <div class="meta-row">
+        <span>CASHIER: ALEX</span>
+        <span>CUST: PI FIRM OWNER</span>
+      </div>
+
+      <div class="dotted"></div>
+      <div class="section-label">ITEMIZED — APR 2026 SPEND</div>
+
+      <div class="item"><span class="desc">Google Ads mgmt (gen)..</span><span class="amt">$ 4,200.00</span></div>
+      <div class="item"><span class="desc">Lead-list rental 1k....</span><span class="amt">$ 1,800.00</span></div>
+      <div class="item"><span class="desc">LP revisions x3........</span><span class="amt">$ 2,400.00</span></div>
+      <div class="item"><span class="desc">Intake handoff (none)..</span><span class="amt">$     0.00</span></div>
+      <div class="item"><span class="desc">SEO retainer...........</span><span class="amt">$ 1,500.00</span></div>
+      <div class="item"><span class="desc">Email blast tool.......</span><span class="amt">$   240.00</span></div>
+      <div class="item"><span class="desc">CRM seats x4...........</span><span class="amt">$   360.00</span></div>
+      <div class="item"><span class="desc">Misc creative..........</span><span class="amt">$   500.00</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="totals">
+        <div class="item"><span class="desc">SUBTOTAL...............</span><span class="amt">$11,000.00</span></div>
+        <div class="item"><span class="desc">Tax....................</span><span class="amt">$     0.00</span></div>
+        <div class="item"><span class="desc">Missed leads (est).....</span><span class="amt">$ 2,600.00</span></div>
+        <div class="item total"><span class="desc">TOTAL / MO.............</span><span class="amt">$13,600.00</span></div>
+      </div>
+
+      <div class="footer-note">
+        x 12 MONTHS = $163,200/YR<br>
+        — — — — — — — — — — — — — — —<br>
+        THANK YOU, PI FIRM OWNER<br>
+        To audit your own: walkthrough.example.com
+      </div>
+
+      <div class="barcode">
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+      </div>
+      <div class="barcode-num">8 8 4 1 P I  4 2 8 2 6  G E N</div>
+    </div>
+    <svg class="perf-bot" viewBox="0 0 700 16" preserveAspectRatio="none">
+      <polygon fill="#f5f0e6" points="0,0 0,8 14,0 28,8 42,0 56,8 70,0 84,8 98,0 112,8 126,0 140,8 154,0 168,8 182,0 196,8 210,0 224,8 238,0 252,8 266,0 280,8 294,0 308,8 322,0 336,8 350,0 364,8 378,0 392,8 406,0 420,8 434,0 448,8 462,0 476,8 490,0 504,8 518,0 532,8 546,0 560,8 574,0 588,8 602,0 616,8 630,0 644,8 658,0 672,8 686,0 700,8 700,0"/>
+    </svg>
+    <div class="stamp">OVERSPEND</div>
+  </div>
+</body>
+</html>

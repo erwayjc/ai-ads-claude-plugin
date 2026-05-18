@@ -53,10 +53,31 @@ Every ad under `ads/` must align with what's defined in `CAMPAIGN.md`. If an ad 
 
 The flow is: **CAMPAIGN.md → COPY.md → images (HTML render, PNG, future AI imagery).** Each step is downstream of the previous one. Never create an image first and write copy to fit it. If you use a generative-image tool to make imagery for an ad, the prompt must read the ad's `COPY.md` first and incorporate its headline, offer, ICP language, and image direction so the result is congruent.
 
+## Every COPY.md must include a CTA
+
+Going forward, every ad's `COPY.md` and `copy.json` must include a CTA — the verbatim button text rendered on the ad. No CTA → the copy isn't finished and the ad can't ship.
+
+`COPY.md` includes a `## CTA` section:
+
+```markdown
+## CTA
+
+Apply For An Invite
+```
+
+`copy.json` includes a `cta` field:
+
+```json
+{ "ad": "...", "campaign": "...", "full_copy": [...], "cta": "Apply For An Invite" }
+```
+
+The CTA must be action-first, specific, ≤ 4 words, and match the ad's angle. See [shared/HTML-RENDER-REFERENCE.md § CTA is required](../shared/HTML-RENDER-REFERENCE.md#4-cta-is-required) for the full rule. The designer reads the CTA from `COPY.md` and renders it as the visual end-point of the ad — never invents the text in the template.
+
 ## Anti-patterns
 
 - **Don't reuse a campaign folder for a different ICP.** Spin up a new one.
 - **Don't store ads at the repo root.** Everything lives under `campaigns/{slug}/ads/{ad-name}/`.
 - **Don't put image files at the ad's top level.** They go in `images/`. The top level is reserved for `COPY.md` and `copy.json`.
 - **Don't create an image for an ad with no COPY.md.** No copy → no image.
+- **Don't ship an ad without a CTA.** No CTA in COPY.md → the copy isn't finished. Don't render the image until the CTA is decided.
 - **Don't skip the offer.** If you can't write the offer in one sentence, the campaign isn't ready to design for.

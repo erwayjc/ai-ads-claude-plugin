@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #0e1525;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0a2540;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .card {
+    width: 960px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    padding: 44px 48px;
+    position: relative;
+  }
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  .vendor {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .vendor-logo {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00b894, #008f73);
+    color: #fff;
+    font-weight: 800;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vendor-name {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .vendor-addr {
+    font-size: 13px;
+    color: #6b7c93;
+    margin-top: 2px;
+  }
+  .meta {
+    text-align: right;
+    font-size: 13px;
+    color: #425466;
+  }
+  .meta .label { color: #8898aa; }
+  .invoice-num {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0a2540;
+    margin-bottom: 6px;
+  }
+  .status {
+    display: inline-block;
+    margin-top: 10px;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid #6ee7b7;
+  }
+  .invoice-title {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #6b7c93;
+    margin-bottom: 28px;
+  }
+  .bill-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #e6ebf1;
+  }
+  .bill-block .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #8898aa;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .bill-block .value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0a2540;
+    line-height: 1.4;
+  }
+  .bill-block .sub {
+    font-size: 13px;
+    color: #425466;
+    line-height: 1.4;
+  }
+  table.items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 18px;
+  }
+  table.items th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #8898aa;
+    padding: 12px 0;
+    border-bottom: 1px solid #e6ebf1;
+    font-weight: 600;
+  }
+  table.items th.right { text-align: right; }
+  table.items td {
+    padding: 13px 0;
+    font-size: 14px;
+    color: #0a2540;
+    border-bottom: 1px solid #f3f5f9;
+    vertical-align: top;
+  }
+  table.items td.right { text-align: right; font-variant-numeric: tabular-nums; }
+  table.items td .desc-sub {
+    font-size: 12px;
+    color: #6b7c93;
+    margin-top: 2px;
+  }
+  .totals {
+    width: 340px;
+    margin-left: auto;
+    margin-top: 12px;
+  }
+  .totals-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #425466;
+    font-variant-numeric: tabular-nums;
+  }
+  .totals-row.discount {
+    color: #047857;
+    font-weight: 700;
+  }
+  .totals-row.total {
+    border-top: 2px solid #047857;
+    margin-top: 8px;
+    padding-top: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    color: #047857;
+  }
+  .totals-row.total .ccy {
+    font-size: 12px;
+    color: #6b7c93;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .pay-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid #e6ebf1;
+  }
+  .footer-note {
+    font-size: 12px;
+    color: #6b7c93;
+    max-width: 480px;
+    line-height: 1.5;
+  }
+  .pay-btn {
+    background: #047857;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(4, 120, 87, 0.30);
+  }
+  .stamp {
+    position: absolute;
+    top: 80px;
+    right: 80px;
+    transform: rotate(-12deg);
+    border: 4px solid #047857;
+    color: #047857;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 3px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="stamp">PAID</div>
+    <div class="top-row">
+      <div class="vendor">
+        <div class="vendor-logo">PG</div>
+        <div>
+          <div class="vendor-name">Performance Growth Co.</div>
+          <div class="vendor-addr">204 W. 5th Ave · billing@perfgrowth.example</div>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="invoice-num">Invoice #PG-2026-0091</div>
+        <div><span class="label">Issued:</span> May 01, 2026</div>
+        <div><span class="label">Paid:</span> May 01, 2026</div>
+        <div class="status">PAID IN FULL</div>
+      </div>
+    </div>
+
+    <div class="invoice-title">Monthly Retainer — May 2026</div>
+    <div class="subtitle">Replaces your current marketing stack · One line. One outcome.</div>
+
+    <div class="bill-row">
+      <div class="bill-block">
+        <div class="label">Billed To</div>
+        <div class="value">Personal Injury Firm Owners</div>
+        <div class="sub">3–8 attorney shops · United States</div>
+      </div>
+      <div class="bill-block" style="text-align:right;">
+        <div class="label">Payment Terms</div>
+        <div class="value">Performance-based</div>
+        <div class="sub">No retainer · Booked walkthroughs only</div>
+      </div>
+    </div>
+
+    <table class="items">
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th class="right">Qty</th>
+          <th class="right">Unit</th>
+          <th class="right">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Intake-system buildout
+            <div class="desc-sub">Scripts · disposition logging · SLA dashboard</div>
+          </td>
+          <td class="right">1</td>
+          <td class="right">Included</td>
+          <td class="right">$0.00</td>
+        </tr>
+        <tr>
+          <td>
+            Outbound lead pipeline
+            <div class="desc-sub">Targeting · creative · campaign mgmt</div>
+          </td>
+          <td class="right">1 mo</td>
+          <td class="right">Included</td>
+          <td class="right">$0.00</td>
+        </tr>
+        <tr>
+          <td>
+            Booked walkthroughs delivered
+            <div class="desc-sub">Qualified · scheduled · confirmed</div>
+          </td>
+          <td class="right">14</td>
+          <td class="right">$200.00</td>
+          <td class="right">$2,800.00</td>
+        </tr>
+        <tr>
+          <td>
+            Account-strategy calls
+            <div class="desc-sub">Weekly · 30-min cadence</div>
+          </td>
+          <td class="right">4</td>
+          <td class="right">Included</td>
+          <td class="right">$0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="totals">
+      <div class="totals-row"><span>Subtotal</span><span>$2,800.00</span></div>
+      <div class="totals-row discount"><span>Cost vs. prior agency stack</span><span>−$8,200.00</span></div>
+      <div class="totals-row"><span>Tax</span><span>$0.00</span></div>
+      <div class="totals-row total"><span>Net Spend</span><span>$2,800.00<span class="ccy">USD</span></span></div>
+    </div>
+
+    <div class="pay-row">
+      <div class="footer-note">
+        You paid $11,000/mo for fewer leads last quarter.<br>
+        See the cost-per-walkthrough breakdown: walkthrough.example.com
+      </div>
+      <div class="pay-btn">See How →</div>
+    </div>
+  </div>
+</body>
+</html>

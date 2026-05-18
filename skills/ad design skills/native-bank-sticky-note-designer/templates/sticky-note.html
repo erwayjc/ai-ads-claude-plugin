@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Kalam:wght@700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #eef1f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    overflow: hidden;
+  }
+  .top-overlay {
+    width: 100%;
+    text-align: center;
+    padding: 36px 60px 18px;
+    color: #0a0a0a;
+  }
+  .top-overlay .kicker {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .top-overlay .big {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.08;
+  }
+  .top-overlay .big .red { color: #dc2626; }
+  .phone-wrap {
+    position: relative;
+    margin-top: 4px;
+  }
+  .phone {
+    width: 700px;
+    height: 760px;
+    background: #ffffff;
+    border-radius: 44px;
+    border: 10px solid #111;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+  .status-bar {
+    height: 32px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 26px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+  .header {
+    padding: 10px 22px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eef0f3;
+  }
+  .header .menu { font-size: 20px; color: #0a0a0a; }
+  .header .bank-name { font-size: 18px; font-weight: 700; color: #0a0a0a; }
+  .header .icons { display: flex; gap: 12px; font-size: 15px; color: #6b7280; }
+  .balance-card {
+    margin: 12px 18px 8px;
+    background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 16px 22px;
+  }
+  .account-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fecaca;
+    margin-bottom: 4px;
+  }
+  .balance {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
+  .balance-sub {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #fecaca;
+  }
+  .quick-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 18px 8px;
+  }
+  .qa { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .qa .circle {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #fef2f2; color: #991b1b;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .qa .label { font-size: 10px; color: #475569; font-weight: 500; }
+  .date-header {
+    padding: 6px 22px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .tx {
+    display: flex;
+    align-items: center;
+    padding: 9px 22px;
+    gap: 12px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .tx-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #ffffff; flex-shrink: 0;
+  }
+  .icon-ads { background: #1877f2; }
+  .icon-mkt { background: #f59e0b; }
+  .icon-pay { background: #6b7280; }
+  .icon-sub { background: #8b5cf6; }
+  .tx-body { flex: 1; min-width: 0; }
+  .tx-merchant { font-size: 14px; font-weight: 600; color: #0a0a0a; line-height: 1.2; }
+  .tx-cat { font-size: 11px; color: #6b7280; margin-top: 2px; }
+  .tx-amt { font-size: 16px; font-weight: 700; text-align: right; flex-shrink: 0; }
+  .debit { color: #dc2626; }
+  .hero-tx {
+    background: #fef2f2;
+  }
+  .hero-tx .tx-amt { font-size: 20px; }
+  .hero-tx .tx-merchant { font-size: 15px; }
+  .bottom-nav {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 12px;
+    border-top: 1px solid #eef0f3;
+    background: #ffffff;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 9px; color: #9ca3af;
+  }
+  .nav-item.active { color: #991b1b; font-weight: 600; }
+  .nav-item .glyph { font-size: 15px; }
+
+  /* STICKY NOTE — pinned over the Yesterday-section rows; leaves the hero pending row's amount fully readable above it */
+  .sticky-note {
+    position: absolute;
+    top: 408px;
+    right: 32px;
+    width: 200px;
+    height: 180px;
+    background: #fef9c3;
+    transform: rotate(6deg);
+    box-shadow: 4px 10px 22px rgba(0,0,0,0.22);
+    padding: 24px 16px 16px;
+    font-family: 'Kalam', cursive;
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 30px;
+    line-height: 1.15;
+    text-align: center;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sticky-note .tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 80px;
+    height: 22px;
+    background: rgba(200, 200, 200, 0.5);
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+  .cta-pill {
+    margin-top: 14px;
+    padding: 14px 30px;
+    background: #0b1d3a;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+  <div class="top-overlay">
+    <div class="kicker">If you run a PI firm in 2026:</div>
+    <div class="big">Your operating account<br>probably looks like <span class="red">this.</span></div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="status-bar">
+        <span>9:41</span>
+        <span>●●●● Wi-Fi 100%</span>
+      </div>
+      <div class="header">
+        <span class="menu">☰</span>
+        <span class="bank-name">First Capital</span>
+        <span class="icons">🔔  🔍</span>
+      </div>
+      <div class="balance-card">
+        <div class="account-label">Operating · Smith &amp; Associates · ****8841</div>
+        <div class="balance">$847.12</div>
+        <div class="balance-sub">
+          <span>Available $847.12</span>
+          <span>Updated just now</span>
+        </div>
+      </div>
+      <div class="quick-actions">
+        <div class="qa"><div class="circle">↑</div><div class="label">Pay</div></div>
+        <div class="qa"><div class="circle">⇄</div><div class="label">Transfer</div></div>
+        <div class="qa"><div class="circle">↓</div><div class="label">Deposit</div></div>
+        <div class="qa"><div class="circle">···</div><div class="label">More</div></div>
+      </div>
+      <div class="date-header">Pending — today</div>
+      <div class="tx hero-tx">
+        <div class="tx-icon icon-mkt">LG</div>
+        <div class="tx-body">
+          <div class="tx-merchant">LEAD-GEN VENDOR · MONTHLY</div>
+          <div class="tx-cat">Subscription · "Qualified PI leads"</div>
+        </div>
+        <div class="tx-amt debit">-$4,800.00</div>
+      </div>
+      <div class="date-header">Yesterday</div>
+      <div class="tx">
+        <div class="tx-icon icon-ads">FB</div>
+        <div class="tx-body">
+          <div class="tx-merchant">FB ADS</div>
+          <div class="tx-cat">Advertising · Intake campaigns</div>
+        </div>
+        <div class="tx-amt debit">-$3,400.00</div>
+      </div>
+      <div class="tx">
+        <div class="tx-icon icon-sub">AR</div>
+        <div class="tx-body">
+          <div class="tx-merchant">AGENCY RETAINER LLC</div>
+          <div class="tx-cat">SaaS · "Lead management"</div>
+        </div>
+        <div class="tx-amt debit">-$5,000.00</div>
+      </div>
+      <div class="tx">
+        <div class="tx-icon icon-pay">IS</div>
+        <div class="tx-body">
+          <div class="tx-merchant">INTAKE STAFFING CO</div>
+          <div class="tx-cat">Payroll · After-hours</div>
+        </div>
+        <div class="tx-amt debit">-$1,850.00</div>
+      </div>
+      <div class="bottom-nav">
+        <div class="nav-item active"><span class="glyph">⌂</span><span>Home</span></div>
+        <div class="nav-item"><span class="glyph">≡</span><span>Accounts</span></div>
+        <div class="nav-item"><span class="glyph">⇄</span><span>Transfers</span></div>
+        <div class="nav-item"><span class="glyph">$</span><span>Pay</span></div>
+        <div class="nav-item"><span class="glyph">···</span><span>More</span></div>
+      </div>
+    </div>
+
+    <div class="sticky-note">
+      <div class="tape"></div>
+      sound<br>familiar?
+    </div>
+  </div>
+
+  <div class="cta-pill">Stop The Bleed →</div>
+</body>
+</html>

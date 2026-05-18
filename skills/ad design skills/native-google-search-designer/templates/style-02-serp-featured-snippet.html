@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #e8edf3;
+    font-family: "Inter", "Roboto", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .phone {
+    width: 820px;
+    height: 1040px;
+    background: #000;
+    border-radius: 56px;
+    padding: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .notch {
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 32px; background: #000;
+    border-radius: 20px; z-index: 5;
+  }
+  .screen {
+    width: 100%; height: 100%; background: #ffffff;
+    border-radius: 44px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 38px 4px; color: #000;
+    font-size: 17px; font-weight: 700; height: 38px;
+  }
+  .status-right { display: flex; gap: 6px; align-items: center; }
+  .signal-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
+  .signal-bars span { width: 3px; background: #000; border-radius: 1px; }
+  .signal-bars span:nth-child(1) { height: 4px; }
+  .signal-bars span:nth-child(2) { height: 6px; }
+  .signal-bars span:nth-child(3) { height: 9px; }
+  .signal-bars span:nth-child(4) { height: 11px; }
+  .battery {
+    width: 26px; height: 12px; border: 1.5px solid #000; border-radius: 3px;
+    position: relative; padding: 1.5px;
+  }
+  .battery::after {
+    content: ""; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 4px; background: #000; border-radius: 0 1px 1px 0;
+  }
+  .battery-fill { width: 80%; height: 100%; background: #000; border-radius: 1px; }
+  .top-bar {
+    padding: 10px 16px 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .logo .b { color: #4285F4; }
+  .logo .r { color: #DB4437; }
+  .logo .y { color: #F4B400; }
+  .logo .g { color: #0F9D58; }
+  .search-bar {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    box-shadow: 0 1px 4px rgba(32,33,36,0.1);
+  }
+  .search-bar .query {
+    flex: 1;
+    color: #202124;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .search-bar .mic { width: 18px; }
+  .search-bar .lens { width: 18px; }
+  .avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: #DB4437;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .tabs {
+    padding: 6px 16px 0;
+    display: flex;
+    gap: 22px;
+    border-bottom: 1px solid #ebeced;
+    font-size: 13px;
+    color: #5f6368;
+    font-weight: 500;
+  }
+  .tabs .tab { padding: 8px 0; }
+  .tabs .tab.active {
+    color: #1a73e8;
+    border-bottom: 3px solid #1a73e8;
+  }
+  .results {
+    padding: 8px 16px 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .meta {
+    color: #70757a;
+    font-size: 11px;
+    margin: 6px 0 8px;
+  }
+  .featured {
+    border: 1px solid #ebeced;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .featured .heading {
+    color: #202124;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .featured ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 12px;
+  }
+  .featured li {
+    color: #202124;
+    font-size: 16px;
+    margin: 5px 0;
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .featured li::before {
+    content: ""; position: absolute;
+    left: 6px; top: 8px;
+    width: 4px; height: 4px;
+    background: #202124;
+    border-radius: 50%;
+  }
+  .featured .src {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f3f4;
+  }
+  .src-fav {
+    width: 18px; height: 18px;
+    background: #4285F4;
+    border-radius: 50%;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .src-meta { flex: 1; }
+  .src-name { color: #202124; font-size: 11px; font-weight: 500; }
+  .src-url { color: #5f6368; font-size: 11px; }
+  .src-link {
+    color: #1558d6;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .organic {
+    margin-bottom: 14px;
+  }
+  .organic .src {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px;
+  }
+  .organic .src-name { color: #202124; font-size: 11px; font-weight: 500; }
+  .organic .src-url { color: #5f6368; font-size: 11px; }
+  .organic .title {
+    color: #1558d6;
+    font-size: 19px;
+    font-weight: 500;
+    line-height: 1.25;
+    margin-bottom: 4px;
+  }
+  .organic .title-2 {
+    color: #6a1b9a;
+  }
+  .organic .snippet {
+    color: #4d5156;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .paa {
+    border: 1px solid #ebeced;
+    border-radius: 8px;
+    margin-top: 6px;
+  }
+  .paa .paa-head {
+    padding: 10px 14px;
+    color: #202124;
+    font-weight: 600;
+    font-size: 14px;
+    border-bottom: 1px solid #f1f3f4;
+  }
+  .paa .paa-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f3f4;
+    font-size: 13px;
+    color: #202124;
+  }
+  .paa .paa-row:last-child { border-bottom: none; }
+  .paa .chev { color: #5f6368; font-weight: 700; }
+  .footer-pill { display: none; }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="status">
+        <span>9:41</span>
+        <div class="status-right">
+          <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+          <span style="font-size:13px;letter-spacing:-0.3px;">5G</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+      <div class="top-bar">
+        <div class="logo"><span class="b">F</span><span class="r">i</span><span class="y">n</span><span class="b">d</span><span class="g">l</span><span class="r">y</span></div>
+        <div class="search-bar">
+          <span style="color:#5f6368;font-size:14px;">&#9906;</span>
+          <div class="query">how do pi firms get leads to call back same day</div>
+          <span style="color:#1a73e8;">&#127908;</span>
+          <span style="color:#1a73e8;">&#128247;</span>
+        </div>
+      </div>
+      <div class="tabs">
+        <div class="tab active">All</div>
+        <div class="tab">Images</div>
+        <div class="tab">News</div>
+        <div class="tab">Videos</div>
+        <div class="tab">Maps</div>
+      </div>
+      <div class="results">
+        <div class="meta">About 4,820,000 results (0.42 seconds) &middot; PI Firms &middot; Houston, TX</div>
+        <div class="featured">
+          <div class="heading">How can personal injury firms get leads to call back the same day?</div>
+          <ul>
+            <li>Wire the intake line directly to a 5-minute-or-less SLA monitored by the partner, not by an answering service</li>
+            <li>Replace email-only confirmations with a 3-touch system: text, call, calendar invite</li>
+            <li>Audit the intake script for fairness language &mdash; vague scripts cost roughly 30&ndash;40% of qualified leads</li>
+            <li>Most PI firms can re-engineer this in a single 30-minute teardown</li>
+          </ul>
+          <div class="src">
+            <div class="src-fav">P</div>
+            <div class="src-meta">
+              <div class="src-name">PI Firm Growth Network</div>
+              <div class="src-url">pi-firm-growth.com &rsaquo; intake &rsaquo; same-day-callback</div>
+            </div>
+          </div>
+          <div class="src-link">The 30-minute intake teardown for PI firms &rarr;</div>
+        </div>
+        <div class="organic">
+          <div class="src">
+            <div class="src-fav" style="background:#0F9D58;">L</div>
+            <div class="src-meta">
+              <div class="src-name">Lawyer Growth Blog</div>
+              <div class="src-url">lawyergrowth.example &rsaquo; pi-leads</div>
+            </div>
+          </div>
+          <div class="title">10 generic tips for faster lead follow-up at your law firm</div>
+          <div class="snippet">Most articles tell you to "respond fast" without showing you the operational gap. We surveyed 80 PI firms in 2025 and found&hellip;</div>
+        </div>
+        <div class="organic">
+          <div class="src">
+            <div class="src-fav" style="background:#F4B400;">R</div>
+            <div class="src-meta">
+              <div class="src-name">r/PIlaw &middot; Reddit</div>
+              <div class="src-url">reddit.example &rsaquo; r/PIlaw &rsaquo; intake</div>
+            </div>
+          </div>
+          <div class="title title-2">Why do my leads always sign with the firm that called them first?</div>
+          <div class="snippet">[Solved] I run a small PI shop in Houston. We pay for the same lead sources as the big firms but always lose the case&hellip;</div>
+        </div>
+        <div class="paa">
+          <div class="paa-head">People also ask</div>
+          <div class="paa-row"><span>What is the average PI intake response time in 2026?</span><span class="chev">&#9662;</span></div>
+          <div class="paa-row"><span>How do top-50 PI firms staff their intake desks?</span><span class="chev">&#9662;</span></div>
+          <div class="paa-row"><span>Should small PI firms outsource intake or hire?</span><span class="chev">&#9662;</span></div>
+          <div class="paa-row"><span>What &quot;callback SLA&quot; do the best PI firms use?</span><span class="chev">&#9662;</span></div>
+        </div>
+        <div class="organic" style="margin-top: 14px;">
+          <div class="src">
+            <div class="src-fav" style="background:#DB4437;">H</div>
+            <div class="src-meta">
+              <div class="src-name">Houston Trial Lawyers Assoc.</div>
+              <div class="src-url">htla.example &rsaquo; resources &rsaquo; intake-benchmarks</div>
+            </div>
+          </div>
+          <div class="title">2026 intake benchmarks: PI firms losing 1 in 3 qualified leads to callback delay</div>
+          <div class="snippet">Survey of 142 Texas PI firms shows the median time from lead submission to first human callback is 4h 12m&hellip; firms under 6 minutes won 3.1x more cases&hellip;</div>
+        </div>
+        <div class="organic">
+          <div class="src">
+            <div class="src-fav" style="background:#4285F4;">Y</div>
+            <div class="src-meta">
+              <div class="src-name">YouTube &middot; PI Firm Operators</div>
+              <div class="src-url">youtube.example &rsaquo; watch &rsaquo; same-day-callback</div>
+            </div>
+          </div>
+          <div class="title">Watch: How one 4-attorney PI firm in Houston rebuilt their intake in 30 days</div>
+          <div class="snippet">Walkthrough of the exact phone tree, SLA monitor, and callback script that took their case-acquisition rate from 12% to 38%&hellip;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

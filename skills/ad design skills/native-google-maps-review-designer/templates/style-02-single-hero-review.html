@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f1ede5;
+    font-family: "Inter", "Roboto", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .phone {
+    width: 780px;
+    height: 1010px;
+    background: #000;
+    border-radius: 56px;
+    padding: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.35);
+    position: relative;
+  }
+  .notch {
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 32px; background: #000;
+    border-radius: 20px; z-index: 5;
+  }
+  .screen {
+    width: 100%; height: 100%; background: #ffffff;
+    border-radius: 44px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 38px 4px; color: #000;
+    font-size: 17px; font-weight: 700; height: 38px;
+  }
+  .status-right { display: flex; gap: 6px; align-items: center; }
+  .signal-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 11px; }
+  .signal-bars span { width: 3px; background: #000; border-radius: 1px; }
+  .signal-bars span:nth-child(1) { height: 4px; }
+  .signal-bars span:nth-child(2) { height: 6px; }
+  .signal-bars span:nth-child(3) { height: 9px; }
+  .signal-bars span:nth-child(4) { height: 11px; }
+  .battery {
+    width: 26px; height: 12px; border: 1.5px solid #000; border-radius: 3px;
+    position: relative; padding: 1.5px;
+  }
+  .battery::after {
+    content: ""; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 4px; background: #000; border-radius: 0 1px 1px 0;
+  }
+  .battery-fill { width: 80%; height: 100%; background: #000; border-radius: 1px; }
+  .toolbar {
+    background: #ffffff;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #ebeced;
+  }
+  .back {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    display: flex; align-items: center; justify-content: center;
+    color: #5f6368;
+    font-size: 22px;
+    border: 1px solid #ebeced;
+  }
+  .toolbar .search {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 8px 14px;
+    color: #202124;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .header {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid #ebeced;
+  }
+  .biz-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #202124;
+    letter-spacing: -0.3px;
+  }
+  .star-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    font-size: 14px;
+    color: #5f6368;
+  }
+  .rating-num { color: #202124; font-weight: 600; font-size: 14px; }
+  .stars { display: inline-flex; gap: 1px; }
+  .review-count { color: #1a73e8; font-weight: 500; }
+  .category-line { color: #5f6368; font-size: 13px; margin-top: 4px; }
+  .category-line .price { font-weight: 600; color: #202124; }
+  .open-line {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #5f6368;
+  }
+  .open-line .open { color: #137333; font-weight: 600; }
+  .actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 14px;
+    border-bottom: 1px solid #ebeced;
+    background: #fff;
+  }
+  .pill {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border: 1px solid #dadce0;
+    border-radius: 18px;
+    color: #1a73e8;
+    font-size: 11px;
+    font-weight: 500;
+    background: #ffffff;
+  }
+  .pill .ico {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 1px;
+  }
+  .pill.primary {
+    background: #1a73e8;
+    color: #ffffff;
+    border-color: #1a73e8;
+    font-weight: 700;
+  }
+  .review-card {
+    flex: 1;
+    padding: 20px 22px 0;
+    overflow: hidden;
+  }
+  .reviews-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .reviews-head .title { font-size: 17px; font-weight: 700; color: #202124; }
+  .sort-chip {
+    border: 1px solid #dadce0;
+    border-radius: 14px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #202124;
+    font-weight: 500;
+  }
+  .rev-head { display: flex; gap: 12px; align-items: center; }
+  .avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #137333;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .rev-meta { flex: 1; }
+  .rev-name { font-size: 17px; font-weight: 600; color: #202124; }
+  .rev-badge { font-size: 12px; color: #5f6368; margin-top: 1px; }
+  .rev-badge .guide { color: #1a73e8; font-weight: 600; }
+  .rev-stars-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  .rev-time { color: #5f6368; font-size: 13px; }
+  .small-stars { display: inline-flex; gap: 1px; }
+  .small-stars svg { width: 16px; height: 16px; }
+  .rev-body {
+    color: #202124;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+  .photo-strip {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .thumb {
+    width: 76px; height: 76px;
+    border-radius: 6px;
+  }
+  .thumb.a { background: linear-gradient(135deg, #b6cbb1, #768e6d); }
+  .thumb.b { background: linear-gradient(135deg, #c9c0a8, #948869); }
+  .thumb.c { background: linear-gradient(135deg, #d4d7d2, #8b8e8b); }
+  .rev-helpful {
+    color: #5f6368;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .owner-resp {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: #f1f3f4;
+    border-left: 3px solid #137333;
+    border-radius: 0 6px 6px 0;
+  }
+  .owner-resp .owner-head {
+    font-size: 12px;
+    color: #5f6368;
+    margin-bottom: 4px;
+  }
+  .owner-resp .owner-text {
+    font-size: 14px;
+    color: #202124;
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .owner-resp .owner-text .strong { color: #137333; font-weight: 700; font-style: normal; }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="status">
+        <span>9:41</span>
+        <div class="status-right">
+          <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+          <span style="font-size:13px;letter-spacing:-0.3px;">5G</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="back">&larr;</div>
+        <div class="search">Hill Country Family Dentistry, Austin TX</div>
+      </div>
+      <div class="header">
+        <div class="biz-name">Hill Country Family Dentistry</div>
+        <div class="star-row">
+          <span class="rating-num">4.9</span>
+          <span class="stars">
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+          </span>
+          <span class="review-count">(412)</span>
+        </div>
+        <div class="category-line">General dentist &middot; Austin, TX &middot; <span class="price">$$</span></div>
+        <div class="open-line"><span class="open">Open</span> &middot; Closes 5:00 PM</div>
+      </div>
+      <div class="actions">
+        <div class="pill"><span class="ico">&#128222;</span>Call</div>
+        <div class="pill"><span class="ico">&#9755;</span>Directions</div>
+        <div class="pill"><span class="ico">&#9734;</span>Save</div>
+        <div class="pill primary"><span class="ico">&#127760;</span>Book</div>
+      </div>
+      <div class="review-card">
+        <div class="reviews-head">
+          <div class="title">Reviews (412)</div>
+          <div class="sort-chip">Highest &#9662;</div>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <div style="border:1px solid #dadce0;border-radius:14px;padding:6px 12px;font-size:12px;color:#202124;font-weight:500;">kids</div>
+          <div style="border:1px solid #dadce0;border-radius:14px;padding:6px 12px;font-size:12px;color:#202124;font-weight:500;">friendly staff</div>
+          <div style="border:1px solid #dadce0;border-radius:14px;padding:6px 12px;font-size:12px;color:#202124;font-weight:500;">payment plans</div>
+          <div style="border:1px solid #dadce0;border-radius:14px;padding:6px 12px;font-size:12px;color:#202124;font-weight:500;">saturday</div>
+        </div>
+        <div class="rev-head">
+          <div class="avatar">JK</div>
+          <div class="rev-meta">
+            <div class="rev-name">Jessica K.</div>
+            <div class="rev-badge"><span class="guide">Local Guide</span> &middot; Level 5 &middot; 87 reviews</div>
+          </div>
+        </div>
+        <div class="rev-stars-row">
+          <div class="small-stars">
+            <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+          </div>
+          <span class="rev-time">3 weeks ago &middot; on a Saturday</span>
+        </div>
+        <div class="rev-body">We'd been putting off our kids' cleanings for two years (single mom, two boys, you know how it goes). Dr. Mahesh's team got us all in on one Saturday morning, talked the boys through the X-rays without scaring them, and never once gave me the side-eye about the gap. They even let me pay the cleaning copay in two installments without making it weird.</div>
+        <div class="photo-strip">
+          <div class="thumb a"></div>
+          <div class="thumb b"></div>
+          <div class="thumb c"></div>
+        </div>
+        <div class="rev-helpful"><span>&#128077;</span>Helpful &middot; 24</div>
+        <div class="owner-resp">
+          <div class="owner-head">Response from the owner &middot; 2 weeks ago</div>
+          <div class="owner-text">Thank you Jessica &mdash; so glad the boys did well. <span class="strong">If any other Hill Country parents are catching up on cleanings before summer, we still have a few Saturday slots in May &rarr;</span> &mdash; Dr. Mahesh &amp; the front-desk team</div>
+        </div>
+        <div style="margin-top:18px; padding-top:16px; border-top:1px solid #ebeced;">
+          <div class="rev-head">
+            <div class="avatar" style="background:#1a73e8;">DR</div>
+            <div class="rev-meta">
+              <div class="rev-name">Daniel R.</div>
+              <div class="rev-badge"><span class="guide">Local Guide</span> &middot; Level 4 &middot; 38 reviews</div>
+            </div>
+          </div>
+          <div class="rev-stars-row">
+            <div class="small-stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2 14.9 8.8 22 9.5 16.8 14.4 18.3 21.5 12 17.8 5.7 21.5 7.2 14.4 2 9.5 9.1 8.8Z" fill="#f59e0b"/></svg>
+            </div>
+            <span class="rev-time">1 month ago</span>
+          </div>
+          <div class="rev-body">Brought my dad in last-minute on a Friday. They squeezed him in, walked him through every cost before touching a tool. No upsell, no &ldquo;you really should consider...&rdquo; nonsense. We&rsquo;ll be back.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

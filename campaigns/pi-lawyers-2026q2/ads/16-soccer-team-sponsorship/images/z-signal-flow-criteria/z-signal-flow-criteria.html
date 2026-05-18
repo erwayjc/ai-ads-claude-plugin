@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #020617;
+    --text: #d1fae5;
+    --muted: rgba(209,250,229,0.55);
+    --accent: #10b981;
+    --node-bg: #07112a;
+    --node-border: rgba(209,250,229,0.14);
+    --wire: rgba(209,250,229,0.40);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 36px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(16,185,129,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16,185,129,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
+  .scan-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 55%, rgba(16,185,129,0.10), transparent 55%);
+    pointer-events: none;
+  }
+  header { position: relative; z-index: 2; text-align: center; }
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .headline {
+    font-size: 76px;
+    font-weight: 900;
+    letter-spacing: -2.4px;
+    line-height: 0.98;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 14px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    width: 1000px;
+    height: 760px;
+    margin: 0 auto;
+    align-self: center;
+  }
+  .stage svg.wires {
+    position: absolute;
+    inset: 0;
+    width: 1000px;
+    height: 760px;
+    pointer-events: none;
+  }
+
+  .node {
+    position: absolute;
+    background: var(--node-bg);
+    border: 1.5px solid var(--node-border);
+    border-radius: 14px;
+    padding: 18px 16px 16px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55);
+    z-index: 2;
+  }
+  .node .ntag {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .node .nname {
+    margin-top: 8px;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    line-height: 1.1;
+  }
+  .node .nmeta {
+    margin-top: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .node.in {
+    border-style: dashed;
+    border-color: rgba(209,250,229,0.30);
+  }
+  .node.transform {
+    border-color: rgba(209,250,229,0.22);
+  }
+  .node.transform.accent {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(16,185,129,0.16), rgba(16,185,129,0.04));
+    box-shadow: 0 0 0 6px rgba(16,185,129,0.10), 0 12px 28px rgba(0,0,0,0.55);
+  }
+  .node.transform.accent .ntag { color: var(--accent); }
+  .node.transform.accent .nmeta { color: rgba(16,185,129,0.85); }
+  .node.out {
+    background: var(--accent);
+    color: #02160e;
+    border-color: rgba(0,0,0,0.18);
+    box-shadow: 0 0 0 10px rgba(16,185,129,0.18), 0 14px 32px rgba(0,0,0,0.55);
+  }
+  .node.out .ntag { color: rgba(2,22,14,0.7); }
+  .node.out .nname { font-size: 22px; }
+  .node.out .nmeta { color: rgba(2,22,14,0.75); }
+
+  /* Two rows: top row x-positions for 3 nodes, bottom row for 2 nodes — zig-zag for fill */
+  /* Row 1 (y=30): IN, TX1, TX2 */
+  /* Row 2 (y=440): TX3 (accent), OUT */
+  .n-in   { left: 20px;   top: 30px; }
+  .n-t1   { left: 400px;  top: 30px; }
+  .n-t2   { left: 780px;  top: 30px; }
+  .n-t3   { left: 210px;  top: 470px; }
+  .n-out  { left: 590px;  top: 470px; }
+
+  /* Spec readout pill bottom right of stage */
+  .spec {
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid rgba(209,250,229,0.16);
+    border-radius: 999px;
+    padding: 8px 14px;
+  }
+  .spec .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: middle;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--muted);
+  }
+  footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="scan-glow"></div>
+
+  <header>
+    <div class="eyebrow">Signal Flow · Schematic</div>
+    <div class="headline">Criteria in. <em>Cases out.</em></div>
+    <div class="sub">How your referral criteria becomes an exclusive case</div>
+  </header>
+
+  <div class="stage">
+    <svg class="wires" viewBox="0 0 1000 760" preserveAspectRatio="none">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="rgba(209,250,229,0.65)"/>
+        </marker>
+        <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#10b981"/>
+        </marker>
+      </defs>
+
+      <!-- Node geometry (200x ~150 tall). Row1 y-center ≈ 105, Row2 y-center ≈ 545 -->
+      <!-- IN (20-220, y=105)  →  TX1 (400-600, y=105) -->
+      <g fill="none" stroke="rgba(209,250,229,0.50)" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr)">
+        <path d="M 222 105 L 398 105"/>
+      </g>
+      <!-- TX1 (600, y=105) → TX2 (780-980, y=105) -->
+      <g fill="none" stroke="rgba(209,250,229,0.55)" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr)">
+        <path d="M 602 105 L 778 105"/>
+      </g>
+      <!-- TX2 right side goes down and left to TX3. From (880, 180) down to (310, 468) -->
+      <g fill="none" stroke="rgba(209,250,229,0.55)" stroke-width="2.6" stroke-linecap="round" marker-end="url(#arr)">
+        <path d="M 880 182 C 880 360, 310 320, 310 468"/>
+      </g>
+      <!-- TX3 (accent, 210-410, y=545) → OUT (590-790, y=545): accent wire -->
+      <g fill="none" stroke="#10b981" stroke-width="3.8" stroke-linecap="round" marker-end="url(#arrA)">
+        <path d="M 412 545 L 588 545"/>
+      </g>
+
+      <!-- Tick markers along the curve for schematic feel -->
+      <g stroke="rgba(209,250,229,0.32)" stroke-width="1.3">
+        <line x1="875" y1="260" x2="892" y2="260"/>
+        <line x1="800" y1="320" x2="817" y2="320"/>
+        <line x1="610" y1="350" x2="627" y2="350"/>
+        <line x1="430" y1="370" x2="447" y2="370"/>
+        <line x1="318" y1="410" x2="335" y2="410"/>
+      </g>
+
+      <!-- Boundary frame, faint -->
+      <rect x="4" y="4" width="992" height="752" rx="14" ry="14"
+            fill="none" stroke="rgba(209,250,229,0.10)" stroke-width="1" stroke-dasharray="6 6"/>
+
+      <!-- Corner crosshairs -->
+      <g stroke="rgba(209,250,229,0.30)" stroke-width="1.2">
+        <line x1="14" y1="14" x2="34" y2="14"/><line x1="14" y1="14" x2="14" y2="34"/>
+        <line x1="986" y1="14" x2="966" y2="14"/><line x1="986" y1="14" x2="986" y2="34"/>
+        <line x1="14" y1="746" x2="34" y2="746"/><line x1="14" y1="746" x2="14" y2="726"/>
+        <line x1="986" y1="746" x2="966" y2="746"/><line x1="986" y1="746" x2="986" y2="726"/>
+      </g>
+    </svg>
+
+    <div class="node in n-in">
+      <div class="ntag">IN · 01</div>
+      <div class="nname">Your referral criteria</div>
+      <div class="nmeta">Case type · Venue · Value</div>
+    </div>
+
+    <div class="node transform n-t1">
+      <div class="ntag">TX · 01</div>
+      <div class="nname">Targeted demand capture</div>
+      <div class="nmeta">Paid ads + AI SEO</div>
+    </div>
+
+    <div class="node transform n-t2">
+      <div class="ntag">TX · 02</div>
+      <div class="nname">Speed-to-lead intake</div>
+      <div class="nmeta">Live, 24/7 response</div>
+    </div>
+
+    <div class="node transform accent n-t3">
+      <div class="ntag">TX · 03 · PROPRIETARY</div>
+      <div class="nname">Criteria-fit match</div>
+      <div class="nmeta">Filtered to your spec</div>
+    </div>
+
+    <div class="node out n-out">
+      <div class="ntag">OUT</div>
+      <div class="nname">Exclusive referral delivered</div>
+      <div class="nmeta">Never shared · Yours</div>
+    </div>
+
+    <div class="spec"><span class="dot"></span>Accent · Criteria-fit (proprietary)</div>
+  </div>
+
+  <footer>Performance-based · <em>invitation-only</em> · 3 firms</footer>
+</body>
+</html>

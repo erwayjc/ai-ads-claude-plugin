@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #eef1f5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 36px 0 28px;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone {
+    width: 720px;
+    height: 880px;
+    background: #ffffff;
+    border-radius: 44px;
+    border: 10px solid #111;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+  }
+  .status-bar {
+    height: 34px;
+    background: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 28px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0a0a0a;
+  }
+  .header {
+    padding: 12px 22px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eef0f3;
+  }
+  .header .menu { font-size: 22px; color: #0a0a0a; }
+  .header .bank-name { font-size: 19px; font-weight: 700; color: #0a0a0a; letter-spacing: -0.2px; }
+  .header .icons { display: flex; gap: 14px; font-size: 17px; color: #6b7280; }
+  .balance-card {
+    margin: 14px 18px 10px;
+    background: linear-gradient(135deg, #0b1d3a 0%, #15326b 100%);
+    color: #ffffff;
+    border-radius: 18px;
+    padding: 18px 22px;
+  }
+  .account-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #b9c4d6;
+    margin-bottom: 4px;
+  }
+  .balance {
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1;
+  }
+  .balance-sub {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #c7d2e8;
+  }
+  .quick-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 18px 10px;
+  }
+  .qa { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .qa .circle {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: #eef2ff; color: #1d4ed8;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 700;
+  }
+  .qa .label { font-size: 10px; color: #475569; font-weight: 500; }
+  .date-header {
+    padding: 8px 22px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .tx {
+    display: flex;
+    align-items: center;
+    padding: 9px 22px;
+    gap: 12px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .tx-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: #ffffff; flex-shrink: 0;
+  }
+  .icon-ads { background: #1877f2; }
+  .icon-mkt { background: #f59e0b; }
+  .icon-pay { background: #6b7280; }
+  .icon-lead { background: #16a34a; }
+  .tx-body { flex: 1; min-width: 0; }
+  .tx-merchant { font-size: 14px; font-weight: 600; color: #0a0a0a; line-height: 1.2; }
+  .tx-cat { font-size: 11px; color: #6b7280; margin-top: 2px; }
+  .tx-amt { font-size: 16px; font-weight: 700; text-align: right; flex-shrink: 0; }
+  .debit { color: #dc2626; }
+  .credit { color: #16a34a; }
+  .bottom-nav {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0 14px;
+    border-top: 1px solid #eef0f3;
+    background: #ffffff;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    font-size: 9px; color: #9ca3af;
+  }
+  .nav-item.active { color: #1d4ed8; font-weight: 600; }
+  .nav-item .glyph { font-size: 16px; }
+
+  /* STORY DEVICES */
+  /* Circle wraps only the amounts column, leaves merchant names readable */
+  .circle-overlay {
+    position: absolute;
+    top: 426px;
+    right: 22px;
+    width: 240px;
+    height: 236px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Annotation sits in the canvas — body level, not inside the phone — in the LEFT margin pointing right at the circle */
+  .annotation {
+    position: absolute;
+    top: 480px;
+    left: 18px;
+    font-family: 'Caveat', cursive;
+    font-size: 38px;
+    font-weight: 700;
+    color: #dc2626;
+    line-height: 1.05;
+    transform: rotate(-4deg);
+    text-align: right;
+    z-index: 10;
+    width: 156px;
+  }
+  .overlay-text {
+    margin-top: 22px;
+    text-align: center;
+    color: #0a0a0a;
+    z-index: 1;
+  }
+  .overlay-text .big {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.05;
+  }
+  .overlay-text .big .red {
+    color: #dc2626;
+  }
+  .overlay-text .sub {
+    margin-top: 8px;
+    font-size: 18px;
+    color: #475569;
+    font-weight: 500;
+  }
+  .cta-pill {
+    margin-top: 18px;
+    padding: 14px 30px;
+    background: #0b1d3a;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 700;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="status-bar">
+      <span>9:41</span>
+      <span>●●●● Wi-Fi 100%</span>
+    </div>
+    <div class="header">
+      <span class="menu">☰</span>
+      <span class="bank-name">Atlas Bank</span>
+      <span class="icons">🔔  🔍</span>
+    </div>
+    <div class="balance-card">
+      <div class="account-label">Operating · PI Firm · ****4521</div>
+      <div class="balance">$3,847.12</div>
+      <div class="balance-sub">
+        <span>Available $3,847.12</span>
+        <span>Updated just now</span>
+      </div>
+    </div>
+    <div class="quick-actions">
+      <div class="qa"><div class="circle">↑</div><div class="label">Pay</div></div>
+      <div class="qa"><div class="circle">⇄</div><div class="label">Transfer</div></div>
+      <div class="qa"><div class="circle">↓</div><div class="label">Deposit</div></div>
+      <div class="qa"><div class="circle">···</div><div class="label">More</div></div>
+    </div>
+    <div class="date-header">This month — recurring</div>
+    <div class="tx">
+      <div class="tx-icon icon-ads">FB</div>
+      <div class="tx-body">
+        <div class="tx-merchant">FB ADS · PI Firm Lead-Gen</div>
+        <div class="tx-cat">Mar 1 · Monthly retainer</div>
+      </div>
+      <div class="tx-amt debit">-$4,200.00</div>
+    </div>
+    <div class="tx">
+      <div class="tx-icon icon-mkt">LG</div>
+      <div class="tx-body">
+        <div class="tx-merchant">LEAD-GEN VENDOR</div>
+        <div class="tx-cat">Mar 1 · "Qualified leads" subscription</div>
+      </div>
+      <div class="tx-amt debit">-$2,400.00</div>
+    </div>
+    <div class="tx">
+      <div class="tx-icon icon-ads">GA</div>
+      <div class="tx-body">
+        <div class="tx-merchant">GOOGLE ADS</div>
+        <div class="tx-cat">Mar 1 · Intake campaigns</div>
+      </div>
+      <div class="tx-amt debit">-$3,100.00</div>
+    </div>
+    <div class="tx">
+      <div class="tx-icon icon-mkt">AR</div>
+      <div class="tx-body">
+        <div class="tx-merchant">AGENCY RETAINER LLC</div>
+        <div class="tx-cat">Mar 1 · "Lead management" SaaS</div>
+      </div>
+      <div class="tx-amt debit">-$5,000.00</div>
+    </div>
+    <div class="tx">
+      <div class="tx-icon icon-pay">IS</div>
+      <div class="tx-body">
+        <div class="tx-merchant">INTAKE STAFFING CO</div>
+        <div class="tx-cat">Mar 5 · After-hours intake</div>
+      </div>
+      <div class="tx-amt debit">-$1,850.00</div>
+    </div>
+    <div class="tx">
+      <div class="tx-icon icon-lead">$</div>
+      <div class="tx-body">
+        <div class="tx-merchant">CASE FEE · 1 SIGNED</div>
+        <div class="tx-cat">Mar 12 · From 412 leads</div>
+      </div>
+      <div class="tx-amt credit">+$1,200.00</div>
+    </div>
+    <div class="bottom-nav">
+      <div class="nav-item active"><span class="glyph">⌂</span><span>Home</span></div>
+      <div class="nav-item"><span class="glyph">≡</span><span>Accounts</span></div>
+      <div class="nav-item"><span class="glyph">⇄</span><span>Transfers</span></div>
+      <div class="nav-item"><span class="glyph">$</span><span>Pay</span></div>
+      <div class="nav-item"><span class="glyph">···</span><span>More</span></div>
+    </div>
+
+    <!-- Hand-drawn vertical oval wrapping just the amounts column -->
+    <svg class="circle-overlay" viewBox="0 0 240 236" preserveAspectRatio="none">
+      <path d="M 130 14
+               C 70 18, 24 36, 18 80
+               C 12 130, 14 180, 26 208
+               C 44 232, 130 232, 180 228
+               C 216 224, 230 196, 228 140
+               C 226 70, 210 28, 160 16
+               C 148 14, 138 13, 130 14 Z"
+            fill="none"
+            stroke="#dc2626"
+            stroke-width="5"
+            stroke-linecap="round"
+            opacity="0.92"
+            transform="rotate(-1.5 120 118)"/>
+    </svg>
+
+  </div>
+
+  <!-- Handwritten annotation lives at body level so it can sit in the canvas margin outside the phone -->
+  <div class="annotation">
+    every.<br>
+    single.<br>
+    month. →
+  </div>
+
+  <div class="overlay-text">
+    <div class="big"><span class="red">$16,550/mo</span> to keep<br>the lights on the ad account.</div>
+    <div class="sub">And one signed case to show for it.</div>
+  </div>
+  <div class="cta-pill">See A Better System →</div>
+</body>
+</html>

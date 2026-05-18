@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Segoe+UI:wght@400;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #faf9f8;
+    font-family: "Segoe UI", "Inter", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .app {
+    width: 1040px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
+    border: 1px solid #edebe9;
+  }
+  .top-ribbon {
+    background: #0078d4;
+    color: #ffffff;
+    padding: 12px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .top-ribbon .logo {
+    background: #fff;
+    color: #0078d4;
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .top-ribbon .search {
+    flex: 1;
+    background: rgba(255,255,255,0.18);
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: #ffffff;
+    font-size: 14px;
+    margin: 0 18px;
+  }
+  .layout { display: flex; min-height: 900px; }
+  .list-col {
+    width: 400px;
+    border-right: 1px solid #edebe9;
+    background: #ffffff;
+  }
+  .list-header {
+    padding: 14px 18px 8px;
+    border-bottom: 1px solid #edebe9;
+  }
+  .list-title { font-size: 26px; font-weight: 700; color: #201f1e; }
+  .list-sub { font-size: 14px; color: #605e5c; margin-top: 4px; }
+  .row {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f2f1;
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .row.active {
+    background: #edebe9;
+    border-left: 3px solid #0078d4;
+    padding-left: 15px;
+  }
+  .row.unread .sender { font-weight: 700; color: #201f1e; }
+  .row.unread .subject { font-weight: 700; color: #201f1e; }
+  .row.unread::before {
+    content: "";
+    width: 4px;
+    background: #0078d4;
+    border-radius: 2px;
+    margin-right: 2px;
+  }
+  .row-content { flex: 1; min-width: 0; }
+  .row-line1 { display: flex; justify-content: space-between; align-items: baseline; }
+  .sender { font-size: 15px; font-weight: 600; color: #323130; }
+  .time { font-size: 13px; color: #605e5c; font-weight: 500; }
+  .subject {
+    font-size: 15px;
+    font-weight: 500;
+    color: #323130;
+    margin-top: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .preview {
+    font-size: 13px;
+    color: #605e5c;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .read-col {
+    flex: 1;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+  }
+  .read-toolbar {
+    padding: 10px 22px;
+    border-bottom: 1px solid #edebe9;
+    color: #0078d4;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    gap: 18px;
+  }
+  .read-toolbar .item { display: inline-flex; align-items: center; gap: 6px; }
+  .read-body {
+    padding: 22px 28px;
+    flex: 1;
+  }
+  .read-subject {
+    font-size: 28px;
+    font-weight: 700;
+    color: #201f1e;
+    letter-spacing: -0.3px;
+    margin-bottom: 18px;
+  }
+  .from-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f3f2f1;
+  }
+  .from-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #0078d4;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .from-meta { flex: 1; }
+  .from-line1 { font-size: 14px; color: #201f1e; }
+  .from-line1 .name { font-weight: 700; }
+  .from-line2 { font-size: 12px; color: #605e5c; margin-top: 1px; }
+  .from-time { font-size: 12px; color: #605e5c; }
+  .read-text {
+    font-size: 17px;
+    color: #323130;
+    line-height: 1.6;
+  }
+  .read-text p { margin-bottom: 14px; }
+  .cta-block {
+    margin: 18px 0 14px;
+    padding: 14px 18px;
+    background: #f3f9fd;
+    border-left: 4px solid #0078d4;
+    border-radius: 0 4px 4px 0;
+  }
+  .cta-block .strong { color: #0078d4; font-weight: 700; }
+  .reply-bar {
+    border-top: 1px solid #edebe9;
+    padding: 12px 22px;
+    display: flex;
+    gap: 12px;
+    background: #faf9f8;
+  }
+  .reply-btn {
+    background: #ffffff;
+    border: 1px solid #c8c6c4;
+    color: #201f1e;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .reply-btn.primary {
+    background: #0078d4;
+    color: #ffffff;
+    border-color: #0078d4;
+  }
+  .footer-pill {
+    margin-top: 12px;
+    background: #0078d4;
+    color: #ffffff;
+    padding: 10px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.2px;
+  }
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="top-ribbon">
+      <div class="logo">O</div>
+      <span>Outlook</span>
+      <div class="search">Search Inbox &middot; Agency Owner</div>
+      <span style="opacity:.85">&#9881;</span>
+    </div>
+    <div class="layout">
+      <div class="list-col">
+        <div class="list-header">
+          <div class="list-title">Inbox</div>
+          <div class="list-sub">Focused &middot; Agency Owner &middot; 8 unread</div>
+        </div>
+        <div class="row unread">
+          <div class="row-content">
+            <div class="row-line1"><span class="sender">Salesforce Billing</span><span class="time">9:24 AM</span></div>
+            <div class="subject">Renewal: 14 seats &middot; $4,890</div>
+            <div class="preview">Your Sales Cloud renewal is up June 1. Lock the existing rate by 5/31 to avoid the 18% increase&hellip;</div>
+          </div>
+        </div>
+        <div class="row unread active">
+          <div class="row-content">
+            <div class="row-line1"><span class="sender">Agency Owners Slack Digest</span><span class="time">8:48 AM</span></div>
+            <div class="subject">3 spots open for May consolidation map</div>
+            <div class="preview">Reserved 30-min stack teardown for agency owners scaling past $1M. We map your 6+ tools onto one&hellip;</div>
+          </div>
+        </div>
+        <div class="row unread">
+          <div class="row-content">
+            <div class="row-line1"><span class="sender">QuickBooks</span><span class="time">8:21 AM</span></div>
+            <div class="subject">3 invoices overdue &middot; $14,820</div>
+            <div class="preview">Acme Co. (40d), Pixel Labs (28d), Hartman Bros. (12d) &middot; auto-reminders sent. Tap to call collections&hellip;</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-content">
+            <div class="row-line1"><span class="sender">HubSpot</span><span class="time">7:42 AM</span></div>
+            <div class="subject">Weekly pipeline report</div>
+            <div class="preview">$284K in stage 3+. Closed-won this week: 2 deals, $48K. Stalled &gt;14 days: 11 deals&hellip;</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-content">
+            <div class="row-line1"><span class="sender">Notion</span><span class="time">Yesterday</span></div>
+            <div class="subject">Q2 OKR review &mdash; partner sync</div>
+            <div class="preview">Lauren updated 4 key results. Review needed before Friday's partner call&hellip;</div>
+          </div>
+        </div>
+      </div>
+      <div class="read-col">
+        <div class="read-toolbar">
+          <span class="item">&#10148; Reply</span>
+          <span class="item">&#10164; Reply all</span>
+          <span class="item">&#8594; Forward</span>
+          <span class="item">&#128205; Flag</span>
+          <span class="item">&#128465; Delete</span>
+        </div>
+        <div class="read-body">
+          <div class="read-subject">3 spots open for May consolidation map</div>
+          <div class="from-row">
+            <div class="from-avatar">AS</div>
+            <div class="from-meta">
+              <div class="from-line1"><span class="name">Agency Owners Slack Digest</span> &lt;intake@agencyownersmap.com&gt;</div>
+              <div class="from-line2">To: You &middot; Today, 8:48 AM</div>
+            </div>
+          </div>
+          <div class="read-text">
+            <p>Hey &mdash;</p>
+            <p>Quick note for agencies scaling past $1M: we held three 30-minute slots this week for the consolidation map. It's the audit where we lay your current tool stack (HubSpot, Close, Apollo, Make, Zapier, Reply.io&hellip;) onto one operating system and show you the monthly bill on the other side.</p>
+            <div class="cta-block">
+              <p>If your team is logging into 5+ tools to run the same workflow, this is the call. <span class="strong">Reply MAY to claim a slot &rarr;</span></p>
+            </div>
+            <p>&mdash; The Agency Ops team</p>
+          </div>
+        </div>
+        <div class="reply-bar">
+          <div class="reply-btn primary">Reply MAY</div>
+          <div class="reply-btn">Reply all</div>
+          <div class="reply-btn">Forward</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-pill">Reply MAY &rarr;</div>
+</body>
+</html>

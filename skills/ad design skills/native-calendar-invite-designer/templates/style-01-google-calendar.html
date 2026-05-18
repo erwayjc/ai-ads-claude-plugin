@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Google+Sans:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f1f3f4;
+    font-family: 'Google Sans', 'Roboto', -apple-system, sans-serif;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    width: 980px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    border-left: 6px solid #1a73e8;
+  }
+  .header {
+    height: 64px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e8eaed;
+  }
+  .header-icons {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    color: #5f6368;
+    font-size: 22px;
+  }
+  .body {
+    padding: 28px 36px 32px;
+  }
+  .title {
+    font-family: 'Google Sans', sans-serif;
+    font-size: 38px;
+    font-weight: 500;
+    color: #202124;
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 12px 0;
+    color: #3c4043;
+    font-size: 17px;
+  }
+  .row .icon {
+    width: 22px;
+    color: #5f6368;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 20px;
+  }
+  .row .main { flex: 1; }
+  .row .sub { font-size: 13px; color: #5f6368; margin-top: 2px; }
+  .meet-chip {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #e8f0fe;
+    color: #1967d2;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  .description {
+    margin: 12px 0 4px;
+    padding: 14px 16px;
+    background: #f8f9fa;
+    border-left: 3px solid #1a73e8;
+    border-radius: 0 6px 6px 0;
+    font-size: 16px;
+    color: #202124;
+    line-height: 1.5;
+  }
+  .description p { margin: 6px 0; }
+  .description .closer {
+    margin-top: 12px;
+    font-weight: 500;
+    color: #1a73e8;
+  }
+  .guests-header {
+    margin-top: 8px;
+    padding: 12px 0 6px;
+    font-size: 13px;
+    color: #5f6368;
+    font-weight: 500;
+  }
+  .guest {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .avatar.j { background: #1a73e8; }
+  .avatar.m { background: #34a853; }
+  .avatar.s { background: #fbbc04; color: #202124; }
+  .avatar.d { background: #ea4335; }
+  .status {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #fff;
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #fff;
+  }
+  .status.yes { background: #34a853; }
+  .status.maybe { background: #fbbc04; color: #202124; }
+  .status.no { background: #ea4335; }
+  .status.pending { background: #9aa0a6; }
+  .guest .name { font-size: 15px; color: #202124; font-weight: 500; }
+  .guest .email { font-size: 13px; color: #5f6368; }
+  .guest .org-tag {
+    font-size: 11px;
+    color: #1a73e8;
+    background: #e8f0fe;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+    font-weight: 500;
+  }
+  .rsvp {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e8eaed;
+  }
+  .rsvp-btn {
+    flex: 1;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+  .rsvp-btn.yes {
+    background: #34a853;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(52,168,83,0.35);
+    transform: scale(1.04);
+  }
+  .rsvp-btn.maybe {
+    background: #fff;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+  }
+  .rsvp-btn.no {
+    background: #fff;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+  }
+  .cta-pill {
+    margin-top: 26px;
+    padding: 14px 30px;
+    background: #1a73e8;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 999px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div class="header-icons"><span>←</span></div>
+      <div class="header-icons"><span>✎</span><span>⋮</span></div>
+    </div>
+    <div class="body">
+      <div class="title">PI Firm Intake Walkthrough · Joel</div>
+      <div class="row">
+        <span class="icon">📅</span>
+        <div class="main">
+          Thursday, March 21 · 2:00 – 2:30 PM
+          <div class="sub">Does not repeat · America/Chicago</div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="icon">📍</span>
+        <div class="main">
+          <span class="meet-chip">📹 meet.google.com/abc-defg-hij</span>
+        </div>
+      </div>
+      <div class="row">
+        <span class="icon">≡</span>
+        <div class="main">
+          <div class="description">
+            <p>For PI firm owners running paid intake (30–80 cases/mo).</p>
+            <p>I'll walk you through the intake system we built for firms losing 60% of leads at first call. Bring one bottleneck. 30 minutes, no slides.</p>
+            <p class="closer">Reply Yes to confirm — I'll send the Meet link.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="icon">👥</span>
+        <div class="main">
+          <div class="guests-header">4 guests · 2 yes, 1 maybe, 1 awaiting</div>
+          <div class="guest">
+            <div class="avatar j">J<div class="status pending"></div></div>
+            <div><div class="name">Joel · The Webinar Agency <span class="org-tag">Organizer</span></div><div class="email">joel@thewebinaragency.com · PI Firm Growth</div></div>
+          </div>
+          <div class="guest">
+            <div class="avatar m">M<div class="status yes">✓</div></div>
+            <div><div class="name">Marcus Vale</div><div class="email">marcus@ptinjurytx.com</div></div>
+          </div>
+          <div class="guest">
+            <div class="avatar s">S<div class="status maybe">?</div></div>
+            <div><div class="name">Sarah Cho · Intake Lead</div><div class="email">sarah.cho@cholaw.com</div></div>
+          </div>
+          <div class="guest">
+            <div class="avatar d">D<div class="status pending"></div></div>
+            <div><div class="name">Dani K. · Managing Partner</div><div class="email">dani@kennedyinjury.law</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="icon">🔔</span>
+        <div class="main">30 minutes before · email + popup</div>
+      </div>
+      <div class="rsvp">
+        <div class="rsvp-btn yes">✓ Yes</div>
+        <div class="rsvp-btn maybe">? Maybe</div>
+        <div class="rsvp-btn no">✕ No</div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Confirm Your Spot →</div>
+</body>
+</html>

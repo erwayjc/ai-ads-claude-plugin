@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f9f9f9;
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 20px 22px 20px;
+    color: #0f0f0f;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .frame {
+    width: 1040px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 24px 30px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  }
+  .video {
+    display: flex; gap: 18px;
+    margin-bottom: 22px;
+  }
+  .thumb {
+    width: 300px; height: 168px; border-radius: 12px;
+    background: linear-gradient(135deg, #1c1c1c 0%, #5a2eb8 60%, #b388ff 100%);
+    flex-shrink: 0; position: relative; overflow: hidden;
+  }
+  .thumb::before {
+    content: "ACTIVATION";
+    position: absolute; left: 14px; top: 12px;
+    font-size: 12px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,.7);
+  }
+  .thumb::after {
+    content: "The activation step every SaaS founder skips";
+    position: absolute; left: 14px; right: 14px; bottom: 14px;
+    font-size: 16px; font-weight: 800; color: #fff; line-height: 1.15;
+    text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  }
+  .duration {
+    position: absolute; right: 8px; bottom: 8px;
+    background: rgba(0,0,0,.85); color: #fff;
+    padding: 2px 6px; border-radius: 4px; font-size: 13px; font-weight: 600;
+  }
+  .v-info { flex: 1; min-width: 0; padding-top: 4px; }
+  .v-title { font-size: 26px; font-weight: 700; line-height: 1.25; color: #0f0f0f; }
+  .v-channel { color: #606060; font-size: 19px; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+  .v-channel .check { font-size: 16px; }
+  .v-meta { color: #606060; font-size: 19px; margin-top: 4px; }
+
+  .ch {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 20px; padding: 12px 0 14px 0;
+    border-bottom: 1px solid #e5e5e5;
+    color: #0f0f0f;
+  }
+  .ch .count { font-weight: 700; }
+  .ch .sort { display: flex; align-items: center; gap: 6px; }
+
+  .pinned-tag {
+    color: #606060; font-size: 17px; padding: 14px 0 6px 64px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .comment { display: flex; gap: 14px; padding: 4px 0; }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #b388ff, #5a2eb8);
+    color: #fff; font-weight: 700; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .avatar.b { background: linear-gradient(135deg, #4ad991, #137e4c); }
+  .avatar.c { background: linear-gradient(135deg, #ffbe5a, #ff7a59); }
+  .avatar.d { width: 40px; height: 40px; font-size: 18px; background: linear-gradient(135deg, #ff6b6b, #c92a2a); }
+  .avatar.e { width: 40px; height: 40px; font-size: 18px; background: linear-gradient(135deg, #6e8efb, #4a4af4); }
+  .c-content { flex: 1; min-width: 0; }
+  .c-head { display: flex; align-items: center; gap: 8px; font-size: 18px; }
+  .c-handle { color: #0f0f0f; font-weight: 600; }
+  .c-time { color: #606060; }
+  .c-body { font-size: 23px; line-height: 1.45; color: #0f0f0f; margin-top: 6px; }
+  .hearted {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #f1f1f1; color: #606060; font-size: 15px;
+    padding: 3px 9px; border-radius: 100px;
+    margin-top: 10px;
+    border: 1px solid #e5e5e5;
+  }
+  .hearted .h { color: #ff0033; }
+  .hearted .h-avatar {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(135deg, #1c1c1c, #5a2eb8);
+    margin-right: -10px; margin-left: -8px;
+    border: 1px solid #f1f1f1;
+  }
+  .c-actions {
+    display: flex; align-items: center; gap: 18px;
+    margin-top: 10px; color: #606060; font-size: 17px;
+  }
+  .c-actions .icon { font-size: 20px; }
+  .c-actions .replies { color: #065fd4; font-weight: 600; font-size: 17px; }
+  .replies-wrap {
+    margin-left: 66px; margin-top: 8px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .reply { display: flex; gap: 12px; }
+  .r-head { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+  .r-body { font-size: 20px; line-height: 1.4; color: #0f0f0f; margin-top: 4px; }
+  .creator-tag {
+    background: #606060; color: #fff; padding: 1px 7px; border-radius: 4px;
+    font-size: 14px; font-weight: 700; text-transform: uppercase;
+  }
+  .cta-pill {
+    margin-top: 0;
+    background: #065fd4; color: #fff;
+    font-weight: 700; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="video">
+      <div class="thumb"><div class="duration">11:08</div></div>
+      <div class="v-info">
+        <div class="v-title">The Activation Step Every SaaS Founder Skips</div>
+        <div class="v-channel">Indie SaaS Builders <span class="check">&#9989;</span></div>
+        <div class="v-meta">28K views &middot; 6 days ago</div>
+      </div>
+    </div>
+    <div class="ch">
+      <div class="count">141 Comments</div>
+      <div class="sort">&#8645; Sort by</div>
+    </div>
+    <div class="pinned-tag">&#128204; Pinned by Indie SaaS Builders</div>
+    <div class="comment">
+      <div class="avatar">L</div>
+      <div class="c-content">
+        <div class="c-head">
+          <span class="c-handle">@lina_solo_saas</span>
+          <span class="c-time">&middot; 5 days ago</span>
+        </div>
+        <div class="c-body">11-person b2b saas, was sitting at 8.4% trial-to-paid for 3 quarters straight. ran the activation audit from this video on a tuesday afternoon, found that step 3 of our onboarding was eating 61% of trials. fixed the one screen. next quarter we hit 22%. same product. same traffic. one step.</div>
+        <div class="hearted">
+          <span class="h-avatar"></span>
+          <span class="h">&hearts;</span>
+          <span>by Indie SaaS Builders</span>
+        </div>
+        <div class="c-actions">
+          <span class="icon">&#128077;</span><span>198</span>
+          <span class="icon">&#128078;</span>
+          <span>Reply</span>
+          <span class="replies">&#9656; View 6 replies</span>
+        </div>
+      </div>
+    </div>
+    <div class="replies-wrap">
+      <div class="reply">
+        <div class="avatar d">J</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@jake_b2b_solo</span>
+            <span class="c-time">&middot; 4 days ago</span>
+          </div>
+          <div class="r-body">we just went thru this exact thing. ours was the email-verification step, killed it and conversion popped 2.1x. nobody on our team thought it was the issue</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>31</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar e">S</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@skeptical_founder</span>
+            <span class="c-time">&middot; 3 days ago</span>
+          </div>
+          <div class="r-body">tbh half these "activation" wins are just survivorship bias. you fixed 1 thing but your icp also matured. how would you tell those apart</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>11</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar d" style="background:linear-gradient(135deg,#606060,#1c1c1c);">I</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">Indie SaaS Builders</span>
+            <span class="creator-tag">Creator</span>
+            <span class="c-time">&middot; 2 days ago</span>
+          </div>
+          <div class="r-body">fwiw the worksheet on our site has a cohort split built in so you can rule that out before you touch the funnel. takes like 20 min, link's in the description</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>72</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Get The Activation Worksheet &rarr;</div>
+</body>
+</html>

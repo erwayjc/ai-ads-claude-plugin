@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f5f1ea;
+    font-family: "Inter", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .terminal {
+    width: 980px;
+    background: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+    overflow: hidden;
+  }
+  .chrome {
+    background: #2d2d2d;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+  }
+  .dots { display: flex; gap: 8px; }
+  .dot { width: 13px; height: 13px; border-radius: 50%; }
+  .dot.r { background: #ff5f56; }
+  .dot.y { background: #ffbd2e; }
+  .dot.g { background: #27c93f; }
+  .title {
+    flex: 1;
+    text-align: center;
+    color: #c0c0c0;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .body {
+    padding: 30px 36px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 17px;
+    line-height: 1.65;
+    color: #d4d4d4;
+    letter-spacing: 0.01em;
+  }
+  .prompt-user { color: #569cd6; font-weight: 600; }
+  .prompt-host { color: #d4d4d4; }
+  .prompt-path { color: #ce9178; }
+  .prompt-sym { margin-right: 6px; }
+  .cmd { color: #ffffff; }
+  .ok { color: #4ec9b0; font-weight: 700; }
+  .err { color: #f48771; font-weight: 700; }
+  .warn { color: #dcdcaa; }
+  .muted { color: #6a6a6a; }
+  .cyan { color: #4ec9b0; }
+  .num { color: #b5cea8; }
+  .pink { color: #c586c0; }
+  .pass-tag {
+    display: inline-block;
+    background: #0e3320;
+    color: #4ec9b0;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .fail-tag {
+    display: inline-block;
+    background: #3e1418;
+    color: #f48771;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+  .summary {
+    margin-top: 10px;
+    padding: 14px 18px;
+    background: #0e3320;
+    border-left: 4px solid #4ec9b0;
+    color: #4ec9b0;
+    font-weight: 700;
+    font-size: 19px;
+  }
+  .summary .small { color: #d4d4d4; font-weight: 400; font-size: 16px; display: block; margin-top: 4px; }
+  .punch {
+    margin-top: 12px;
+    color: #dcdcaa;
+    font-weight: 600;
+    font-size: 19px;
+  }
+  .punch .arrow { color: #4ec9b0; }
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background: #d4d4d4;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  .footer-pill {
+    margin-top: 26px;
+    background: #4ec9b0;
+    color: #0e3320;
+    padding: 16px 28px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 24px;
+    font-family: "Inter", sans-serif;
+  }
+</style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="chrome">
+      <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <div class="title">saas-founder-ops.log &mdash; bash &mdash; pnpm test:onboarding</div>
+      <div style="width:60px;"></div>
+    </div>
+    <div class="body">
+      <div><span class="prompt-user">saas-founder</span><span class="prompt-host">@ops</span>:<span class="prompt-path">~/onboarding</span><span class="prompt-sym">$</span> <span class="cmd">pnpm test:onboarding --reporter=verbose</span></div>
+      <br>
+      <div class="muted">RUN&nbsp;&nbsp;v1.4.2 &middot; ./tests/onboarding/*.spec.ts</div>
+      <br>
+      <div><span class="pass-tag">PASS</span><span class="muted">tests/onboarding/</span><span class="cyan">signup_email_verified</span> <span class="muted">(82ms)</span></div>
+      <div><span class="pass-tag">PASS</span><span class="muted">tests/onboarding/</span><span class="cyan">workspace_created</span> <span class="muted">(140ms)</span></div>
+      <div><span class="fail-tag">FAIL</span><span class="muted">tests/onboarding/</span><span class="warn">first_data_imported</span> <span class="muted">(timeout 90s)</span></div>
+      <div><span class="fail-tag">FAIL</span><span class="muted">tests/onboarding/</span><span class="warn">aha_moment_reached</span> <span class="muted">(timeout 90s)</span></div>
+      <div><span class="fail-tag">FAIL</span><span class="muted">tests/onboarding/</span><span class="warn">team_invited</span> <span class="muted">(skipped - prior failure)</span></div>
+      <div><span class="fail-tag">FAIL</span><span class="muted">tests/onboarding/</span><span class="warn">paid_conversion</span> <span class="muted">(skipped - prior failure)</span></div>
+      <br>
+      <div class="muted">&mdash; SUMMARY &mdash;</div>
+      <div><span class="cyan">Tests:</span> <span class="ok">2 passed</span>, <span class="err">4 failed</span> &middot; <span class="num">6 total</span></div>
+      <div><span class="cyan">Where:</span> <span class="warn">first_data_imported</span> <span class="muted">&larr; activation cliff</span></div>
+      <div><span class="cyan">Cost: </span> <span class="err">~$12,816 ARR/mo not converting</span></div>
+      <br>
+      <div class="summary">
+        [ READY ] activation teardown &middot; 30 min, no fluff
+        <span class="small">&rarr; saas-founder-ops.com/audit</span>
+      </div>
+      <div class="punch"><span class="arrow">&rarr;</span> pnpm run audit:book</div>
+      <div><span class="prompt-user">saas-founder</span><span class="prompt-host">@ops</span>:<span class="prompt-path">~/onboarding</span><span class="prompt-sym">$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+  <div class="footer-pill">Book Activation Audit &rarr;</div>
+</body>
+</html>

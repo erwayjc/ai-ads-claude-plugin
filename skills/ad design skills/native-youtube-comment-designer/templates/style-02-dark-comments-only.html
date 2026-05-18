@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #0f0f0f;
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 20px 22px 20px;
+    color: #fff;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .frame {
+    width: 1040px;
+    background: #0f0f0f;
+    border: 1px solid #272727;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 24px 30px;
+  }
+  /* Channel context bar */
+  .ch-bar {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 16px; border-bottom: 1px solid #272727;
+    margin-bottom: 8px;
+  }
+  .ch-avatar {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff7a59, #c92a2a);
+    color: #fff; font-weight: 700; font-size: 24px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ch-name { color: #fff; font-weight: 600; font-size: 24px; display: flex; align-items: center; gap: 6px; }
+  .ch-subs { color: #aaa; font-size: 19px; }
+  .subscribe {
+    margin-left: auto;
+    background: #fff; color: #0f0f0f;
+    padding: 10px 22px; border-radius: 100px; font-weight: 700; font-size: 19px;
+  }
+  .ch {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 20px; padding: 12px 0;
+    color: #fff;
+  }
+  .ch .count { font-weight: 700; }
+  .ch .sort { color: #fff; display: flex; align-items: center; gap: 6px; }
+  .pinned-tag {
+    color: #aaa; font-size: 17px; padding: 4px 0 8px 64px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .comment { display: flex; gap: 14px; padding: 4px 0; }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #635bff, #443ddb);
+    color: #fff; font-weight: 700; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .avatar.b { background: linear-gradient(135deg, #4ad991, #137e4c); }
+  .avatar.c { background: linear-gradient(135deg, #ffbe5a, #d97800); }
+  .avatar.d { background: linear-gradient(135deg, #b388ff, #5a2eb8); width: 40px; height: 40px; font-size: 18px; }
+  .avatar.e { background: linear-gradient(135deg, #6e8efb, #4a4af4); width: 40px; height: 40px; font-size: 18px; }
+  .c-content { flex: 1; min-width: 0; }
+  .c-head { display: flex; align-items: center; gap: 8px; font-size: 18px; }
+  .c-handle { color: #fff; font-weight: 600; }
+  .c-time { color: #aaa; }
+  .c-body { font-size: 23px; line-height: 1.45; color: #fff; margin-top: 6px; }
+  .hearted {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #272727; color: #aaa; font-size: 15px;
+    padding: 3px 9px; border-radius: 100px;
+    margin-top: 10px;
+    border: 1px solid #3a3a3a;
+  }
+  .hearted .h { color: #ff5757; }
+  .hearted .h-avatar {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff7a59, #c92a2a);
+    margin-right: -10px; margin-left: -8px;
+    border: 1px solid #272727;
+  }
+  .c-actions {
+    display: flex; align-items: center; gap: 18px;
+    margin-top: 10px; color: #aaa; font-size: 17px;
+  }
+  .c-actions .icon { font-size: 20px; }
+  .c-actions .replies { color: #3ea6ff; font-weight: 600; font-size: 17px; }
+  .replies-wrap {
+    margin-left: 66px; margin-top: 8px;
+    display: flex; flex-direction: column; gap: 12px;
+    padding-bottom: 14px; border-bottom: 1px solid #272727;
+  }
+  .reply { display: flex; gap: 12px; }
+  .r-head { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+  .r-body { font-size: 20px; line-height: 1.4; color: #fff; margin-top: 4px; }
+  .creator-tag {
+    background: #aaa; color: #0f0f0f; padding: 1px 7px; border-radius: 4px;
+    font-size: 14px; font-weight: 700; text-transform: uppercase;
+  }
+  .sibling { padding: 12px 0 4px 0; }
+  .cta-pill {
+    margin-top: 0;
+    background: #ff7a59; color: #0f0f0f;
+    font-weight: 800; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="ch-bar">
+      <div class="ch-avatar">AM</div>
+      <div>
+        <div class="ch-name">Agency Margins &#9989;</div>
+        <div class="ch-subs">42.1K subscribers</div>
+      </div>
+      <div class="subscribe">Subscribe</div>
+    </div>
+    <div class="ch">
+      <div class="count">184 Comments</div>
+      <div class="sort">&#8645; Sort by</div>
+    </div>
+    <div class="pinned-tag">&#128204; Pinned by Agency Margins</div>
+    <div class="comment">
+      <div class="avatar">D</div>
+      <div class="c-content">
+        <div class="c-head">
+          <span class="c-handle">@dani_solo_agency</span>
+          <span class="c-time">&middot; 3 days ago</span>
+        </div>
+        <div class="c-body">ran an 8-person agency on retainer pricing for 4 yrs, switched to the model from this video in jan. margin went from 14% to 38% in one quarter. didn't change the team. didn't change the clients. changed how we scoped and billed. the pricing math at 6:40 is what unlocked it for me tbh.</div>
+        <div class="hearted">
+          <span class="h-avatar"></span>
+          <span class="h">&hearts;</span>
+          <span>by Agency Margins</span>
+        </div>
+        <div class="c-actions">
+          <span class="icon">&#128077;</span><span>284</span>
+          <span class="icon">&#128078;</span>
+          <span>Reply</span>
+          <span class="replies">&#9656; View 11 replies</span>
+        </div>
+      </div>
+    </div>
+    <div class="replies-wrap">
+      <div class="reply">
+        <div class="avatar d">P</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@priya_runs_ops</span>
+            <span class="c-time">&middot; 2 days ago</span>
+          </div>
+          <div class="r-body">ngl this part broke me lol. we've been doing performance pricing thinking it was the future and our margin is somehow worse than retainer days</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>38</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar e">M</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@marcus_md_agency</span>
+            <span class="c-time">&middot; 1 day ago</span>
+          </div>
+          <div class="r-body">isn&rsquo;t this just retainer pricing with extra steps tho. genuine q, the slide at 7:12 looked like a normal retainer with a fancier name</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>9</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar d" style="background:linear-gradient(135deg,#aaa,#666);">A</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">Agency Margins</span>
+            <span class="creator-tag">Creator</span>
+            <span class="c-time">&middot; 14 hours ago</span>
+          </div>
+          <div class="r-body">fair q. it's a value-based ceiling, not a retainer floor &mdash; the difference is the cap structure, slide 7:40 is where it diverges. full breakdown's on the channel page if anyone wants the worksheet</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>52</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sibling">
+      <div class="comment">
+        <div class="avatar c">L</div>
+        <div class="c-content">
+          <div class="c-head">
+            <span class="c-handle">@lina_agency_eu</span>
+            <span class="c-time">&middot; 16 hours ago</span>
+          </div>
+          <div class="c-body">this whole video should be a checklist. saving for q2 planning</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>41</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Get The Pricing Worksheet &rarr;</div>
+</body>
+</html>

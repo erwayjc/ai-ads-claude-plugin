@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #221a14;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(140,100,60,0.20), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(0,0,0,0.4), transparent 60%);
+    font-family: 'Crimson Text', Georgia, serif;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 1032px;
+    min-height: 1032px;
+    background: #f6efdc;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.013) 0 2px, transparent 2px 4px);
+    border: 2px solid #3b2817;
+    padding: 44px 48px 36px 48px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.5);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .institution {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 3.5px;
+    color: #3b2817;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: #6b4423;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  .header-meta {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-top: 2px solid #3b2817;
+    border-bottom: 1px solid #6b4423;
+    margin-bottom: 22px;
+    font-size: 14px;
+    color: #3b2817;
+  }
+  .header-meta .field { display: flex; gap: 8px; align-items: baseline; }
+  .header-meta .lbl { text-transform: uppercase; letter-spacing: 1.3px; font-weight: 700; }
+  .header-meta .val { font-family: 'Caveat', cursive; font-size: 22px; line-height: 1; }
+  .compare-row {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr;
+    gap: 0;
+    margin-bottom: 16px;
+  }
+  .compare-row .col-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: #3b2817;
+    padding: 12px 12px;
+    border-bottom: 2px solid #3b2817;
+  }
+  .compare-row .col-head.center { text-align: center; }
+  .compare-row .col-head .ent {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #1a1a1a;
+    display: block;
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .row-grid {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr;
+    padding: 14px 0;
+    border-bottom: 1px solid #6b442355;
+    align-items: center;
+  }
+  .row-grid .subj {
+    padding: 0 12px;
+  }
+  .row-grid .subj-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #1a1a1a;
+  }
+  .row-grid .subj-desc {
+    font-size: 13.5px;
+    color: #6b4423;
+    font-style: italic;
+    margin-top: 3px;
+  }
+  .row-grid .col {
+    text-align: center;
+    padding: 0 12px;
+    border-left: 1px dashed #6b442366;
+  }
+  .row-grid .grade {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 40px;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .row-grid .grade.F { color: #991b1b; }
+  .row-grid .grade.D { color: #b45309; }
+  .row-grid .grade.C { color: #92400e; }
+  .row-grid .grade.B { color: #166534; }
+  .row-grid .grade.A { color: #166534; }
+  .row-grid .val-line {
+    font-size: 14px;
+    color: #3b2817;
+    margin-top: 4px;
+    font-family: 'Crimson Text', serif;
+  }
+  .gpa-row {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr;
+    padding: 18px 0;
+    margin-top: 6px;
+    border-top: 2px solid #3b2817;
+    border-bottom: 2px solid #3b2817;
+    background: rgba(107, 68, 35, 0.05);
+    align-items: center;
+  }
+  .gpa-row .lbl {
+    padding: 0 12px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.7px;
+    color: #3b2817;
+  }
+  .gpa-row .col {
+    text-align: center;
+    padding: 0 12px;
+    border-left: 1px dashed #6b442366;
+  }
+  .gpa-row .gpa-val {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 46px;
+    letter-spacing: -1.2px;
+    line-height: 1;
+  }
+  .gpa-row .gpa-val.bad { color: #991b1b; }
+  .gpa-row .gpa-val.good { color: #166534; }
+  .teacher-block {
+    margin-top: 22px;
+    padding: 18px 20px;
+    background: rgba(107, 68, 35, 0.06);
+    border-left: 4px solid #6b4423;
+  }
+  .teacher-block .lbl {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1.6px;
+    color: #6b4423;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .teacher-block .text {
+    font-size: 16px;
+    line-height: 1.55;
+    font-style: italic;
+    color: #1a1a1a;
+  }
+  .sig-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 22px;
+    padding-top: 14px;
+    border-top: 1px dashed #6b4423;
+  }
+  .sig {
+    text-align: center;
+  }
+  .sig .sig-line {
+    font-family: 'Caveat', cursive;
+    font-size: 30px;
+    color: #1a1a1a;
+    line-height: 1;
+  }
+  .sig .sig-name {
+    font-size: 12.5px;
+    color: #6b4423;
+    text-transform: uppercase;
+    letter-spacing: 1.1px;
+    border-top: 1px solid #6b4423;
+    padding-top: 4px;
+    margin-top: 4px;
+    min-width: 220px;
+  }
+  .recommended {
+    margin-top: 16px;
+    background: #1a1a1a;
+    color: #f6efdc;
+    padding: 16px 22px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 2px;
+    text-align: center;
+  }
+  .recommended strong { color: #fbbf24; letter-spacing: 1px; }
+  .stamp {
+    position: absolute;
+    top: 480px;
+    right: 40px;
+    transform: rotate(-10deg);
+    border: 5px solid #166534;
+    color: #166534;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 30px;
+    letter-spacing: 3.5px;
+    padding: 10px 18px;
+    border-radius: 4px;
+    opacity: 0.82;
+    background: rgba(246, 239, 220, 0.5);
+    line-height: 1.1;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="institution">AGENCY OPERATIONS AUDIT COUNCIL</div>
+    <div class="subtitle">— Q2 2026 Performance Comparison —</div>
+
+    <div class="header-meta">
+      <div class="field"><span class="lbl">Student:</span><span class="val">SaaS Founder ($1–5M ARR)</span></div>
+      <div class="field"><span class="lbl">Year:</span><span class="val">2026</span></div>
+      <div class="field"><span class="lbl">Class:</span><span class="val">GTM Operations 301</span></div>
+    </div>
+
+    <div class="compare-row">
+      <div class="col-head">Subject</div>
+      <div class="col-head center">Their Stack<span class="ent">Generic Agency</span></div>
+      <div class="col-head center">Our System<span class="ent">Embedded GTM</span></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">Lead Response Time</div>
+        <div class="subj-desc">Avg. inbound → first touch</div>
+      </div>
+      <div class="col"><span class="grade F">F</span><div class="val-line">6h 14m avg.</div></div>
+      <div class="col"><span class="grade A">A</span><div class="val-line">&lt; 4 min avg.</div></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">Attribution Clarity</div>
+        <div class="subj-desc">Source → MRR mapping</div>
+      </div>
+      <div class="col"><span class="grade D">D-</span><div class="val-line">First click only</div></div>
+      <div class="col"><span class="grade A">A-</span><div class="val-line">Multi-touch, MRR-tagged</div></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">Pipeline Predictability</div>
+        <div class="subj-desc">QoQ variance</div>
+      </div>
+      <div class="col"><span class="grade F">F</span><div class="val-line">±62% QoQ</div></div>
+      <div class="col"><span class="grade B">B+</span><div class="val-line">±9% QoQ</div></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">CAC Discipline</div>
+        <div class="subj-desc">Blended cost / new ARR</div>
+      </div>
+      <div class="col"><span class="grade C">C-</span><div class="val-line">$3,820 blended</div></div>
+      <div class="col"><span class="grade A">A</span><div class="val-line">$1,140 blended</div></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">Sales-Marketing SLA</div>
+        <div class="subj-desc">Joint pipeline review</div>
+      </div>
+      <div class="col"><span class="grade F">F</span><div class="val-line">Never held</div></div>
+      <div class="col"><span class="grade A">A</span><div class="val-line">Weekly · documented</div></div>
+    </div>
+
+    <div class="row-grid">
+      <div class="subj">
+        <div class="subj-name">Founder Hours Required</div>
+        <div class="subj-desc">Marketing oversight / week</div>
+      </div>
+      <div class="col"><span class="grade D">D</span><div class="val-line">12 hr/wk</div></div>
+      <div class="col"><span class="grade A">A</span><div class="val-line">1 hr/wk</div></div>
+    </div>
+
+    <div class="gpa-row">
+      <div class="lbl">Term GPA</div>
+      <div class="col"><span class="gpa-val bad">0.7</span></div>
+      <div class="col"><span class="gpa-val good">3.8</span></div>
+    </div>
+
+    <div class="teacher-block">
+      <div class="lbl">Faculty Comment — Dr. R. Halloran, Examiner</div>
+      <div class="text">"The current vendor arrangement is operating below remediation threshold. The student is advised to consider the embedded-GTM curriculum, which addresses every failing subject with a single integrated system rather than additive tooling."</div>
+    </div>
+
+    <div class="sig-row">
+      <div class="sig">
+        <div class="sig-line">R. Halloran</div>
+        <div class="sig-name">CHIEF EXAMINER</div>
+      </div>
+      <div class="sig">
+        <div class="sig-line">P. Singh</div>
+        <div class="sig-name">DEAN · GTM OPS</div>
+      </div>
+    </div>
+
+    <div class="recommended"><strong>RECOMMENDED:</strong> Audit your own GTM grades at walkthrough.example.com · See My Report →</div>
+
+    <div class="stamp">SWITCH<br>RECOMMENDED</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #1c1812;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(140,110,70,0.20), transparent 60%),
+      radial-gradient(circle at 80% 80%, rgba(0,0,0,0.5), transparent 60%);
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+  }
+  .paper {
+    width: 1036px;
+    min-height: 1036px;
+    background: #f0e6cf;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.014) 0 2px, transparent 2px 4px);
+    padding: 38px 42px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    position: relative;
+    color: #1a1a1a;
+    transform: rotate(0.4deg);
+    display: flex;
+    flex-direction: column;
+  }
+  .paper::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 30px;
+    right: 30px;
+    height: 14px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.18), transparent);
+    filter: blur(4px);
+  }
+  .masthead {
+    text-align: center;
+    border-bottom: 4px double #1a1a1a;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .masthead .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: 7px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .masthead .strap {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    color: #3b2817;
+  }
+  .section-strap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 2px solid #1a1a1a;
+    padding-bottom: 7px;
+    margin-bottom: 14px;
+  }
+  .section-strap .a {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .section-strap .b {
+    font-size: 13px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #3b2817;
+  }
+  .columns {
+    columns: 2;
+    column-gap: 32px;
+    column-rule: 1px solid #1a1a1a;
+    font-size: 16.5px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .listing {
+    break-inside: avoid;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px dotted #1a1a1a55;
+  }
+  .listing .head {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .listing .phone {
+    font-weight: 600;
+    color: #3b2817;
+  }
+  .col-head {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 17px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    margin: 16px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid #1a1a1a;
+    break-after: avoid;
+  }
+  .highlight {
+    break-inside: avoid;
+    background: #1a1a1a;
+    color: #f0e6cf;
+    padding: 20px 22px;
+    margin: 12px 0;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+  .highlight .head {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 23px;
+    letter-spacing: 1.2px;
+    color: #fbbf24;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .highlight .body {
+    font-family: 'IBM Plex Serif', serif;
+  }
+  .highlight .cta-pill {
+    display: inline-block;
+    margin-top: 12px;
+    background: #fbbf24;
+    color: #1a1a1a;
+    padding: 8px 16px;
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+  .highlight .small {
+    font-size: 13px;
+    color: #f0e6cf99;
+    margin-top: 8px;
+    display: block;
+    letter-spacing: 0.5px;
+  }
+  .footer-bar {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 2px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #3b2817;
+  }
+</style>
+</head>
+<body>
+  <div class="paper">
+    <div class="masthead">
+      <div class="title">The Daily Founder Gazette</div>
+      <div class="strap">
+        <span>EST. 2019</span>
+        <span>NO. 412 · CLASSIFIEDS EDITION</span>
+        <span>FRI · MAY 15, 2026</span>
+        <span>50¢</span>
+      </div>
+    </div>
+
+    <div class="section-strap">
+      <div class="a">MARKETING · AGENCIES & SERVICES FOR SAAS</div>
+      <div class="b">Page B-7 · Founder Classifieds</div>
+    </div>
+
+    <div class="columns">
+      <div class="col-head">SERVICES OFFERED</div>
+
+      <div class="listing"><span class="head">FRACTIONAL CMO</span> 12yr B2B SaaS, Series A-B. Retainer or hourly. <span class="phone">415-555-0167</span></div>
+      <div class="listing"><span class="head">PAID ADS MGMT</span> Google + Meta. SaaS-only book. References. <span class="phone">628-555-0211</span></div>
+      <div class="listing"><span class="head">SEO + CONTENT</span> Programmatic SEO for SaaS. 90-day pilots. content@svc.example</div>
+      <div class="listing"><span class="head">WEBFLOW DEV</span> Marketing site rebuild. 4-wk delivery. <span class="phone">510-555-0488</span></div>
+      <div class="listing"><span class="head">EMAIL LIFECYCLE</span> Customer.io / HubSpot. Drip + nurture build. <span class="phone">650-555-0119</span></div>
+      <div class="listing"><span class="head">DEMAND GEN</span> exp Series A → B SaaS. Pipeline-only billing. <span class="phone">415-555-0073</span></div>
+
+      <div class="highlight">
+        <span class="head">SAAS FOUNDERS ($1–5M ARR)</span>
+        <span class="body">Tired of agency-of-the-month? We embed as your GTM team. One retainer replaces 6 vendors. We own pipeline, not slide decks. 4 founders / mo accepted. Cancel anytime.</span>
+        <span class="cta-pill">See: walkthrough.example.com</span>
+        <span class="small">Inq. — 415-555-WALK · No cold pitching. Founders only.</span>
+      </div>
+
+      <div class="col-head">HELP WANTED</div>
+
+      <div class="listing"><span class="head">SDR</span> SaaS exp, outbound-first. OTE $90K. <span class="phone">408-555-0182</span></div>
+      <div class="listing"><span class="head">DEMAND GEN MGR</span> 3+yr, full-stack marketing. <span class="phone">650-555-0207</span></div>
+      <div class="listing"><span class="head">CONTENT WRITER</span> B2B, p/t freelance. Portfolio req. write@gig.example</div>
+      <div class="listing"><span class="head">PMM</span> Series A, remote OK. <span class="phone">415-555-0314</span></div>
+      <div class="listing"><span class="head">RECRUITER</span> seeking SaaS GTM roles. Founders contact. <span class="phone">650-555-0388</span></div>
+
+      <div class="col-head">FOR SALE / SOFTWARE</div>
+
+      <div class="listing"><span class="head">HUBSPOT SEATS</span> Pro tier, 5 seats transferable. half-off. <span class="phone">415-555-0444</span></div>
+      <div class="listing"><span class="head">APOLLO</span> annual unused, lge contact pool. <span class="phone">628-555-0399</span></div>
+      <div class="listing"><span class="head">USED MACBOOKS</span> 8x M2 Pro, ex-startup. By lot. <span class="phone">510-555-0277</span></div>
+      <div class="listing"><span class="head">DOMAIN</span> .ai 4-letter, premium. By inq. domains@trade.example</div>
+      <div class="listing"><span class="head">COWORK SEATS</span> 6 hot-desks, SF SoMa. $400/mo ea. <span class="phone">415-555-0102</span></div>
+      <div class="listing"><span class="head">SAAS DASHBOARD</span> abandoned MVP, code + figma. $4,500. <span class="phone">650-555-0511</span></div>
+      <div class="listing"><span class="head">DOMAIN AUCTION</span> 12 brandable, .io / .co. domains@trade.example</div>
+      <div class="listing"><span class="head">SERVERS</span> 4x bare-metal, retiring stack. By lot. <span class="phone">408-555-0144</span></div>
+    </div>
+
+    <div class="footer-bar">
+      <span>The Daily Founder Gazette</span>
+      <span>Place a classified: 1-800-555-GZTE</span>
+      <span>Section B</span>
+    </div>
+  </div>
+</body>
+</html>

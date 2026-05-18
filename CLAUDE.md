@@ -6,16 +6,12 @@ Guidance for Claude Code when working in this repo.
 
 A single-purpose project: design static image ads as HTML/CSS and render them to PNG with Playwright. Square format (1080×1080) by default.
 
-Just two skills:
-- **bold-text-designer** — 20 standalone HTML templates for bold-text billboard ads
-- **campaign-manager** — scaffolds per-campaign folders that define project, ICP, and offer
-
+All design skills live under `skills/ad design skills/`. 
 
 ## Before any work
 
-1. Read `skills/bold-text-designer/SKILL.md` — the design rules and the catalog of 20 styles.
-2. Read `skills/shared/HTML-RENDER-REFERENCE.md` — HTML structure standard and the render workflow.
-3. If working on a specific campaign, read `campaigns/{slug}/CAMPAIGN.md` for ICP and offer.
+1. Read `skills/shared/HTML-RENDER-REFERENCE.md` — HTML structure standard and the render workflow.
+2. If working on a specific campaign, read `campaigns/{slug}/CAMPAIGN.md` for ICP and offer.
 
 ## Defaults
 
@@ -44,9 +40,12 @@ html-ad-designer/
 │                   ├── {ad-name}.html ← rendered-design markup
 │                   └── {ad-name}.png  ← rendered PNG
 └── skills/
-    ├── bold-text-designer/
-    │   ├── SKILL.md
-    │   └── templates/style-XX.html
+    ├── ad design skills/        ← all 31 designer skills live here
+    │   ├── bold-text-designer/       (templates + SKILL.md)
+    │   ├── problem-solution-designer/ (templates + SKILL.md)
+    │   ├── system-visual-designer/    (templates + SKILL.md)
+    │   ├── chat-style-designer/       (SKILL.md only — no templates)
+    │   └── native-*-designer/         (27 single-format native skills; each SKILL.md only, composes from scratch)
     ├── campaign-manager/SKILL.md
     └── shared/
         ├── HTML-RENDER-REFERENCE.md
@@ -92,12 +91,12 @@ Two-pane editor: HTML on the left, live iframe preview on the right. Pick a temp
 **The cardinal rule: copy first, image second.** An ad without copy is not an ad. The image is just a render of the copy — it can never lead.
 
 1. If no campaign exists for this work, create one — see `skills/campaign-manager/SKILL.md`.
-2. Pick a starting template from `skills/bold-text-designer/templates/`.
+2. Pick a starting template from `skills/ad design skills/bold-text-designer/templates/` (or another design lane's templates).
 3. Create the ad folder: `campaigns/{slug}/ads/{descriptive-name}/`.
 4. Inside it, create `images/`. Copy the template into `images/{descriptive-name}.html`. Edit the CSS color variables and the visible text — headline, subtext, CTA, accent words.
 5. Render the PNG to the same place: `campaigns/{slug}/ads/{descriptive-name}/images/{descriptive-name}.png`.
 6. `COPY.md` and `copy.json` are auto-seeded at the ad root (via the editor or `backfill-copy.js`). Open `COPY.md` and clean up any auto-extraction quirks so the verbatim copy is right. Don't add interpretive sections — the file is just the copy.
-7. QC against the checklist in `skills/bold-text-designer/SKILL.md`.
+7. QC against the checklist in the relevant design lane's SKILL.md.
 
 If you'd rather use the editor, steps 3–6 collapse into: pick template, name ad, hit **Save & Render PNG**, then open the generated `COPY.md` and clean it up if needed.
 

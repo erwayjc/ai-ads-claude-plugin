@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #3a1010;
+    --bg-2: #2a0a0a;
+    --text: #f6ecdc;
+    --cream: #f6ecdc;
+    --muted: rgba(246,236,220,0.55);
+    --line: rgba(246,236,220,0.16);
+    --accent: #f4a737;
+    --reject: rgba(246,236,220,0.30);
+    --window-bg: #200707;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background:
+      radial-gradient(ellipse at 50% 40%, #4a1616 0%, var(--bg) 55%, var(--bg-2) 100%);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 56px 48px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* faint grid for engineered feel */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(246,236,220,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246,236,220,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .top {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .top-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+  .top-label em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .headline {
+    font-size: 70px;
+    font-weight: 900;
+    letter-spacing: -2.4px;
+    line-height: 0.95;
+    text-align: center;
+    flex: 1;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 3.4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 210px 1fr 230px;
+    gap: 22px;
+    align-items: stretch;
+    min-height: 800px;
+    margin-top: 22px;
+  }
+
+  /* INPUT column ------------------------------------ */
+  .col-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .col-label .num {
+    color: var(--cream);
+    margin-right: 6px;
+  }
+
+  .input-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .input-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    flex: 1;
+    justify-content: space-between;
+  }
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(246,236,220,0.025);
+  }
+  .input-row .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+  .input-row .txt {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--cream);
+    line-height: 1.15;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .input-row .meta {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+  }
+  /* flow arrows from input → filter */
+  .flow-in {
+    position: absolute;
+    right: -32px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .flow-in span {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  /* FILTER (middle cutaway) ------------------------- */
+  .filter-wrap {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: stretch;
+  }
+
+  .filter {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    background:
+      linear-gradient(180deg, #1a0505 0%, #0d0303 100%);
+    border: 1.5px solid var(--accent);
+    border-radius: 18px;
+    padding: 26px 20px 22px;
+    box-shadow:
+      inset 0 2px 0 rgba(244,167,55,0.20),
+      inset 0 -2px 0 rgba(0,0,0,0.5),
+      0 24px 60px rgba(0,0,0,0.5),
+      0 0 0 6px rgba(244,167,55,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .filter::before {
+    content: "CRITERIA FILTER";
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #2a0a0a;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2.4px;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .filter::after {
+    content: "SET BY YOU · ENFORCED PER CASE";
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.4px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 14px;
+    background: var(--window-bg);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    position: relative;
+    flex: 1;
+  }
+  .rule .rno {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .rule .rname {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .rule .rval {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .rule .rdesc {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-top: 5px;
+    letter-spacing: 0.2px;
+  }
+  .rule .rblock {
+    grid-column: 2;
+  }
+
+  .gate {
+    margin-top: 4px;
+    padding: 16px 14px;
+    border: 1px dashed var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(244,167,55,0.06);
+  }
+  .gate .glabel {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+  .gate .gop {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+    color: var(--cream);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  /* OUTPUT column ----------------------------------- */
+  .output-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .output-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    position: relative;
+    flex: 1;
+  }
+  .out-yes { flex: 1.4; }
+  .out-no { flex: 1; }
+  .flow-out {
+    position: absolute;
+    left: -34px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .flow-out span {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  .out {
+    padding: 18px 14px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .out-yes {
+    background: linear-gradient(180deg, rgba(244,167,55,0.18), rgba(244,167,55,0.06));
+    border: 1.5px solid var(--accent);
+    box-shadow: 0 0 0 5px rgba(244,167,55,0.07);
+  }
+  .out-yes .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #2a0a0a;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    margin-bottom: 9px;
+  }
+  .out-yes .big {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -0.8px;
+    color: var(--accent);
+    line-height: 0.95;
+  }
+  .out-yes .small {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+  .out-yes .tag {
+    margin-top: 9px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .out-no {
+    background: rgba(246,236,220,0.02);
+    border: 1px dashed var(--reject);
+    opacity: 0.85;
+  }
+  .out-no .badge {
+    display: inline-block;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--reject);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+  .out-no .big {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.4px;
+    color: var(--muted);
+    line-height: 1;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+  .out-no .small {
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .out-no .tag {
+    margin-top: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  .footer {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    color: var(--muted);
+    margin-top: 18px;
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 900; }
+
+  /* corner markers */
+  .corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--accent);
+    opacity: 0.5;
+  }
+  .corner.tl { top: 22px; left: 22px; border-right: 0; border-bottom: 0; }
+  .corner.tr { top: 22px; right: 22px; border-left: 0; border-bottom: 0; }
+  .corner.bl { bottom: 22px; left: 22px; border-right: 0; border-top: 0; }
+  .corner.br { bottom: 22px; right: 22px; border-left: 0; border-top: 0; }
+</style>
+</head>
+<body>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <div class="top">
+    <div class="top-label">CUTAWAY · STAGE <em>02</em>/04</div>
+    <div style="flex:1; text-align:center;">
+      <div class="headline">Filtered for <em>your firm.</em></div>
+      <div class="sub">Inside the criteria gate</div>
+    </div>
+    <div class="top-label">VIEW · <em>DETAIL</em></div>
+  </div>
+
+  <div class="stage">
+    <!-- INPUT -->
+    <div class="input-wrap">
+      <div class="col-label"><span class="num">IN</span>Referral candidates</div>
+      <div class="input-col">
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0481</div><div class="meta">MVA · $42k · in-area</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0482</div><div class="meta">Slip · $8k · in-area</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0483</div><div class="meta">Trucking · $180k · in-area</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0484</div><div class="meta">MVA · $26k · out-of-area</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0485</div><div class="meta">Premises · $55k · in-area</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0486</div><div class="meta">Workers' comp · n/a</div></div></div>
+        <div class="input-row"><div class="dot"></div><div><div class="txt">CAND_0487</div><div class="meta">MVA · $61k · in-area</div></div></div>
+        <div class="flow-in"><span>&#9656;</span><span>&#9656;</span><span>&#9656;</span></div>
+      </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="filter-wrap">
+      <div class="filter">
+        <div class="rule">
+          <div class="rno">R1</div>
+          <div class="rblock">
+            <div class="rname">Case type</div>
+            <div class="rdesc">MVA · Trucking · Premises</div>
+          </div>
+          <div class="rval">MATCH</div>
+        </div>
+        <div class="rule">
+          <div class="rno">R2</div>
+          <div class="rblock">
+            <div class="rname">Service area</div>
+            <div class="rdesc">Within your local radius</div>
+          </div>
+          <div class="rval">IN ZONE</div>
+        </div>
+        <div class="rule">
+          <div class="rno">R3</div>
+          <div class="rblock">
+            <div class="rname">Estimated value</div>
+            <div class="rdesc">Above your floor threshold</div>
+          </div>
+          <div class="rval">&ge; FLOOR</div>
+        </div>
+        <div class="rule">
+          <div class="rno">R4</div>
+          <div class="rblock">
+            <div class="rname">Firm capacity</div>
+            <div class="rdesc">Slot open this week</div>
+          </div>
+          <div class="rval">OPEN</div>
+        </div>
+        <div class="gate">
+          <div class="glabel">ALL 4 PASS?</div>
+          <div class="gop">AND &rarr; FORWARD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-wrap">
+      <div class="col-label"><span class="num">OUT</span>Two paths</div>
+      <div class="output-col">
+        <div class="flow-out"><span>&#9656;</span><span>&#9656;</span><span>&#9656;</span></div>
+        <div class="out out-yes">
+          <div class="badge">PASS</div>
+          <div class="big">FORWARDED</div>
+          <div class="small">Exclusive to you</div>
+          <div class="tag">never shared</div>
+        </div>
+        <div class="out out-no">
+          <div class="badge">FAIL</div>
+          <div class="big">Not your fit</div>
+          <div class="small">Rejected at gate</div>
+          <div class="tag">you don't pay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Pay only for what passes &middot; <em>performance-based</em></div>
+</body>
+</html>

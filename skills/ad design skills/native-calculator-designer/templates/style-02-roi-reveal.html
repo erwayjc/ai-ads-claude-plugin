@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: linear-gradient(160deg, #0b2a4a 0%, #154873 100%);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+  .annotation {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    margin-bottom: 14px;
+    text-align: center;
+    max-width: 980px;
+  }
+  .annotation .strong {
+    color: #4ade80;
+    font-weight: 800;
+  }
+  .phone {
+    width: 920px;
+    height: 920px;
+    background: #1c1c1e;
+    border-radius: 56px;
+    padding: 14px;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.45);
+    border: 1.5px solid #2a2a2c;
+  }
+  .screen {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 38px 4px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .status-right {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .signal-bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .signal-bars span { width: 3px; background: #fff; border-radius: 1px; }
+  .signal-bars span:nth-child(1) { height: 4px; }
+  .signal-bars span:nth-child(2) { height: 6px; }
+  .signal-bars span:nth-child(3) { height: 9px; }
+  .signal-bars span:nth-child(4) { height: 12px; }
+  .battery {
+    width: 26px; height: 12px; border: 1.5px solid #fff; border-radius: 3px;
+    position: relative; padding: 1.5px;
+  }
+  .battery::after {
+    content: ""; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 4px; background: #fff; border-radius: 0 1px 1px 0;
+  }
+  .battery-fill { width: 90%; height: 100%; background: #4ade80; border-radius: 1px; }
+  .inline-annotation {
+    color: #9aa4b2;
+    font-size: 19px;
+    font-weight: 500;
+    text-align: right;
+    padding: 18px 30px 0;
+    letter-spacing: -0.1px;
+  }
+  .display-area {
+    padding: 4px 28px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .history {
+    color: #8e8e93;
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .display {
+    color: #4ade80;
+    font-size: 160px;
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: -3px;
+    font-variant-numeric: tabular-nums;
+  }
+  .display .small {
+    font-size: 56px;
+    color: #4ade80;
+    font-weight: 300;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+  .receipt-line {
+    color: #ffffff;
+    text-align: right;
+    font-size: 22px;
+    font-weight: 500;
+    padding: 6px 30px 14px;
+    border-bottom: 1px dashed #2a2a2c;
+    margin: 0 14px 14px;
+    letter-spacing: -0.2px;
+  }
+  .receipt-line .arrow { color: #4ade80; }
+  .buttons {
+    flex: 1;
+    padding: 0 14px 18px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 12px;
+  }
+  .btn {
+    border-radius: 999px;
+    color: #fff;
+    font-size: 38px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn.dark { background: #333333; }
+  .btn.light { background: #a5a5a5; color: #000; font-weight: 500; }
+  .btn.accent { background: #f1a33c; }
+  .btn.zero {
+    grid-column: span 2;
+    border-radius: 999px;
+    justify-content: flex-start;
+    padding-left: 38px;
+  }
+  .footer-pill {
+    margin-top: 14px;
+    background: #4ade80;
+    color: #052e16;
+    padding: 14px 32px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: -0.2px;
+  }
+  .btn { font-size: 44px; }
+</style>
+</head>
+<body>
+  <div class="annotation">If you're a <span class="strong">SaaS founder</span> &mdash; this is what one fixed onboarding step returns</div>
+  <div class="phone">
+    <div class="screen">
+      <div class="status">
+        <span>SaaS Founder</span>
+        <div class="status-right">
+          <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+          <span style="font-size:14px;letter-spacing:-0.3px;">5G</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+      <div class="inline-annotation">trial &rarr; paid lift on 800 signups/mo</div>
+      <div class="display-area">
+        <div class="history">800 &times; $89 &times; 0.18&nbsp;=</div>
+        <div class="display">$12,816<span class="small">/mo</span></div>
+      </div>
+      <div class="receipt-line"><span class="arrow">&rarr;</span> See the onboarding teardown</div>
+      <div class="buttons">
+        <div class="btn light">AC</div>
+        <div class="btn light">+/-</div>
+        <div class="btn light">%</div>
+        <div class="btn accent">&divide;</div>
+        <div class="btn dark">7</div>
+        <div class="btn dark">8</div>
+        <div class="btn dark">9</div>
+        <div class="btn accent">&times;</div>
+        <div class="btn dark">4</div>
+        <div class="btn dark">5</div>
+        <div class="btn dark">6</div>
+        <div class="btn accent">-</div>
+        <div class="btn dark">1</div>
+        <div class="btn dark">2</div>
+        <div class="btn dark">3</div>
+        <div class="btn accent">+</div>
+        <div class="btn dark zero">0</div>
+        <div class="btn dark">.</div>
+        <div class="btn accent">=</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-pill">Book Onboarding Audit &rarr;</div>
+</body>
+</html>

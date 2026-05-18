@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #0d0d1a;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .phone {
+    width: 800px;
+    height: 980px;
+    background: #000;
+    color: #fff;
+    border-radius: 56px;
+    border: 8px solid #111;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,.4);
+  }
+  .status-bar {
+    height: 52px; padding: 0 36px; display: flex;
+    align-items: center; justify-content: space-between;
+    color: #fff; font-size: 22px; font-weight: 600;
+  }
+  .signals { display: flex; align-items: center; gap: 6px; font-size: 18px; }
+  .battery { width: 32px; height: 16px; border: 2px solid #fff; border-radius: 4px; padding: 2px; position: relative; }
+  .battery::after { content:""; position:absolute; right:-5px; top:4px; width:3px; height:6px; background:#fff; border-radius:0 2px 2px 0; }
+  .battery > span { display:block; height:100%; width:42%; background:#fff; border-radius:1px; }
+  .header {
+    border-bottom: 1px solid #262626;
+    padding: 8px 18px 14px 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .back { color: #fff; font-size: 28px; }
+  .profile-pic {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #4ad991, #137e4c);
+    padding: 3px;
+  }
+  .profile-pic > div {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: #111;
+    color: #fff; font-weight: 700; font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #000;
+  }
+  .name-block { flex: 1; }
+  .display-name { font-size: 26px; font-weight: 700; color: #fff; }
+  .handle { font-size: 18px; color: #a8a8a8; font-weight: 400; }
+  .active { font-size: 15px; color: #4ad991; margin-top: 1px; display: flex; align-items: center; gap: 5px; }
+  .active::before { content:""; width: 8px; height: 8px; background: #4ad991; border-radius: 50%; display:inline-block; }
+  .header-icons { display: flex; gap: 18px; align-items: center; color: #fff; font-size: 24px; }
+  .conv { flex: 1; padding: 18px 16px 6px 16px; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
+  .bubble {
+    max-width: 78%; padding: 14px 18px; border-radius: 22px;
+    font-size: 24px; line-height: 1.35;
+  }
+  .received { background: #262626; color: #fff; align-self: flex-start; }
+  .sent {
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    color: #fff; align-self: flex-end;
+  }
+  .vn-bubble {
+    align-self: flex-end; max-width: 80%;
+    background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    color: #fff;
+    padding: 12px 18px; border-radius: 100px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .vn-play {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center;
+    font-size: 18px;
+  }
+  .waveform {
+    flex: 1; height: 30px;
+    display: flex; align-items: center; gap: 3px;
+  }
+  .waveform span {
+    width: 4px; background: rgba(255,255,255,.8); border-radius: 2px; display:inline-block;
+  }
+  .vn-duration { font-size: 18px; font-weight: 600; }
+  .vn-caption { font-size: 16px; color: #a8a8a8; align-self: flex-end; margin-right: 8px; margin-top: -4px; }
+  .seen { align-self: flex-end; color: #a8a8a8; font-size: 14px; margin-top: 4px; margin-right: 4px; }
+  .input-bar {
+    border-top: 1px solid #262626;
+    padding: 14px 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .cam-circle {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
+    color: #fff; display:flex; align-items:center; justify-content:center; font-size: 18px;
+  }
+  .input-field {
+    flex: 1; border: 1px solid #363636; border-radius: 100px;
+    padding: 10px 16px; font-size: 18px; color: #a8a8a8;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .input-field .icons { display: flex; gap: 12px; font-size: 18px; color: #fff; }
+  .cta-pill {
+    margin-top: 24px;
+    background: #fff; color: #0d0d1a;
+    font-weight: 800; font-size: 26px;
+    padding: 18px 40px; border-radius: 100px;
+    letter-spacing: 0.2px;
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="status-bar">
+      <span>3:42</span>
+      <div class="signals">
+        <span>&bull;&bull;&bull;&bull;</span>
+        <span>5G</span>
+        <span class="battery"><span></span></span>
+      </div>
+    </div>
+    <div class="header">
+      <div class="back">&lsaquo;</div>
+      <div class="profile-pic"><div>d</div></div>
+      <div class="name-block">
+        <div class="display-name">dani &middot; agency owner</div>
+        <div class="handle">@dani.runs.an.agency</div>
+        <div class="active">Active now</div>
+      </div>
+      <div class="header-icons">
+        <span>&#9742;</span>
+        <span>&#9658;</span>
+      </div>
+    </div>
+    <div class="conv">
+      <div class="bubble received">hey so i finally watched your loom on the retainer model thing</div>
+      <div class="bubble received">we&rsquo;ve been doing performance pricing for 4 months and i swear we&rsquo;re working harder for less money &#128557;</div>
+      <div class="bubble sent">yeah i went thru that exact thing in 2024</div>
+      <div class="bubble sent">recorded a walkthru of the new model last week if you want the full version</div>
+      <div class="vn-bubble">
+        <div class="vn-play">&#9658;</div>
+        <div class="waveform">
+          <span style="height:6px"></span><span style="height:14px"></span><span style="height:22px"></span>
+          <span style="height:18px"></span><span style="height:26px"></span><span style="height:12px"></span>
+          <span style="height:20px"></span><span style="height:28px"></span><span style="height:16px"></span>
+          <span style="height:24px"></span><span style="height:10px"></span><span style="height:18px"></span>
+          <span style="height:22px"></span><span style="height:14px"></span><span style="height:26px"></span>
+          <span style="height:8px"></span><span style="height:20px"></span><span style="height:24px"></span>
+          <span style="height:12px"></span><span style="height:18px"></span><span style="height:22px"></span>
+          <span style="height:14px"></span><span style="height:8px"></span><span style="height:16px"></span>
+          <span style="height:24px"></span><span style="height:20px"></span><span style="height:12px"></span>
+        </div>
+        <div class="vn-duration">0:47</div>
+      </div>
+      <div class="vn-caption">walkthrough &middot; the new retainer math</div>
+      <div class="seen">Seen 1m ago</div>
+    </div>
+    <div class="input-bar">
+      <div class="cam-circle">&#128247;</div>
+      <div class="input-field">
+        <span>Message...</span>
+        <div class="icons"><span>&#127908;</span><span>GIF</span><span>&#128579;</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Hear The Walkthrough &rarr;</div>
+</body>
+</html>

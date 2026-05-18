@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #d9e3ee;
+    font-family: "Inter", "Roboto", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .phone {
+    width: 820px;
+    height: 1020px;
+    background: #000;
+    border-radius: 56px;
+    padding: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .notch {
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 32px; background: #000;
+    border-radius: 20px; z-index: 5;
+  }
+  .screen {
+    width: 100%; height: 100%; background: #ffffff;
+    border-radius: 44px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 38px 4px; color: #000;
+    font-size: 18px; font-weight: 700; height: 44px;
+  }
+  .status-right { display: flex; gap: 6px; align-items: center; }
+  .signal-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .signal-bars span { width: 3px; background: #000; border-radius: 1px; }
+  .signal-bars span:nth-child(1) { height: 4px; }
+  .signal-bars span:nth-child(2) { height: 6px; }
+  .signal-bars span:nth-child(3) { height: 9px; }
+  .signal-bars span:nth-child(4) { height: 12px; }
+  .battery {
+    width: 26px; height: 12px; border: 1.5px solid #000; border-radius: 3px;
+    position: relative; padding: 1.5px;
+  }
+  .battery::after {
+    content: ""; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 4px; background: #000; border-radius: 0 1px 1px 0;
+  }
+  .battery-fill { width: 80%; height: 100%; background: #000; border-radius: 1px; }
+  .logo-wrap {
+    text-align: center;
+    margin: 30px 0 22px;
+  }
+  .logo {
+    font-size: 54px;
+    font-weight: 500;
+    letter-spacing: -2px;
+  }
+  .logo .b { color: #4285F4; }
+  .logo .r { color: #DB4437; }
+  .logo .y { color: #F4B400; }
+  .logo .b2 { color: #4285F4; }
+  .logo .g { color: #0F9D58; }
+  .logo .r2 { color: #DB4437; }
+  .search-bar {
+    margin: 0 20px;
+    background: #ffffff;
+    border: 1px solid #dfe1e5;
+    border-radius: 28px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 6px rgba(32,33,36,0.12);
+    font-size: 20px;
+    color: #000;
+  }
+  .search-bar .left {
+    width: 18px; height: 18px;
+    border: 2.5px solid #5f6368;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .search-bar .left::after {
+    content: ""; position: absolute;
+    right: -7px; bottom: -6px;
+    width: 9px; height: 3px;
+    background: #5f6368;
+    transform: rotate(45deg);
+  }
+  .search-bar .query {
+    flex: 1;
+    font-weight: 500;
+    color: #202124;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .search-bar .cursor {
+    display: inline-block;
+    width: 2px; height: 24px;
+    background: #1a73e8;
+    vertical-align: middle;
+    margin-left: 1px;
+  }
+  .search-bar .mic {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .search-bar .lens {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .divider {
+    height: 1px;
+    background: #e8eaed;
+    margin: 6px 22px 0;
+  }
+  .suggestions { padding: 4px 0; }
+  .sug-row {
+    display: flex;
+    align-items: center;
+    padding: 18px 22px;
+    gap: 18px;
+    font-size: 21px;
+  }
+  .sug-row .icon-left {
+    color: #5f6368;
+    font-size: 18px;
+    width: 22px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sug-row .ico-search {
+    width: 18px; height: 18px;
+    border: 2.5px solid #5f6368;
+    border-radius: 50%;
+    position: relative;
+  }
+  .sug-row .ico-search::after {
+    content: ""; position: absolute;
+    right: -7px; bottom: -6px;
+    width: 9px; height: 3px;
+    background: #5f6368;
+    transform: rotate(45deg);
+  }
+  .sug-text { flex: 1; color: #202124; }
+  .sug-text .pre { font-weight: 400; }
+  .sug-text .bold { font-weight: 700; }
+  .sug-row .icon-right {
+    color: #9aa0a6;
+    font-size: 24px;
+    line-height: 1;
+    width: 24px;
+    text-align: right;
+  }
+  .sug-row.cta .sug-text .bold {
+    font-weight: 700;
+  }
+  .sug-row.cta .icon-left {
+    color: #1a73e8;
+  }
+  .keyboard {
+    margin-top: auto;
+    background: #d1d4d9;
+    padding: 10px 6px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .kb-row {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+  .kb-row.row-3 { gap: 5px; }
+  .key {
+    flex: 1;
+    max-width: 60px;
+    height: 42px;
+    background: #ffffff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 400;
+    color: #000;
+    box-shadow: 0 1px 0 #898a8d;
+  }
+  .key.wide { flex: 1.4; max-width: 84px; background: #adb3bd; color: #000; font-size: 14px; }
+  .key.space { flex: 5; max-width: none; }
+  .footer-pill {
+    margin-top: 18px;
+    background: #1a73e8;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.2px;
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="status">
+        <span>9:41</span>
+        <div class="status-right">
+          <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+          <span style="font-size:14px;letter-spacing:-0.3px;">5G</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+      <div class="logo-wrap">
+        <div class="logo"><span class="b">F</span><span class="r">i</span><span class="y">n</span><span class="b2">d</span><span class="g">l</span><span class="r2">y</span></div>
+      </div>
+      <div class="search-bar">
+        <div class="left"></div>
+        <div class="query">how do pi firms get leads to call back the same<span class="cursor"></span></div>
+        <div class="mic">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" fill="#4285F4"/>
+            <path d="M19 11a7 7 0 1 1-14 0M12 18v4M8 22h8" stroke="#202124" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="lens">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="6" width="18" height="14" rx="2" stroke="#202124" stroke-width="2"/>
+            <circle cx="12" cy="13" r="3.5" stroke="#DB4437" stroke-width="2"/>
+            <path d="M8 6l1.5-2h5L16 6" stroke="#202124" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="suggestions">
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">how do pi firms get leads to call back the same </span><span class="bold">day</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">how do pi firms get leads to call back </span><span class="bold">faster than competitors</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left">&#128276;</div>
+          <div class="sug-text"><span class="pre">pi firm intake </span><span class="bold">response time benchmark 2026</span></div>
+          <div class="icon-right">&#8599;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">why do pi leads </span><span class="bold">go silent after the form</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row cta">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">how to book a </span><span class="bold">pi-firm growth walkthrough</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">pi intake script that </span><span class="bold">closes more retainers</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">how to recover </span><span class="bold">unsigned pi leads from last 30 days</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+        <div class="sug-row">
+          <div class="icon-left"><div class="ico-search"></div></div>
+          <div class="sug-text"><span class="pre">best </span><span class="bold">intake software for personal injury firms 2026</span></div>
+          <div class="icon-right">&#8598;</div>
+        </div>
+      </div>
+      <div class="keyboard">
+        <div class="kb-row">
+          <div class="key">q</div><div class="key">w</div><div class="key">e</div><div class="key">r</div><div class="key">t</div><div class="key">y</div><div class="key">u</div><div class="key">i</div><div class="key">o</div><div class="key">p</div>
+        </div>
+        <div class="kb-row">
+          <div class="key">a</div><div class="key">s</div><div class="key">d</div><div class="key">f</div><div class="key">g</div><div class="key">h</div><div class="key">j</div><div class="key">k</div><div class="key">l</div>
+        </div>
+        <div class="kb-row row-3">
+          <div class="key wide">&#8679;</div><div class="key">z</div><div class="key">x</div><div class="key">c</div><div class="key">v</div><div class="key">b</div><div class="key">n</div><div class="key">m</div><div class="key wide">&#9003;</div>
+        </div>
+        <div class="kb-row">
+          <div class="key wide">123</div><div class="key wide" style="max-width:64px;">&#127760;</div><div class="key space">space</div><div class="key wide">search</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-pill">Book PI Walkthrough &rarr;</div>
+</body>
+</html>

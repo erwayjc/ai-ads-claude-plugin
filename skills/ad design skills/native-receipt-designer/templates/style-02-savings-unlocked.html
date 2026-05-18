@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #1c1f24;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0,0,0,0.4), transparent 60%);
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    color: #1a1a1a;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 30px;
+  }
+  .receipt-wrap {
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .perf-top, .perf-bot {
+    width: 1000px;
+    height: 20px;
+    display: block;
+  }
+  .receipt {
+    width: 1000px;
+    background: #f8f4ea;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.013) 0 2px, transparent 2px 4px);
+    padding: 40px 52px 44px 52px;
+    font-size: 22px;
+    line-height: 1.5;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+    color: #1c1c1c;
+    transform: rotate(-0.6deg);
+  }
+  .biz {
+    text-align: center;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 2.5px;
+    margin-bottom: 6px;
+  }
+  .biz-sub {
+    text-align: center;
+    font-size: 17px;
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .dotted {
+    border-top: 2px dashed #1c1c1c;
+    margin: 16px 0;
+    opacity: 0.55;
+  }
+  .section-label {
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 21px;
+    margin-bottom: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .item .desc { white-space: pre; }
+  .item .amt { white-space: pre; }
+  .item.savings { color: #047857; font-weight: 700; }
+  .totals .total {
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+    padding: 14px 0;
+    border-top: 2.5px solid #1c1c1c;
+    border-bottom: 4px double #1c1c1c;
+    color: #047857;
+  }
+  .footer-note {
+    text-align: center;
+    font-size: 17px;
+    margin-top: 20px;
+    line-height: 1.6;
+    letter-spacing: 0.4px;
+  }
+  .barcode {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+    gap: 2px;
+  }
+  .bar {
+    height: 48px;
+    background: #1c1c1c;
+  }
+  .barcode-num {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 5px;
+    margin-top: 5px;
+  }
+  .stamp {
+    position: absolute;
+    top: 580px;
+    right: 90px;
+    transform: rotate(-11deg);
+    color: #047857;
+    border: 5px double #047857;
+    padding: 14px 26px;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: 3px;
+    background: rgba(248, 244, 234, 0.85);
+    text-align: center;
+    line-height: 1.1;
+    pointer-events: none;
+  }
+  .stamp .small {
+    display: block;
+    font-size: 16px;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+  <div class="receipt-wrap">
+    <svg class="perf-top" viewBox="0 0 660 14" preserveAspectRatio="none">
+      <polygon fill="#f8f4ea" points="0,14 0,7 13,14 26,7 39,14 52,7 65,14 78,7 91,14 104,7 117,14 130,7 143,14 156,7 169,14 182,7 195,14 208,7 221,14 234,7 247,14 260,7 273,14 286,7 299,14 312,7 325,14 338,7 351,14 364,7 377,14 390,7 403,14 416,7 429,14 442,7 455,14 468,7 481,14 494,7 507,14 520,7 533,14 546,7 559,14 572,7 585,14 598,7 611,14 624,7 637,14 650,7 660,14"/>
+    </svg>
+    <div class="receipt">
+      <div class="biz">AGENCY OPERATIONS SHOP</div>
+      <div class="biz-sub">— SAVINGS DEPT · LANE 7 —</div>
+      <div class="meta-row">
+        <span>05/15/2026  09:14</span>
+        <span>TXN# 12-AGY-Q2</span>
+      </div>
+      <div class="meta-row">
+        <span>CASHIER: SAM</span>
+        <span>CUST: AGENCY OWNER</span>
+      </div>
+
+      <div class="dotted"></div>
+      <div class="section-label">PRIOR-STACK COMPARISON</div>
+
+      <div class="item"><span class="desc">HubSpot Marketing Pro..</span><span class="amt">$   890.00</span></div>
+      <div class="item"><span class="desc">Apollo prospecting.....</span><span class="amt">$   520.00</span></div>
+      <div class="item"><span class="desc">Calendly + Zapier......</span><span class="amt">$   180.00</span></div>
+      <div class="item"><span class="desc">Outsourced SDR.........</span><span class="amt">$ 3,500.00</span></div>
+      <div class="item"><span class="desc">Contractor — campaigns.</span><span class="amt">$ 2,400.00</span></div>
+      <div class="item"><span class="desc">Reporting dashboard....</span><span class="amt">$   240.00</span></div>
+      <div class="item"><span class="desc">Slack/Loom/Notion ops..</span><span class="amt">$   180.00</span></div>
+      <div class="item"><span class="desc">Misc tools x6..........</span><span class="amt">$   390.00</span></div>
+      <div class="item"><span class="desc">Contract dev ops.......</span><span class="amt">$   320.00</span></div>
+      <div class="item"><span class="desc">QA + review cycles.....</span><span class="amt">$   180.00</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="section-label">UNIFIED SYSTEM — APPLIED</div>
+
+      <div class="item"><span class="desc">Full agency stack......</span><span class="amt">$ 2,800.00</span></div>
+      <div class="item savings"><span class="desc">Discount (consolidation)</span><span class="amt">$-6,000.00</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="totals">
+        <div class="item"><span class="desc">Prior subtotal.........</span><span class="amt">$ 8,800.00</span></div>
+        <div class="item"><span class="desc">New subtotal...........</span><span class="amt">$ 2,800.00</span></div>
+        <div class="item total"><span class="desc">SAVED / MO.............</span><span class="amt">$ 6,000.00</span></div>
+      </div>
+
+      <div class="footer-note">
+        x 12 MONTHS = $72,000 SAVED/YR<br>
+        — — — — — — — — — — — — — — —<br>
+        THANK YOU, AGENCY OWNER<br>
+        See your itemized swap: walkthrough.example.com<br>
+        — — — — — — — — — — — — — — —<br>
+        SAVE THIS RECEIPT →
+      </div>
+
+      <div class="barcode">
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:2px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:3px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:1px;"></div>
+        <div class="bar" style="width:4px;"></div>
+        <div class="bar" style="width:2px;"></div>
+      </div>
+      <div class="barcode-num">A G Y  1 2 0 5 2 6  S A V E D</div>
+    </div>
+    <svg class="perf-bot" viewBox="0 0 660 14" preserveAspectRatio="none">
+      <polygon fill="#f8f4ea" points="0,0 0,7 13,0 26,7 39,0 52,7 65,0 78,7 91,0 104,7 117,0 130,7 143,0 156,7 169,0 182,7 195,0 208,7 221,0 234,7 247,0 260,7 273,0 286,7 299,0 312,7 325,0 338,7 351,0 364,7 377,0 390,7 403,0 416,7 429,0 442,7 455,0 468,7 481,0 494,7 507,0 520,7 533,0 546,7 559,0 572,7 585,0 598,7 611,0 624,7 637,0 650,7 660,0"/>
+    </svg>
+    <div class="stamp">REFUND<span class="small">UNLOCKED</span></div>
+  </div>
+</body>
+</html>

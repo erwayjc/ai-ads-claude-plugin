@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #1a1f2e;
+    font-family: "Inter", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 28px 40px 24px;
+  }
+  .terminal {
+    width: 1010px;
+    background: #0d1117;
+    border-radius: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    overflow: hidden;
+    border: 1px solid #1f2937;
+  }
+  .chrome {
+    background: #161b22;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    border-bottom: 1px solid #1f2937;
+  }
+  .dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+  }
+  .dot.r { background: #ff5f56; }
+  .dot.y { background: #ffbd2e; }
+  .dot.g { background: #27c93f; }
+  .title {
+    flex: 1;
+    text-align: center;
+    color: #8b949e;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+  .body {
+    padding: 30px 36px;
+    font-family: "JetBrains Mono", "Menlo", "SF Mono", monospace;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #c9d1d9;
+    letter-spacing: 0.01em;
+  }
+  .prompt-user { color: #7ee787; font-weight: 600; }
+  .prompt-host { color: #c9d1d9; }
+  .prompt-path { color: #79c0ff; }
+  .prompt-sym { color: #c9d1d9; margin-right: 6px; }
+  .cmd { color: #ffffff; }
+  .ok { color: #7ee787; }
+  .warn { color: #f0883e; }
+  .err { color: #ff7b72; }
+  .muted { color: #6e7681; }
+  .accent { color: #d2a8ff; }
+  .cyan { color: #79c0ff; }
+  .key { color: #79c0ff; }
+  .val { color: #c9d1d9; }
+  .num { color: #f0883e; font-weight: 600; }
+  .punch {
+    color: #ffa657;
+    font-weight: 700;
+  }
+  .punch-banner {
+    margin: 14px 0 6px;
+    color: #ffa657;
+    font-weight: 700;
+    font-size: 22px;
+    padding: 6px 0;
+    border-top: 1px dashed #30363d;
+    border-bottom: 1px dashed #30363d;
+  }
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 22px;
+    background: #c9d1d9;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+  .footer-pill {
+    margin-top: 26px;
+    background: #ff7b29;
+    color: #0d1117;
+    padding: 16px 28px;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.2px;
+    font-family: "Inter", sans-serif;
+  }
+  .timestamp { color: #484f58; }
+  .table-row { display: block; }
+</style>
+</head>
+<body>
+  <div class="terminal">
+    <div class="chrome">
+      <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <div class="title">pi-firm-diagnostic.log &mdash; zsh &mdash; 120x36</div>
+      <div style="width:60px;"></div>
+    </div>
+    <div class="body">
+      <div><span class="prompt-user">pi-firm</span><span class="prompt-host">@growth</span>:<span class="prompt-path">~/intake</span><span class="prompt-sym">$</span> <span class="cmd">./audit-intake-pipeline.sh --month=2026-04</span></div>
+      <div class="muted">[2026-05-17 02:14:33] starting pipeline audit for personal injury firm...</div>
+      <div class="muted">[2026-05-17 02:14:33] connecting to intake.db...</div>
+      <div><span class="ok">[OK]</span> <span class="muted">database connected</span></div>
+      <div><span class="ok">[OK]</span> <span class="muted">scanning lead events 2026-04-01 -&gt; 2026-04-30</span></div>
+      <br>
+      <div class="muted">&mdash; INTAKE FUNNEL &mdash;</div>
+      <div><span class="key">leads_received</span> <span class="muted">..............</span> <span class="val">218</span></div>
+      <div><span class="key">contacted_within_5min</span> <span class="muted">.......</span> <span class="err">12</span> <span class="muted">(5.5%)</span></div>
+      <div><span class="key">avg_first_response</span> <span class="muted">..........</span> <span class="warn">4h 33m</span></div>
+      <div><span class="key">competitor_already_signed</span> <span class="muted">...</span> <span class="err">147</span> <span class="muted">(67.4%)</span></div>
+      <div><span class="key">retainers_signed</span> <span class="muted">.............</span> <span class="ok">18</span> <span class="muted">(8.2%)</span></div>
+      <br>
+      <div><span class="warn">[WARN]</span> <span class="muted">147 leads lost while inbox was unread</span></div>
+      <div><span class="warn">[WARN]</span> <span class="muted">avg signup-to-call latency exceeds market p50 by 4.1h</span></div>
+      <div><span class="err">[CRIT]</span> <span class="muted">estimated revenue leak:</span> <span class="punch">$1,323,000 / mo</span></div>
+      <div class="muted">[2026-05-17 02:14:39] generating teardown payload...</div>
+      <div><span class="ok">[OK]</span> <span class="muted">recommended fix bundle: SLA-monitor + retainer-callback-loop</span></div>
+      <br>
+      <div class="punch-banner">[ READY ] book the 30-min intake teardown &rarr; pi-firm-growth.com/walkthrough</div>
+      <div><span class="prompt-user">pi-firm</span><span class="prompt-host">@growth</span>:<span class="prompt-path">~/intake</span><span class="prompt-sym">$</span> <span class="cmd">./book-walkthrough.sh --slot=next-available</span></div>
+      <div class="muted">[2026-05-17 02:14:42] holding 4 slots for the next 72h</div>
+      <div><span class="ok">[OK]</span> <span class="muted">curl -sSf pi-firm-growth.com/walkthrough | sh</span></div>
+      <div><span class="prompt-user">pi-firm</span><span class="prompt-host">@growth</span>:<span class="prompt-path">~/intake</span><span class="prompt-sym">$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+  <div class="footer-pill">Run The Audit &rarr;</div>
+</body>
+</html>

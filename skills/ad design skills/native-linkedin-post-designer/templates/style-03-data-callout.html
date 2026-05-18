@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #eaeae6;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 24px 22px 24px;
+    gap: 14px;
+  }
+  .card {
+    width: 1020px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 32px 10px 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  .author { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+  .avatar {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, #4ad991, #137e4c);
+    color: #fff; font-weight: 700; font-size: 36px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .a-info { flex: 1; min-width: 0; }
+  .a-name { font-size: 26px; font-weight: 700; color: #000; display: flex; align-items: center; gap: 6px; }
+  .conn { color: #666; font-size: 18px; font-weight: 400; }
+  .a-headline { font-size: 19px; color: #666; margin-top: 2px; line-height: 1.3; }
+  .a-time { font-size: 17px; color: #666; margin-top: 3px; }
+  .more { color: #666; font-size: 24px; align-self: flex-start; padding: 4px; }
+  .hook { font-size: 28px; font-weight: 700; color: #000; line-height: 1.3; margin-bottom: 16px; }
+  .body { font-size: 21px; line-height: 1.5; color: #000; }
+  .body p { margin-bottom: 12px; }
+  /* Stat card image */
+  .stat-card {
+    background: #0a66c2; color: #fff;
+    border-radius: 12px;
+    padding: 24px 26px;
+    margin: 14px 0 14px 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .stat-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    padding-bottom: 10px;
+  }
+  .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .stat-label { font-size: 18px; opacity: 0.85; }
+  .stat-num { font-size: 34px; font-weight: 800; letter-spacing: -1px; }
+  .stat-num .delta-up { color: #4ad991; font-size: 22px; margin-left: 8px; }
+  .stat-num .delta-down { color: #ff8b8b; font-size: 22px; margin-left: 8px; }
+  .closing { font-weight: 600; font-size: 21px; color: #000; }
+  .hashtags { color: #0a66c2; font-weight: 600; font-size: 19px; margin-top: 10px; margin-bottom: 6px; }
+  .engage {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0 10px 0; border-bottom: 1px solid #e5e5e5;
+  }
+  .reactions { display: flex; align-items: center; gap: 6px; font-size: 17px; color: #666; }
+  .reaction-stack { display: flex; }
+  .reaction-stack div {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 13px; color: #fff;
+    margin-left: -8px;
+  }
+  .reaction-stack div:first-child { margin-left: 0; }
+  .r-like { background: #0a66c2; }
+  .r-bulb { background: #f5b800; color: #000; }
+  .counts { color: #666; font-size: 17px; }
+  .actions {
+    display: flex; justify-content: space-around; padding: 10px 0;
+    color: #666; font-size: 18px; font-weight: 600;
+  }
+  .action { display: flex; align-items: center; gap: 6px; padding: 4px 8px; }
+  .cta-pill {
+    margin-top: 0;
+    background: #000; color: #fff;
+    font-weight: 700; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="author">
+      <div class="avatar">P</div>
+      <div class="a-info">
+        <div class="a-name">Priya Shah <span class="conn">&middot; 1st</span></div>
+        <div class="a-headline">Head of RevOps @ Indie SaaS Operators &middot; Helping 10&ndash;40 person SaaS teams ship pipeline</div>
+        <div class="a-time">2h &middot; &#127760;</div>
+      </div>
+      <div class="more">&middot;&middot;&middot;</div>
+    </div>
+    <div class="hook">We audited 22 SaaS teams' funnels last quarter. Here's the one pattern that kept showing up.</div>
+    <div class="body">
+      <p>Founders thought they had a top-of-funnel problem.</p>
+      <p>They had a step-3 onboarding problem.</p>
+      <div class="stat-card">
+        <div class="stat-row">
+          <span class="stat-label">Avg trial signups / wk (before)</span>
+          <span class="stat-num">184</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Trial-to-paid conversion</span>
+          <span class="stat-num">9.2% <span class="delta-down">&darr;</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Step-3 drop-off in onboarding</span>
+          <span class="stat-num">61% <span class="delta-down">&darr;</span></span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Conversion after the audit fix</span>
+          <span class="stat-num">22.4% <span class="delta-up">&uarr;</span></span>
+        </div>
+      </div>
+      <p class="closing">Same traffic. Same product. One fixed step. 2.4x conversion.</p>
+      <p>We're running 5 more of these audits in April. If you're a 10&ndash;40 person SaaS team stuck below 12% trial-to-paid, DM me "audit" and I'll send the worksheet we start with.</p>
+      <div class="hashtags">#saas &nbsp;#revops &nbsp;#onboarding</div>
+    </div>
+    <div class="engage">
+      <div class="reactions">
+        <div class="reaction-stack">
+          <div class="r-like">&#128077;</div>
+          <div class="r-bulb">&#128161;</div>
+        </div>
+        <span>312 reactions</span>
+      </div>
+      <div class="counts">58 comments &middot; 22 reposts</div>
+    </div>
+    <div class="actions">
+      <div class="action">&#128077; Like</div>
+      <div class="action">&#128172; Comment</div>
+      <div class="action">&#128257; Repost</div>
+      <div class="action">&#9990; Send</div>
+    </div>
+  </div>
+  <div class="cta-pill">DM "Audit" For The Worksheet &rarr;</div>
+</body>
+</html>

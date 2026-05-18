@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #3a2d22;
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(255,220,160,0.08), transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.45), transparent 65%);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    align-items: flex-start;
+  }
+  .receipt-wrap {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-top: 14px;
+  }
+  .receipt {
+    width: 500px;
+    background: #f4eedb;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.014) 0 2px, transparent 2px 4px);
+    padding: 26px 28px 28px 28px;
+    font-size: 16px;
+    line-height: 1.5;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    color: #1c1c1c;
+  }
+  .receipt.theirs { transform: rotate(-1.6deg); }
+  .receipt.yours { transform: rotate(1.2deg); }
+  .biz {
+    text-align: center;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+  }
+  .biz-sub {
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .dotted {
+    border-top: 1.5px dashed #1c1c1c;
+    margin: 12px 0;
+    opacity: 0.55;
+  }
+  .section-label {
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    margin-bottom: 7px;
+  }
+  .item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .item .desc { white-space: pre; }
+  .item .amt { white-space: pre; }
+  .totals .total {
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    padding: 10px 0;
+    border-top: 2.5px solid #1c1c1c;
+    border-bottom: 3.5px double #1c1c1c;
+  }
+  .totals .total.bad { color: #b91c1c; }
+  .totals .total.good { color: #047857; }
+  .cpl {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .cpl .number {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    display: block;
+    margin-top: 6px;
+  }
+  .cpl.bad .number { color: #b91c1c; }
+  .cpl.good .number { color: #047857; }
+  .footer-note {
+    text-align: center;
+    font-size: 13.5px;
+    margin-top: 14px;
+    line-height: 1.55;
+    letter-spacing: 0.4px;
+  }
+  .vs-card {
+    align-self: center;
+    background: #fff7ed;
+    color: #9a3412;
+    border: 4px solid #fb923c;
+    border-radius: 50%;
+    width: 78px;
+    height: 78px;
+    min-width: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 1px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    transform: rotate(-6deg);
+    margin: 0 -18px;
+    z-index: 2;
+  }
+  .canvas-footer {
+    position: fixed;
+    bottom: 18px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    color: #f4eedb;
+    font-size: 16px;
+    letter-spacing: 1px;
+    opacity: 0.95;
+  }
+  .canvas-footer .pill {
+    display: inline-block;
+    background: #fb923c;
+    color: #1c1c1c;
+    font-weight: 800;
+    padding: 12px 28px;
+    border-radius: 999px;
+    letter-spacing: 1.4px;
+    font-size: 17px;
+    margin-top: 8px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+</style>
+</head>
+<body>
+  <div class="receipt-wrap">
+    <!-- Their receipt -->
+    <div class="receipt theirs">
+      <div class="biz">THEIR AGENCY</div>
+      <div class="biz-sub">— GENERIC RETAINER LANE —</div>
+      <div class="meta-row">
+        <span>APR 2026</span>
+        <span># GEN-04</span>
+      </div>
+      <div class="meta-row">
+        <span>CUST:</span>
+        <span>PI FIRM OWNER</span>
+      </div>
+
+      <div class="dotted"></div>
+      <div class="section-label">SPEND BREAKDOWN</div>
+
+      <div class="item"><span class="desc">Ad budget......</span><span class="amt">$5,000.00</span></div>
+      <div class="item"><span class="desc">Mgmt fee.......</span><span class="amt">$2,500.00</span></div>
+      <div class="item"><span class="desc">Creative.......</span><span class="amt">$1,200.00</span></div>
+      <div class="item"><span class="desc">LP edits.......</span><span class="amt">$  800.00</span></div>
+      <div class="item"><span class="desc">Tooling........</span><span class="amt">$  500.00</span></div>
+      <div class="item"><span class="desc">Reporting......</span><span class="amt">$  300.00</span></div>
+      <div class="item"><span class="desc">Misc...........</span><span class="amt">$  700.00</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="section-label">LEADS DELIVERED</div>
+      <div class="item"><span class="desc">Form fills.....</span><span class="amt">       42</span></div>
+      <div class="item"><span class="desc">- Disqualified.</span><span class="amt">       28</span></div>
+      <div class="item"><span class="desc">- Never called.</span><span class="amt">        8</span></div>
+      <div class="item"><span class="desc">QUALIFIED......</span><span class="amt">        6</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="totals">
+        <div class="item"><span class="desc">SUBTOTAL.......</span><span class="amt">$11,000.00</span></div>
+        <div class="item total bad"><span class="desc">TOTAL..........</span><span class="amt">$11,000.00</span></div>
+      </div>
+
+      <div class="cpl bad">
+        COST PER QUAL'D LEAD
+        <span class="number">$1,833</span>
+      </div>
+
+      <div class="footer-note">
+        — — — — — — — — — — —<br>
+        THANK YOU, FIRM OWNER.<br>
+        RETURNS NOT ACCEPTED.
+      </div>
+    </div>
+
+    <div class="vs-card">VS</div>
+
+    <!-- Your receipt -->
+    <div class="receipt yours">
+      <div class="biz">YOUR FIRM, NEW SYSTEM</div>
+      <div class="biz-sub">— PERFORMANCE LANE · PI —</div>
+      <div class="meta-row">
+        <span>APR 2026</span>
+        <span># SYS-04</span>
+      </div>
+      <div class="meta-row">
+        <span>CUST:</span>
+        <span>PI FIRM OWNER</span>
+      </div>
+
+      <div class="dotted"></div>
+      <div class="section-label">SPEND BREAKDOWN</div>
+
+      <div class="item"><span class="desc">Ad budget......</span><span class="amt">$2,200.00</span></div>
+      <div class="item"><span class="desc">Mgmt fee.......</span><span class="amt">$    0.00</span></div>
+      <div class="item"><span class="desc">Creative.......</span><span class="amt">    incl.</span></div>
+      <div class="item"><span class="desc">LP / funnel....</span><span class="amt">    incl.</span></div>
+      <div class="item"><span class="desc">Intake script..</span><span class="amt">    incl.</span></div>
+      <div class="item"><span class="desc">SLA dashboard..</span><span class="amt">    incl.</span></div>
+      <div class="item"><span class="desc">Per-booking fee</span><span class="amt">$  600.00</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="section-label">LEADS DELIVERED</div>
+      <div class="item"><span class="desc">Booked walks...</span><span class="amt">       14</span></div>
+      <div class="item"><span class="desc">- Showed.......</span><span class="amt">       12</span></div>
+      <div class="item"><span class="desc">- Converted....</span><span class="amt">        5</span></div>
+      <div class="item"><span class="desc">QUALIFIED......</span><span class="amt">       12</span></div>
+
+      <div class="dotted"></div>
+
+      <div class="totals">
+        <div class="item"><span class="desc">SUBTOTAL.......</span><span class="amt">$ 2,800.00</span></div>
+        <div class="item total good"><span class="desc">TOTAL..........</span><span class="amt">$ 2,800.00</span></div>
+      </div>
+
+      <div class="cpl good">
+        COST PER QUAL'D LEAD
+        <span class="number">$233</span>
+      </div>
+
+      <div class="footer-note">
+        — — — — — — — — — — —<br>
+        THANK YOU, FIRM OWNER.<br>
+        SAVE THIS FOR YOUR CFO.
+      </div>
+    </div>
+  </div>
+  <div class="canvas-footer">
+    Same firm. Same month. Same ICP.<br>
+    <span class="pill">Audit Your Receipt →</span>
+  </div>
+</body>
+</html>

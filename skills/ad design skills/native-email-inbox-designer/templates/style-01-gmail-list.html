@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #e8eaed;
+    font-family: "Inter", "Roboto", -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+  .inbox {
+    width: 1020px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 18px 50px rgba(60,64,67,0.18);
+    overflow: hidden;
+    border: 1px solid #dadce0;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    padding: 14px 22px;
+    border-bottom: 1px solid #e8eaed;
+    background: #ffffff;
+    gap: 14px;
+  }
+  .hamburger {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hamburger span { width: 22px; height: 2px; background: #5f6368; }
+  .gmail-mark {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 700; color: #5f6368; font-size: 22px;
+  }
+  .gmail-icon {
+    width: 32px; height: 24px;
+    background: linear-gradient(90deg, #4285F4 0 25%, #DB4437 25% 50%, #F4B400 50% 75%, #0F9D58 75%);
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+  }
+  .search {
+    flex: 1;
+    margin-left: 16px;
+    background: #eaf1fb;
+    border-radius: 10px;
+    padding: 12px 18px;
+    color: #5f6368;
+    font-size: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .search-icon {
+    width: 18px; height: 18px;
+    border: 2px solid #5f6368;
+    border-radius: 50%;
+    position: relative;
+  }
+  .search-icon::after {
+    content: ""; position: absolute;
+    right: -6px; bottom: -5px;
+    width: 8px; height: 2px;
+    background: #5f6368;
+    transform: rotate(45deg);
+  }
+  .avatar-circle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #1a73e8;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 16px;
+  }
+  .folder-bar {
+    display: flex;
+    align-items: center;
+    padding: 12px 22px;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f3f4;
+    gap: 18px;
+  }
+  .folder-label {
+    color: #202124;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .folder-sub {
+    color: #5f6368;
+    font-size: 14px;
+  }
+  .row-list {
+    background: #fff;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    padding: 16px 22px;
+    border-bottom: 1px solid #f1f3f4;
+    gap: 14px;
+    min-height: 88px;
+  }
+  .row:last-child { border-bottom: none; }
+  .row.unread { background: #ffffff; }
+  .row.read { background: #f6f8fb; }
+  .star {
+    color: #dadce0;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .star.filled { color: #fbbc04; }
+  .sender {
+    width: 220px;
+    color: #202124;
+    font-weight: 700;
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .row.read .sender { font-weight: 500; color: #5f6368; }
+  .dot {
+    width: 8px; height: 8px;
+    background: #1a73e8;
+    border-radius: 50%;
+    margin-right: 4px;
+    display: inline-block;
+  }
+  .subject-area {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .subject {
+    color: #202124;
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+  .row.read .subject { font-weight: 500; color: #5f6368; }
+  .preview {
+    color: #5f6368;
+    font-size: 17px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  .attachment {
+    color: #5f6368;
+    font-size: 18px;
+    margin: 0 4px;
+  }
+  .time {
+    color: #5f6368;
+    font-size: 14px;
+    font-weight: 600;
+    width: 78px;
+    text-align: right;
+  }
+  .row.unread .time { color: #202124; font-weight: 700; }
+  .footer-pill {
+    margin-top: 22px;
+    background: #1a73e8;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.2px;
+  }
+</style>
+</head>
+<body>
+  <div class="inbox">
+    <div class="top">
+      <div class="hamburger"><span></span><span></span><span></span></div>
+      <div class="gmail-mark"><span class="gmail-icon"></span>Inbox</div>
+      <div class="search">
+        <div class="search-icon"></div>
+        <span>Search in mail</span>
+      </div>
+      <div class="avatar-circle">P</div>
+    </div>
+    <div class="folder-bar">
+      <span class="folder-label">Inbox</span>
+      <span class="folder-sub">&middot; PI Firm &middot; 14 unread</span>
+    </div>
+    <div class="row-list">
+      <div class="row unread">
+        <span class="star">&#9734;</span>
+        <span class="sender"><span class="dot"></span>Westlaw Alerts</span>
+        <div class="subject-area">
+          <span class="subject">Citator update for Tex.&nbsp;Civ.&nbsp;Prac.&nbsp;&amp;&nbsp;Rem.&nbsp;Code &sect;&nbsp;16.003</span>
+          <span class="preview">&mdash; 3 new appellate decisions matched your saved query for personal injury statute of limitations&hellip;</span>
+        </div>
+        <span class="time">9:14 AM</span>
+      </div>
+      <div class="row unread">
+        <span class="star">&#9734;</span>
+        <span class="sender"><span class="dot"></span>PI Firm Growth Network</span>
+        <div class="subject-area">
+          <span class="subject">3 firms left for May intake teardown</span>
+          <span class="preview">Your shortlist is open through Friday &mdash; we limit it to 5 PI firms per month so the partner can actually&hellip;</span>
+        </div>
+        <span class="time">8:42 AM</span>
+      </div>
+      <div class="row unread">
+        <span class="star filled">&#9733;</span>
+        <span class="sender"><span class="dot"></span>Calendly</span>
+        <div class="subject-area">
+          <span class="subject">New booking: Maria Gonzalez &mdash; intake consult</span>
+          <span class="preview">Maria booked a 20-minute consultation for tomorrow 2:00 PM. Wreck on 290 &middot; rental car needed&hellip;</span>
+        </div>
+        <span class="time">8:31 AM</span>
+      </div>
+      <div class="row read">
+        <span class="star">&#9734;</span>
+        <span class="sender">Filevine</span>
+        <div class="subject-area">
+          <span class="subject">Daily case digest &mdash; 14 open matters</span>
+          <span class="preview">2 cases reaching SOL in &lt; 30 days. 4 settlement demands awaiting your review&hellip;</span>
+          <span class="attachment">&#128206;</span>
+        </div>
+        <span class="time">7:58 AM</span>
+      </div>
+      <div class="row read">
+        <span class="star">&#9734;</span>
+        <span class="sender">Houston Bar Assn.</span>
+        <div class="subject-area">
+          <span class="subject">CLE reminder: Trial Advocacy track &mdash; May 24</span>
+          <span class="preview">You have 6 hours remaining for your May reporting period. Tracks fill quickly&hellip;</span>
+        </div>
+        <span class="time">Yesterday</span>
+      </div>
+      <div class="row read">
+        <span class="star">&#9734;</span>
+        <span class="sender">Stripe</span>
+        <div class="subject-area">
+          <span class="subject">Payout: $14,287.04 to chk &middot;&middot;&middot;4421</span>
+          <span class="preview">Your payout has arrived. View the breakdown for April retainers and case-cost reimbursements&hellip;</span>
+        </div>
+        <span class="time">Yesterday</span>
+      </div>
+      <div class="row read">
+        <span class="star">&#9734;</span>
+        <span class="sender">Harris County District Clerk</span>
+        <div class="subject-area">
+          <span class="subject">Notice of hearing &mdash; cause no. 2026-14829</span>
+          <span class="preview">A hearing has been scheduled for June 3, 2026 at 9:30 AM in the 113th District Court&hellip;</span>
+          <span class="attachment">&#128206;</span>
+        </div>
+        <span class="time">May 14</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-pill">Reply To Reserve &rarr;</div>
+</body>
+</html>

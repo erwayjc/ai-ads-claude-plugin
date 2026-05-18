@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f1216;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #f97316;
+    --pipe: #1c2128;
+    --pipe-border: rgba(255,255,255,0.10);
+    --window-bg: #0a0c10;
+    --window-border: rgba(255,255,255,0.14);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 70px 50px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .head-wrap { text-align: center; }
+  .icp-pill {
+    display: inline-block;
+    margin: 0 auto 16px;
+    background: var(--accent);
+    color: #1a0c03;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 999px;
+  }
+  .headline {
+    font-size: 62px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 14px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+    position: relative;
+    width: 100%;
+    padding-top: 30px;
+  }
+
+  /* the pipeline */
+  .endpoints {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: 100%;
+    gap: 24px;
+    padding: 0 8px;
+  }
+  .endpoint {
+    text-align: center;
+  }
+  .endpoint .e-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .endpoint .e-text {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.6px;
+    color: var(--text);
+    line-height: 1.05;
+  }
+  .endpoint.out .e-text { color: var(--accent); }
+  .endpoint.out .e-label { color: var(--accent); }
+  .e-arrow {
+    color: var(--muted);
+  }
+
+  .pipe-wrap {
+    position: relative;
+    width: 100%;
+  }
+  .pipe {
+    position: relative;
+    height: 240px;
+    background: linear-gradient(180deg, #232a32 0%, var(--pipe) 50%, #11151a 100%);
+    border: 1.5px solid var(--pipe-border);
+    border-radius: 32px;
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr 1fr 60px;
+    align-items: center;
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,0.06),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 20px 40px rgba(0,0,0,0.4);
+  }
+  .cap-left, .cap-right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cap-left {
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), transparent);
+    border-right: 1px dashed rgba(255,255,255,0.15);
+  }
+  .cap-right {
+    background: linear-gradient(270deg, rgba(249,115,22,0.22), transparent);
+    border-left: 1px dashed rgba(249,115,22,0.5);
+  }
+  .cap-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .cap-right .cap-dot { background: var(--accent); box-shadow: 0 0 0 8px rgba(249,115,22,0.22); }
+
+  .window {
+    height: 180px;
+    margin: 0 12px;
+    background: var(--window-bg);
+    border: 1.5px solid var(--window-border);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px;
+    position: relative;
+  }
+  .window .stage-num {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #1a0c03;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 10px;
+  }
+  .window .stage-name {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.6px;
+    line-height: 1.05;
+  }
+  .window .stage-do {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+    line-height: 1.3;
+  }
+
+  .cta-wrap { text-align: center; }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--accent);
+    color: #1a0c03;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.2px;
+    padding: 22px 48px;
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 8px rgba(249,115,22,0.12),
+      0 18px 36px rgba(0,0,0,0.45);
+  }
+  .cta-button .arrow { font-size: 28px; line-height: 1; }
+  .cta-sub {
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .cta-sub em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 03 — PIPELINE CUTAWAY (revised)
+  ===================================================
+  Use when the ad's beat is "click → case file, here's the path."
+  A bold horizontal pipe with 3 cutaway windows showing what happens
+  inside. Endpoints LEFT (input: "A click") and RIGHT (output, accent:
+  "A signed case") frame the transformation in terms a PI lawyer
+  immediately understands. ICP pill at top.
+
+  REQUIRED:
+  - ICP pill above the headline.
+  - 3 stage windows inside the pipe (cut from 4 — fewer items reads
+    faster). Each: stage badge + 1–2 word name + short descriptor.
+  - LEFT endpoint = the input the buyer recognizes (a click, a search).
+  - RIGHT endpoint = the outcome in the buyer's words (a signed case,
+    a booked consult). Accent color.
+  - Pipe must be tall (~240px) so cutaway windows have real presence.
+
+  DO NOT:
+  - Add a telemetry/metric row below the pipe — it doubles the cognitive
+    load. The pipe + endpoints carry the meaning alone.
+  - Use more than 3 stages — the windows shrink, the message blurs.
+-->
+  <div class="head-wrap">
+    <div class="icp-pill">→ For Personal Injury Firms</div>
+    <div class="headline">From click <em>to case file.</em></div>
+    <div class="sub">One pipeline · Three stages · Fully managed</div>
+  </div>
+
+  <div class="stage">
+    <div class="endpoints">
+      <div class="endpoint">
+        <div class="e-label">Input</div>
+        <div class="e-text">A click<br>on your ad</div>
+      </div>
+      <div class="e-arrow">
+        <svg width="48" height="40" viewBox="0 0 48 40" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 20 H38 M30 8 L44 20 L30 32" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="endpoint out">
+        <div class="e-label">Output</div>
+        <div class="e-text">A signed<br>case file</div>
+      </div>
+    </div>
+
+    <div class="pipe-wrap">
+      <div class="pipe">
+        <div class="cap-left"><div class="cap-dot"></div></div>
+        <div class="window">
+          <div class="stage-num">01</div>
+          <div class="stage-name">Captured</div>
+          <div class="stage-do">Ad → form, no leaks</div>
+        </div>
+        <div class="window">
+          <div class="stage-num">02</div>
+          <div class="stage-name">Qualified</div>
+          <div class="stage-do">90-second call · case-fit screen</div>
+        </div>
+        <div class="window">
+          <div class="stage-num">03</div>
+          <div class="stage-name">Booked</div>
+          <div class="stage-do">Calendar on your dashboard</div>
+        </div>
+        <div class="cap-right"><div class="cap-dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA text below is a placeholder. Replace with the verbatim CTA from
+       this ad's COPY.md (see shared/HTML-RENDER-REFERENCE.md § CTA is required). -->
+  <div class="cta-wrap">
+    <a class="cta-button">Apply For An Invite <span class="arrow">→</span></a>
+    <div class="cta-sub">Performance-based · <em>3 firms this month</em></div>
+  </div>
+</body>
+</html>

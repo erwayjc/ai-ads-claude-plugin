@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #f1f3f4;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 0;
+    overflow: hidden;
+  }
+  .app {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .top-bar {
+    height: 64px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid #e8eaed;
+  }
+  .top-bar .menu { font-size: 22px; color: #5f6368; }
+  .top-bar .month {
+    font-size: 22px;
+    color: #3c4043;
+    font-weight: 500;
+  }
+  .top-bar .month b { color: #1a73e8; font-weight: 500; }
+  .top-bar .spacer { flex: 1; }
+  .top-bar .icons { display: flex; gap: 18px; color: #5f6368; font-size: 20px; }
+  .week-strip {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    border-bottom: 1px solid #e8eaed;
+    height: 84px;
+    background: #fff;
+  }
+  .week-strip .gmt {
+    text-align: right;
+    padding: 38px 8px 0;
+    font-size: 10px;
+    color: #70757a;
+  }
+  .day-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #e8eaed;
+  }
+  .day-head .label { font-size: 11px; color: #70757a; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
+  .day-head .num {
+    font-size: 26px;
+    color: #3c4043;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .day-head.today .num {
+    background: #1a73e8;
+    color: #fff;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+    margin-top: 0;
+  }
+  .grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    position: relative;
+  }
+  .hour-col {
+    border-right: 1px solid #e8eaed;
+  }
+  .hour-label {
+    font-size: 11px;
+    color: #70757a;
+    text-align: right;
+    padding: 4px 8px 0;
+    border-top: 1px solid transparent;
+    height: 110px;
+    margin-top: -6px;
+  }
+  .day-col {
+    border-right: 1px solid #e8eaed;
+    position: relative;
+  }
+  .hour-line {
+    height: 110px;
+    border-top: 1px solid #e8eaed;
+  }
+  .event {
+    position: absolute;
+    left: 4px;
+    right: 4px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #fff;
+    overflow: hidden;
+    line-height: 1.2;
+  }
+  .event .ev-title { font-weight: 500; }
+  .event .ev-time { font-size: 10px; opacity: 0.9; margin-top: 1px; }
+  .ev-blue { background: #1a73e8; }
+  .ev-green { background: #0b8043; }
+  .ev-purple { background: #8e24aa; }
+  .ev-orange { background: #f9ab00; color: #3c4043; }
+  .ev-teal { background: #009688; }
+  .now-line {
+    position: absolute;
+    height: 2px;
+    background: #ea4335;
+    z-index: 2;
+  }
+  .now-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #ea4335;
+    border-radius: 50%;
+    margin-top: -5px;
+    margin-left: -6px;
+  }
+  /* Popup card */
+  .popup {
+    position: absolute;
+    top: 360px;
+    left: 280px;
+    width: 500px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.30);
+    border-left: 6px solid #1a73e8;
+    overflow: hidden;
+    z-index: 10;
+  }
+  .popup-head {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 14px;
+    color: #5f6368;
+    gap: 18px;
+    font-size: 16px;
+  }
+  .popup-body {
+    padding: 0 24px 22px;
+  }
+  .popup-title {
+    font-size: 24px;
+    color: #202124;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .popup-time {
+    font-size: 14px;
+    color: #5f6368;
+    margin-bottom: 14px;
+  }
+  .popup-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #3c4043;
+  }
+  .popup-row .ico { color: #5f6368; width: 18px; }
+  .meet-chip {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #1a73e8;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+  }
+  .pop-desc {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #3c4043;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+  .guests-mini {
+    display: flex;
+    gap: -8px;
+    margin-top: 12px;
+    align-items: center;
+  }
+  .av-mini {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    margin-left: -8px;
+    font-weight: 600;
+  }
+  .av-mini:first-child { margin-left: 0; }
+  .av-mini.a { background: #1a73e8; }
+  .av-mini.b { background: #34a853; }
+  .av-mini.c { background: #fbbc04; color: #202124; }
+  .av-mini.d { background: #ea4335; }
+  .guest-count { font-size: 12px; color: #5f6368; margin-left: 8px; }
+  .rsvp {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #e8eaed;
+  }
+  .rb {
+    flex: 1;
+    padding: 11px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .rb.yes { background: #34a853; color: #fff; box-shadow: 0 4px 14px rgba(52,168,83,0.4); transform: scale(1.05); }
+  .rb.maybe { background: #fff; color: #5f6368; border: 1px solid #dadce0; }
+  .rb.no { background: #fff; color: #5f6368; border: 1px solid #dadce0; }
+</style>
+</head>
+<body>
+  <div class="app">
+    <div class="top-bar">
+      <span class="menu">☰</span>
+      <span class="month"><b>May</b> 2026</span>
+      <span class="spacer"></span>
+      <span class="icons">🔍  ⚙  ?</span>
+    </div>
+    <div class="week-strip">
+      <div class="gmt">GMT-5</div>
+      <div class="day-head"><div class="label">MON</div><div class="num">18</div></div>
+      <div class="day-head"><div class="label">TUE</div><div class="num">19</div></div>
+      <div class="day-head"><div class="label">WED</div><div class="num">20</div></div>
+      <div class="day-head today"><div class="label">THU</div><div class="num">21</div></div>
+      <div class="day-head"><div class="label">FRI</div><div class="num">22</div></div>
+      <div class="day-head"><div class="label">SAT</div><div class="num">23</div></div>
+      <div class="day-head"><div class="label">SUN</div><div class="num">24</div></div>
+    </div>
+    <div class="grid">
+      <div class="hour-col">
+        <div class="hour-label">9 AM</div>
+        <div class="hour-label">10 AM</div>
+        <div class="hour-label">11 AM</div>
+        <div class="hour-label">12 PM</div>
+        <div class="hour-label">1 PM</div>
+        <div class="hour-label">2 PM</div>
+        <div class="hour-label">3 PM</div>
+        <div class="hour-label">4 PM</div>
+      </div>
+      <div class="day-col">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+        <div class="event ev-blue" style="top:0px; height:80px;"><div class="ev-title">Standup</div><div class="ev-time">9:00 – 9:30</div></div>
+        <div class="event ev-purple" style="top:330px; height:90px;"><div class="ev-title">Deep work</div><div class="ev-time">12:00 – 1:00</div></div>
+      </div>
+      <div class="day-col">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+        <div class="event ev-green" style="top:220px; height:150px;"><div class="ev-title">Client Review · Cho Co</div><div class="ev-time">11:00 – 12:30</div></div>
+        <div class="event ev-blue" style="top:550px; height:80px;"><div class="ev-title">Marketing sync</div><div class="ev-time">2:00 – 2:45</div></div>
+      </div>
+      <div class="day-col">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+        <div class="event ev-orange" style="top:110px; height:90px;"><div class="ev-title">1:1 · Sarah</div><div class="ev-time">10:00 – 10:30</div></div>
+        <div class="event ev-purple" style="top:440px; height:110px;"><div class="ev-title">Deep work</div><div class="ev-time">1:00 – 2:00</div></div>
+        <div class="event ev-teal" style="top:660px; height:90px;"><div class="ev-title">Design crit</div><div class="ev-time">3:00 – 3:45</div></div>
+      </div>
+      <div class="day-col" style="background: #f8f9fa;">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+        <div class="event ev-teal" style="top:110px; height:90px;"><div class="ev-title">Pipeline review</div><div class="ev-time">10:00 – 10:30</div></div>
+        <div class="event ev-orange" style="top:330px; height:90px;"><div class="ev-title">Quick coffee · Anna</div><div class="ev-time">12:00 – 12:30</div></div>
+        <div class="event ev-blue" style="top:550px; height:90px; box-shadow:0 6px 16px rgba(26,115,232,0.5); outline: 3px solid #fff;"><div class="ev-title">SaaS Founder Brief · Joel</div><div class="ev-time">2:00 – 2:30 PM</div></div>
+      </div>
+      <div class="day-col">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+        <div class="event ev-orange" style="top:330px; height:90px;"><div class="ev-title">Lunch · Marcus</div><div class="ev-time">12:00 – 1:00</div></div>
+        <div class="event ev-green" style="top:660px; height:90px;"><div class="ev-title">Pricing huddle</div><div class="ev-time">3:00 – 3:30</div></div>
+      </div>
+      <div class="day-col" style="background: #f8f9fa;">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+      </div>
+      <div class="day-col" style="background: #f8f9fa;">
+        <div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div><div class="hour-line"></div>
+      </div>
+    </div>
+    <div class="popup">
+      <div class="popup-head"><span>✎</span><span>🗑</span><span>✉</span><span>⋮</span><span>✕</span></div>
+      <div class="popup-body">
+        <div class="popup-title">SaaS Founder Brief · Joel</div>
+        <div class="popup-time">Thursday, May 21 · 2:00 – 2:30 PM</div>
+        <div class="popup-row"><span class="ico">📹</span><span class="meet-chip">Join with Google Meet</span></div>
+        <div class="popup-row"><span class="ico">≡</span><div class="pop-desc">
+          For SaaS founders stuck at $20–60K MRR. 30 minutes to map your funnel and find the one bottleneck killing trial-to-paid. <strong style="color:#1a73e8;">Reply Yes — I'll send the link.</strong>
+        </div></div>
+        <div class="popup-row"><span class="ico">👥</span><div>
+          <div class="guests-mini">
+            <div class="av-mini a">J</div>
+            <div class="av-mini b">M</div>
+            <div class="av-mini c">S</div>
+            <div class="av-mini d">D</div>
+            <span class="guest-count">4 guests · 2 yes, 1 maybe</span>
+          </div>
+        </div></div>
+        <div class="rsvp">
+          <div class="rb yes">✓ Yes</div>
+          <div class="rb maybe">? Maybe</div>
+          <div class="rb no">✕ No</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --panel-bg: #161616;
+    --panel-2: #1f1f1f;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.55);
+    --accent: #ff3d3d;
+    --green: #4ade80;
+    --amber: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background:
+      radial-gradient(circle at 50% 30%, #1c1c1c 0%, var(--bg) 70%),
+      var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 60px 50px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .head-wrap { text-align: center; }
+  .icp-pill {
+    display: inline-block;
+    margin: 0 auto 16px;
+    background: var(--accent);
+    color: #210606;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 999px;
+  }
+  .headline {
+    font-size: 62px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    text-align: center;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    margin-top: 12px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .panel {
+    margin-top: 24px;
+    align-self: start;
+    background: linear-gradient(180deg, var(--panel-bg) 0%, var(--panel-2) 100%);
+    border: 1.5px solid rgba(255,255,255,0.10);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      inset 0 -2px 0 rgba(0,0,0,0.4),
+      0 30px 60px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  /* status bar */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed rgba(255,255,255,0.10);
+  }
+  .status-bar .sys-name {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .status-bar .lights {
+    display: flex;
+    gap: 8px;
+  }
+  .light {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.10);
+  }
+  .light.on.g { background: var(--green); box-shadow: 0 0 10px var(--green); }
+  .light.on.a { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+  .light.on.r { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+  /* gauges — only 2, much bigger */
+  .gauges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .gauge {
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .gauge .label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .gauge .value {
+    margin-top: 10px;
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .gauge .meter {
+    margin-top: 14px;
+    height: 8px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .gauge .meter .fill { height: 100%; background: var(--accent); }
+
+  /* 4 channel tiles, 2x2 grid, much bigger text */
+  .channels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+  }
+  .ch {
+    background: #0d0d0d;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 110px;
+  }
+  .ch .ch-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ch .ch-name {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .ch .ch-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+  .ch .ch-stat {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .ch .ch-meta {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .cta-wrap {
+    margin-top: 24px;
+    text-align: center;
+  }
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--accent);
+    color: #210606;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.2px;
+    padding: 20px 44px;
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 8px rgba(255,61,61,0.15),
+      0 18px 36px rgba(0,0,0,0.5);
+  }
+  .cta-button .arrow { font-size: 26px; line-height: 1; }
+  .cta-sub {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+  .cta-sub em { font-style: normal; color: var(--accent); font-weight: 900; }
+</style>
+</head>
+<body>
+<!--
+  STYLE 05 — CONTROL PANEL (revised, simpler)
+  ===================================================
+  Use when the ad's beat is "this is a real, running system."
+  Cut from 3 gauges + 8 channels to **2 gauges + 4 channels** so every
+  number is huge and the dashboard reads instantly. The mental model:
+  two top-line numbers (the punchline), four channels under them (the
+  surface area). Five things total inside the panel, not twelve.
+
+  REQUIRED:
+  - ICP pill above headline.
+  - System version line names the ICP context (e.g., "PI FLYWHEEL").
+  - 2 gauges only — both with very large numbers (~72px).
+  - 4 channel tiles in a 2×2 grid — names large enough to read at thumb.
+  - Status bar with 3 lights (one accent-red for scarcity/urgency).
+
+  DO NOT:
+  - Add more channels — 4 is the cap. Crammed grids read as marketing
+    infographics, not real product UIs.
+  - Use sub-15px type anywhere inside the panel — failed the original.
+-->
+  <div class="head-wrap">
+    <div class="icp-pill">→ For Personal Injury Firms</div>
+    <div class="headline">Your system, <em>live.</em></div>
+    <div class="sub">Operating · Reported · Tuned</div>
+  </div>
+
+  <div class="panel">
+    <div class="status-bar">
+      <div class="sys-name">PI FLYWHEEL · LIVE</div>
+      <div class="lights">
+        <div class="light on g"></div>
+        <div class="light on a"></div>
+        <div class="light on r"></div>
+      </div>
+    </div>
+
+    <div class="gauges">
+      <div class="gauge">
+        <div class="label">Cases this month</div>
+        <div class="value">27</div>
+        <div class="meter"><div class="fill" style="width: 90%"></div></div>
+      </div>
+      <div class="gauge">
+        <div class="label">Response time</div>
+        <div class="value">52s</div>
+        <div class="meter"><div class="fill" style="width: 78%"></div></div>
+      </div>
+    </div>
+
+    <div class="channels">
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Paid Ads</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">$48</div><div class="ch-meta">Cost per lead</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Intake</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">24/7</div><div class="ch-meta">Live response</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">AI SEO</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">+18</div><div class="ch-meta">Pages this month</div></div>
+      </div>
+      <div class="ch">
+        <div class="ch-head"><div class="ch-name">Reviews</div><div class="ch-dot"></div></div>
+        <div><div class="ch-stat">4.8★</div><div class="ch-meta">90-day average</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA text below is a placeholder. Replace with the verbatim CTA from
+       this ad's COPY.md (see shared/HTML-RENDER-REFERENCE.md § CTA is required). -->
+  <div class="cta-wrap">
+    <a class="cta-button">Apply For An Invite <span class="arrow">→</span></a>
+    <div class="cta-sub">Performance-based · <em>3 firms this month</em></div>
+  </div>
+</body>
+</html>

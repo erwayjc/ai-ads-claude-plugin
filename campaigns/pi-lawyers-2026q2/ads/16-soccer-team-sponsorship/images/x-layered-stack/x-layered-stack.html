@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0a0a14;
+    --text: #f0f0ff;
+    --muted: rgba(240,240,255,0.55);
+    --accent: #a855f7;
+    --layer-bg: #14142a;
+    --layer-border: rgba(240,240,255,0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: grid;
+    grid-template-columns: 1fr 560px;
+    padding: 60px 56px;
+    gap: 46px;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    height: 100%;
+  }
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .headline {
+    font-size: 88px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 0.94;
+  }
+  .headline em { font-style: normal; color: var(--accent); }
+  .sub {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--muted);
+    line-height: 1.35;
+    max-width: 400px;
+  }
+  .footer {
+    margin-top: 22px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .footer em { font-style: normal; color: var(--accent); font-weight: 800; }
+
+  .meta-row {
+    display: flex;
+    gap: 28px;
+    margin-top: 6px;
+    padding-top: 22px;
+    border-top: 1px solid var(--layer-border);
+  }
+  .meta {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .meta b { color: var(--text); font-weight: 800; display: block; font-size: 13px; margin-top: 4px; letter-spacing: 1px; }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+  }
+  .layer {
+    background: var(--layer-bg);
+    border: 1.5px solid var(--layer-border);
+    border-radius: 10px;
+    padding: 28px 24px;
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    min-height: 152px;
+  }
+  .layer .lvl {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-align: left;
+  }
+  .layer .lname {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.05;
+  }
+  .layer .ldesc {
+    display: block;
+    margin-top: 4px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .layer .lstatus {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(240,240,255,0.35);
+    box-shadow: 0 0 0 4px rgba(240,240,255,0.08);
+  }
+
+  /* Proprietary layer (criteria-fit matching) — violet accent */
+  .layer.proprietary {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(168,85,247,0.18), rgba(168,85,247,0.06));
+    box-shadow: 0 0 0 1px rgba(168,85,247,0.35), 0 6px 18px rgba(168,85,247,0.18);
+  }
+  .layer.proprietary .lvl { color: var(--accent); }
+  .layer.proprietary .ldesc { color: rgba(168,85,247,0.85); }
+  .layer.proprietary .lstatus {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(168,85,247,0.25);
+  }
+  .layer.proprietary .badge {
+    position: absolute;
+    top: -9px;
+    right: 18px;
+    background: var(--accent);
+    color: #0a0a14;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Outcome layer (top) — solid violet block, visually distinct */
+  .layer.outcome {
+    background: var(--accent);
+    color: #0a0a14;
+    border: none;
+    border-radius: 12px;
+    padding: 36px 26px;
+    box-shadow: 0 0 0 10px rgba(168,85,247,0.12), 0 10px 24px rgba(168,85,247,0.30);
+    margin-bottom: 8px;
+    min-height: 190px;
+  }
+  .layer.outcome .lvl { color: rgba(10,10,20,0.65); font-size: 13px; font-weight: 800; }
+  .layer.outcome .lname { font-size: 34px; }
+  .layer.outcome .ldesc { color: rgba(10,10,20,0.7); }
+  .layer.outcome .lstatus { background: #0a0a14; box-shadow: 0 0 0 4px rgba(10,10,20,0.22); }
+
+  .connector {
+    width: 2px;
+    height: 14px;
+    background: var(--accent);
+    margin: -2px auto;
+    opacity: 0.6;
+  }
+
+  .stack-label {
+    position: absolute;
+    left: -34px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: center;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div class="eyebrow">// THE ARCHITECTURE</div>
+    <div class="headline">A stack, <em>not a tactic.</em></div>
+    <div class="sub">Five layers engineered for exclusive referral flow.</div>
+    <div class="meta-row">
+      <div class="meta">SPEC<b>v2.6.04</b></div>
+      <div class="meta">DEPLOY<b>3 DAYS</b></div>
+      <div class="meta">SLOTS<b>3 / MONTH</b></div>
+    </div>
+    <div class="footer">Performance-based · <em>invitation-only</em></div>
+  </div>
+
+  <div class="stack">
+    <div class="stack-label">SYSTEM STACK</div>
+
+    <div class="layer outcome">
+      <div class="lvl">L05 // OUT</div>
+      <div><div class="lname">Exclusive Referrals</div><span class="ldesc">Delivered to your firm</span></div>
+      <div class="lstatus"></div>
+    </div>
+
+    <div class="layer">
+      <div class="lvl">L04</div>
+      <div><div class="lname">Exclusive Delivery</div><span class="ldesc">Never shared · single firm</span></div>
+      <div class="lstatus"></div>
+    </div>
+
+    <div class="layer proprietary">
+      <div class="badge">PROPRIETARY</div>
+      <div class="lvl">L03</div>
+      <div><div class="lname">Criteria-Fit Matching</div><span class="ldesc">Your rules · routed in real time</span></div>
+      <div class="lstatus"></div>
+    </div>
+
+    <div class="layer">
+      <div class="lvl">L02</div>
+      <div><div class="lname">Speed-to-Lead Intake</div><span class="ldesc">24/7 · sub-minute response</span></div>
+      <div class="lstatus"></div>
+    </div>
+
+    <div class="layer">
+      <div class="lvl">L01</div>
+      <div><div class="lname">Inbound Channels</div><span class="ldesc">Paid ads + AI SEO</span></div>
+      <div class="lstatus"></div>
+    </div>
+  </div>
+</body>
+</html>

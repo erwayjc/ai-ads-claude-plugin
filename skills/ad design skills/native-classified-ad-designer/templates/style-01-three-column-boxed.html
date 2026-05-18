@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Serif:wght@400;500;600;700&family=UnifrakturCook:wght@700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #2c2620;
+    background-image:
+      radial-gradient(circle at 30% 30%, rgba(120,90,60,0.18), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(0,0,0,0.4), transparent 60%);
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+  }
+  .paper {
+    width: 1036px;
+    min-height: 1036px;
+    background: #f5ecd6;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.013) 0 2px, transparent 2px 4px);
+    padding: 36px 40px 32px 40px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    position: relative;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+  }
+  .masthead {
+    text-align: center;
+    border-bottom: 3px double #1a1a1a;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .masthead .title {
+    font-family: 'UnifrakturCook', 'Playfair Display', serif;
+    font-size: 70px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    line-height: 1;
+  }
+  .masthead .strap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    color: #3b2817;
+  }
+  .section-tab {
+    text-align: center;
+    background: #1a1a1a;
+    color: #f5ecd6;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 7px;
+    padding: 8px 0;
+    margin-bottom: 16px;
+  }
+  .columns {
+    columns: 3;
+    column-gap: 26px;
+    column-rule: 1px solid #1a1a1a;
+    font-size: 15px;
+    line-height: 1.45;
+    flex: 1;
+  }
+  .listing {
+    break-inside: avoid;
+    margin-bottom: 11px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #1a1a1a44;
+  }
+  .listing .head {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .col-head {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 17px;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2.5px solid #1a1a1a;
+    break-after: avoid;
+  }
+  .highlight {
+    break-inside: avoid;
+    background: #fef3c7;
+    border: 3px solid #1a1a1a;
+    padding: 18px 20px;
+    margin: 10px 0 12px 0;
+    font-size: 17px;
+    line-height: 1.48;
+    box-shadow: 4px 4px 0 #1a1a1a;
+  }
+  .highlight .head {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 20px;
+    letter-spacing: 0.6px;
+    color: #991b1b;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .highlight .cta {
+    display: inline-block;
+    margin-top: 8px;
+    background: #1a1a1a;
+    color: #fef3c7;
+    padding: 6px 14px;
+    font-size: 14px;
+    letter-spacing: 1.6px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .footer-bar {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 2px solid #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #3b2817;
+  }
+</style>
+</head>
+<body>
+  <div class="paper">
+    <div class="masthead">
+      <div class="title">The Performance Times</div>
+      <div class="strap">
+        <span>EST. 2018</span>
+        <span>VOL. CXII · NO. 47</span>
+        <span>TUESDAY · MAY 12, 2026</span>
+        <span>PRICE 25¢</span>
+      </div>
+    </div>
+    <div class="section-tab">CLASSIFIEDS · LEGAL · PI FIRM SERVICES</div>
+
+    <div class="columns">
+      <div class="col-head">WANTED</div>
+
+      <div class="listing"><span class="head">PARALEGAL</span> w/ 5+yr PI exp wanted. Pls call 512-555-0142. Discreet inq.</div>
+      <div class="listing"><span class="head">INTAKE COORD</span> p/t for 4-atty firm, Houston. Bilingual a plus. 832-555-0188.</div>
+      <div class="listing"><span class="head">CASE MGR</span> exp w/ premises & auto. Salary DOE. resumes@firmco.example</div>
+      <div class="listing"><span class="head">RUNNER</span> needed, Houston metro. Reliable, own veh, references. 281-555-0102.</div>
+      <div class="listing"><span class="head">PI ATTY</span> seeks lateral opp. 8yrs trial. Confidential. atty.lat@mail.example</div>
+      <div class="listing"><span class="head">EXPERT WITNESS</span> orthopedic. Avail TX, OK. Curr cred. 713-555-0177.</div>
+
+      <div class="highlight">
+        <span class="head">PI FIRMS — TIRED OF GHOST LEADS?</span>
+        Intake system + booked walkthroughs for 3–8 atty PI firms. No retainer. Pay per booked walk only. 3 firms / mo accepted. xlnt fit if you spend $8K+/mo on generic agencies w/ no atty handoff.
+        <br><br>
+        Call: 512-555-WALK · See: walkthrough.example.com
+        <br>
+        <span class="cta">Apply Within →</span>
+      </div>
+
+      <div class="col-head">SERVICES</div>
+
+      <div class="listing"><span class="head">PROCESS SERVING</span> statewide. Same-day avail. 24/7 line. 214-555-0334.</div>
+      <div class="listing"><span class="head">COURT REPORTER</span> certified, depos & transcripts. Rush ok. 469-555-0298.</div>
+      <div class="listing"><span class="head">MED RECORDS</span> retrieval, all TX hospitals. Flat fee. medrec@svc.example</div>
+      <div class="listing"><span class="head">LIEN NEGOT</span> w/ hospitals, hlth pln. 20+yrs. j.lien@mail.example</div>
+      <div class="listing"><span class="head">TRANSLATION</span> Spanish ↔ Eng, sworn cert. 24-hr turnaround. 832-555-0410.</div>
+      <div class="listing"><span class="head">RECORD COPY</span> svc, sub poena prep, audit trail. 713-555-0227.</div>
+      <div class="listing"><span class="head">ACCIDENT RECON</span> certified engineer. recon@svc.example</div>
+
+      <div class="col-head">FOR SALE</div>
+
+      <div class="listing"><span class="head">LAW LIB</span> est sale, TX juris. 800+ vols. By appt. 512-555-0177.</div>
+      <div class="listing"><span class="head">OFFICE FURN</span> 6 desks, 12 chrs, file cabs. $1,200 lot. 832-555-0211.</div>
+      <div class="listing"><span class="head">2021 SUBARU OUTBACK</span> 38k mi, xlnt cond. $24,500 obo. 281-555-0143.</div>
+      <div class="listing"><span class="head">PRACTICE MGMT SOFT</span> 5 seats, transferable. half-price. 469-555-0099.</div>
+      <div class="listing"><span class="head">CASE FILES</span> closed PI matters. Confidential disposal svc. 713-555-0245.</div>
+      <div class="listing"><span class="head">CONF TBL</span> 12-seat mahogany. Refurb. $3,200. 832-555-0317.</div>
+      <div class="listing"><span class="head">REFERRAL BOOK</span> retiring atty's PI book, TX. By inq. retire@mail.example</div>
+      <div class="listing"><span class="head">DOCUMENT SCANNER</span> commercial Fujitsu. $450. 214-555-0188.</div>
+    </div>
+
+    <div class="footer-bar">
+      <span>The Performance Times</span>
+      <span>To place a classified — 1-800-555-PRESS</span>
+      <span>Page 12-C</span>
+    </div>
+  </div>
+</body>
+</html>

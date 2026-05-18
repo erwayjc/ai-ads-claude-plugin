@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #cfd2d7;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .phone {
+    width: 780px;
+    height: 990px;
+    background: #000;
+    border-radius: 56px;
+    padding: 14px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .notch {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 32px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 5;
+  }
+  .screen {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 44px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 38px 4px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 700;
+    height: 44px;
+  }
+  .status-right { display: flex; gap: 6px; align-items: center; }
+  .signal-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+  .signal-bars span { width: 3px; background: #000; border-radius: 1px; }
+  .signal-bars span:nth-child(1) { height: 4px; }
+  .signal-bars span:nth-child(2) { height: 6px; }
+  .signal-bars span:nth-child(3) { height: 9px; }
+  .signal-bars span:nth-child(4) { height: 12px; }
+  .battery {
+    width: 26px; height: 12px; border: 1.5px solid #000; border-radius: 3px;
+    position: relative; padding: 1.5px;
+  }
+  .battery::after {
+    content: ""; position: absolute; right: -3px; top: 3px;
+    width: 2px; height: 4px; background: #000; border-radius: 0 1px 1px 0;
+  }
+  .battery-fill { width: 80%; height: 100%; background: #000; border-radius: 1px; }
+  .header {
+    padding: 6px 22px 12px;
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    color: #007aff;
+    font-size: 17px;
+  }
+  .header-top .left { font-weight: 500; display: flex; align-items: center; gap: 4px; }
+  .header-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #000;
+    letter-spacing: -0.6px;
+    margin-top: 6px;
+  }
+  .header-sub {
+    color: #8e8e93;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .search-bar {
+    margin: 10px 16px 6px;
+    background: #efeff0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #8e8e93;
+    font-size: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .search-icon {
+    width: 14px; height: 14px;
+    border: 2px solid #8e8e93;
+    border-radius: 50%;
+    position: relative;
+  }
+  .search-icon::after {
+    content: ""; position: absolute;
+    right: -5px; bottom: -4px;
+    width: 6px; height: 2px;
+    background: #8e8e93;
+    transform: rotate(45deg);
+  }
+  .row-list { padding: 0 0; }
+  .row {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 8px;
+    padding: 14px 22px 14px 18px;
+    border-bottom: 1px solid #f1f1f3;
+    align-items: start;
+  }
+  .row .blue-dot {
+    width: 12px; height: 12px;
+    background: #007aff;
+    border-radius: 50%;
+    margin-top: 22px;
+    justify-self: end;
+  }
+  .row.read .blue-dot { background: transparent; }
+  .row-content { display: flex; flex-direction: column; }
+  .row-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .row-sender {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+  }
+  .row.read .row-sender { font-weight: 600; color: #1c1c1e; }
+  .row-time {
+    color: #8e8e93;
+    font-size: 14px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .row-time .chevron { font-size: 14px; color: #c7c7cc; }
+  .row-subject {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1c1c1e;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .row-preview {
+    font-size: 15px;
+    color: #8e8e93;
+    margin-top: 2px;
+    line-height: 1.35;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .tabbar {
+    margin-top: auto;
+    border-top: 1px solid #d1d1d6;
+    display: flex;
+    justify-content: space-around;
+    padding: 8px 0 18px;
+    background: rgba(255,255,255,0.96);
+  }
+  .tab {
+    text-align: center;
+    color: #8e8e93;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .tab.active { color: #007aff; }
+  .tab .icon {
+    display: block;
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+  .footer-pill {
+    margin-top: 20px;
+    background: #007aff;
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.2px;
+  }
+</style>
+</head>
+<body>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="screen">
+      <div class="status">
+        <span>9:41</span>
+        <div class="status-right">
+          <div class="signal-bars"><span></span><span></span><span></span><span></span></div>
+          <span style="font-size:14px;letter-spacing:-0.3px;">5G</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+      <div class="header">
+        <div class="header-top">
+          <div class="left">&lsaquo; Mailboxes</div>
+          <div>Edit</div>
+        </div>
+        <div class="header-title">Inbox</div>
+        <div class="header-sub">Updated just now &middot; SaaS Founder</div>
+      </div>
+      <div class="search-bar">
+        <div class="search-icon"></div>
+        <span>Search</span>
+      </div>
+      <div class="row-list">
+        <div class="row">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">Stripe</div>
+              <div class="row-time">9:32 AM <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">MRR week-over-week &mdash; flat at $87,402</div>
+            <div class="row-preview">Hi founder, your MRR is flat compared to last week. 12 trials started, 2 converted. Recommended next step&hellip;</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">SaaS Founder Roundtable</div>
+              <div class="row-time">8:48 AM <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">Activation teardown &mdash; reserved for you</div>
+            <div class="row-preview">We've held a 30-min slot Thursday for the trial-to-paid review. Reply with TUE or THU to confirm and we'll&hellip;</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">Linear</div>
+              <div class="row-time">8:12 AM <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">14 issues assigned to you &middot; sprint review tomorrow</div>
+            <div class="row-preview">3 issues are blocked. 2 are in-review. Sprint ends 5:00 PM CT Friday and your demo is scheduled for&hellip;</div>
+          </div>
+        </div>
+        <div class="row read">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">Plausible Analytics</div>
+              <div class="row-time">Yesterday <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">Weekly traffic report &middot; saasfounder.app</div>
+            <div class="row-preview">14,238 visitors &middot; 4.2% trial signup conversion &middot; top referrer: r/SaaS. Full breakdown attached&hellip;</div>
+          </div>
+        </div>
+        <div class="row read">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">Vercel</div>
+              <div class="row-time">Yesterday <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">Deploy ready &middot; main &middot; v2.14.0</div>
+            <div class="row-preview">Preview deployment is live. Build completed in 1m 42s &middot; bundle size +0.3kb &middot; click to inspect&hellip;</div>
+          </div>
+        </div>
+        <div class="row read">
+          <div class="blue-dot"></div>
+          <div class="row-content">
+            <div class="row-top">
+              <div class="row-sender">Y Combinator</div>
+              <div class="row-time">May 14 <span class="chevron">&rsaquo;</span></div>
+            </div>
+            <div class="row-subject">Office Hours digest &middot; Demo Day prep</div>
+            <div class="row-preview">This week's office hours notes from your batch. 18 new founder threads in Bookface this morning&hellip;</div>
+          </div>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab"><span class="icon">&#9737;</span>All</div>
+        <div class="tab active"><span class="icon">&#9993;</span>Inbox</div>
+        <div class="tab"><span class="icon">&#9734;</span>VIP</div>
+        <div class="tab"><span class="icon">&#9873;</span>Flag</div>
+        <div class="tab"><span class="icon">&#128193;</span>Files</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-pill">Reply THU &rarr;</div>
+</body>
+</html>

@@ -70,6 +70,37 @@ node skills/shared/tools/backfill-copy.js
 
 This writes `campaigns/{slug}/ads/{ad-name}/COPY.md` and `copy.json` — the verbatim ad copy auto-extracted from the rendered HTML. Open `COPY.md` and clean up any auto-extraction quirks (dense designs sometimes flatten table cells into one line). The file is just the copy — no angle, no promise, no image direction. The designer infers those from the copy using the skills in `skills/`.
 
+### 4. CTA is required
+
+**Every COPY.md and copy.json must include a CTA.** The CTA is the button text rendered on the ad — the explicit next action for the buyer. No CTA → not a finished ad.
+
+`COPY.md` adds a dedicated section:
+
+```markdown
+## CTA
+
+Apply For An Invite
+```
+
+`copy.json` adds a `cta` field:
+
+```json
+{
+  "ad": "16-soccer-team-sponsorship",
+  "campaign": "pi-lawyers-2026q2",
+  "full_copy": [ "..." ],
+  "cta": "Apply For An Invite"
+}
+```
+
+The CTA text must be:
+- **Action-first** — starts with a verb ("Apply", "See", "Get", "Reserve")
+- **Specific to the offer** — not generic ("Learn More" is forbidden — say what they'll actually do)
+- **Short** — ≤ 4 words; fits inside a button at thumbnail size
+- **Derived from the ad's angle** — disqualifier ads → "See If You Qualify"; offer ads → "Apply Now"; scarcity ads → "Reserve Your Spot"
+
+The designer renders the CTA as a high-contrast button at the visual end-point of the ad (see each design skill's CTA zone rules). The button text comes verbatim from `COPY.md` — never invented in the template.
+
 The renderer:
 - Launches headless Chromium via `playwright-core`
 - Loads the HTML file

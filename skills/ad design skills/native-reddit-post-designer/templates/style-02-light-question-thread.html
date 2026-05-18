@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #dae0e6;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 20px 22px 20px;
+    gap: 14px;
+  }
+  .card {
+    width: 1040px;
+    background: #fff;
+    color: #1c1c1c;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+    display: flex;
+  }
+  .vote-col {
+    width: 70px;
+    background: #f8f9fa;
+    padding: 16px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: #878a8c; font-size: 20px; font-weight: 700;
+    border-right: 1px solid #efefef;
+  }
+  .vote-col .arrow { font-size: 28px; }
+  .vote-col .up.active { color: #ff4500; }
+  .vote-col .score { color: #1a1a1b; font-size: 20px; }
+  .right {
+    flex: 1; min-width: 0;
+  }
+  .sub-header {
+    padding: 14px 22px; display: flex; align-items: center; gap: 12px;
+    font-size: 18px; color: #787c7e;
+    border-bottom: 1px solid #efefef;
+  }
+  .sub-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #635bff, #443ddb);
+    color: #fff; font-weight: 700; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sub-name { color: #1c1c1c; font-weight: 700; font-size: 20px; }
+  .post-body { padding: 14px 22px 4px 22px; }
+  .flair-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .flair {
+    background: #eafbff; color: #0079d3;
+    padding: 4px 14px; border-radius: 4px; font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .title {
+    font-size: 30px; font-weight: 700; line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .body-text {
+    font-size: 23px; line-height: 1.5;
+  }
+  .body-text p { margin-bottom: 10px; }
+  .action-bar {
+    display: flex; gap: 22px; padding: 10px 22px;
+    color: #878a8c; font-size: 18px; font-weight: 700;
+    border-bottom: 1px solid #efefef;
+  }
+  .comments-header {
+    padding: 12px 22px;
+    color: #1c1c1c; font-size: 18px;
+    border-bottom: 1px solid #efefef;
+  }
+  .comments-header .sort { font-weight: 700; }
+  .comments-header .count { color: #878a8c; margin-left: 10px; }
+  .comment {
+    padding: 14px 22px 12px 22px;
+    border-bottom: 1px solid #efefef;
+  }
+  .comment.last { border-bottom: none; }
+  .c-head {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 16px; color: #787c7e;
+  }
+  .c-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #4ad991, #137e4c);
+  }
+  .c-user { color: #1c1c1c; font-weight: 700; font-size: 17px; }
+  .c-body { color: #1c1c1c; font-size: 22px; line-height: 1.45; margin-top: 8px; margin-left: 36px; }
+  .c-actions { color: #878a8c; font-size: 16px; font-weight: 700; margin-top: 8px; margin-left: 36px; display: flex; gap: 16px; }
+  .indent {
+    margin-left: 36px;
+    border-left: 2px solid #efefef;
+    padding-left: 14px;
+    margin-top: 4px;
+  }
+  .cta-pill {
+    margin-top: 0;
+    background: #0079d3; color: #fff;
+    font-weight: 700; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="vote-col">
+      <span class="arrow up active">&#9650;</span>
+      <span class="score">312</span>
+      <span class="arrow">&#9660;</span>
+    </div>
+    <div class="right">
+      <div class="sub-header">
+        <div class="sub-icon">A</div>
+        <div>
+          <span class="sub-name">r/AgencyOps</span> &middot; Posted by u/agency_ops_dan &middot; 9h ago
+        </div>
+      </div>
+      <div class="post-body">
+        <div class="flair-row"><span class="flair">Question</span></div>
+        <div class="title">how do you actually replace a $20k/mo retainer agency without rebuilding everything from scratch?</div>
+        <div class="body-text">
+          <p>we're a 22-person saas company, 4 years in. our current performance agency is burning $19.5k/mo and our cac is up 64% ytd.</p>
+          <p>we've talked to 9 replacement agencies in the last 2 months. every single one wants a "discovery period" of 4-8 weeks before they touch anything. we don't have 8 weeks.</p>
+          <p>(yes we tried in-house. it lasted 5 months and our last paid-acq person quit citing burnout.)</p>
+          <p>has anyone actually pulled off a swap in 14-21 days without losing pipeline? what did the handoff look like?</p>
+        </div>
+      </div>
+      <div class="action-bar">
+        <div>&#128172; 58 Comments</div>
+        <div>Share</div>
+        <div>Save</div>
+        <div>Award</div>
+      </div>
+      <div class="comments-header">
+        <span class="sort">Top &#9662;</span>
+        <span class="count">58 comments &middot; sorted by Top</span>
+      </div>
+      <div class="comment">
+        <div class="c-head">
+          <div class="c-avatar"></div>
+          <span class="c-user">u/saas_founder_eu</span>
+          <span>&middot; 7h ago &middot; <span style="color:#ff4500;font-weight:700;">&#9650; 184 points</span></span>
+        </div>
+        <div class="c-body">did this in jan. 18 days end to end. the trick is finding a team that does a "parallel-run" handoff &mdash; they shadow your current setup for week 1, take over campaigns in week 2, kill the old retainer in week 3. no discovery period.</div>
+        <div class="c-body" style="margin-top:6px;">we used the agency-swap framework from one of the operator newsletters (i think there's a free version on the site). saved us about $40k in dead retainer time.</div>
+        <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+      </div>
+      <div class="comment indent">
+        <div class="c-head">
+          <div class="c-avatar" style="background:linear-gradient(135deg,#b388ff,#5a2eb8);"></div>
+          <span class="c-user">u/dani_runs_ops</span>
+          <span>&middot; 5h ago &middot; <span style="color:#ff4500;font-weight:700;">&#9650; 46 points</span></span>
+        </div>
+        <div class="c-body">+1 to parallel-run. the discovery period thing is mostly a sales tactic so they can charge you for month 1 before doing anything.</div>
+        <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+      </div>
+      <div class="comment indent">
+        <div class="c-head">
+          <div class="c-avatar" style="background:linear-gradient(135deg,#ffbe5a,#ff7a59);"></div>
+          <span class="c-user">u/skeptical_cmo</span>
+          <span>&middot; 3h ago &middot; <span style="color:#ff4500;font-weight:700;">&#9650; 12 points</span></span>
+        </div>
+        <div class="c-body">doesn't this only work if your reporting is already clean? we tried this and our analytics were a mess so the new team spent week 1 untangling that</div>
+        <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+      </div>
+      <div class="comment last">
+        <div class="c-head">
+          <div class="c-avatar" style="background:linear-gradient(135deg,#4a90e2,#143b66);"></div>
+          <span class="c-user">u/agency_ops_dan</span>
+          <span style="color:#0079d3;font-weight:700;">&middot; OP</span>
+          <span>&middot; 2h ago &middot; <span style="color:#ff4500;font-weight:700;">&#9650; 22 points</span></span>
+        </div>
+        <div class="c-body">appreciate all the responses &mdash; going to look into the parallel-run angle, this is the one thing every replacement firm has refused to do for us so far</div>
+        <div class="c-actions"><span>Reply</span><span>Share</span><span>Award</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Get The Swap Framework &rarr;</div>
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1080px;
+    height: 1080px;
+    background: #0f0f0f;
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px 20px 22px 20px;
+    color: #fff;
+    gap: 14px;
+    overflow: hidden;
+  }
+  .frame {
+    width: 1040px;
+    background: #0f0f0f;
+    border: 1px solid #272727;
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 22px 28px;
+  }
+  /* Video card */
+  .video {
+    display: flex; gap: 18px;
+    margin-bottom: 24px;
+  }
+  .thumb {
+    width: 320px; height: 180px; border-radius: 12px;
+    background: linear-gradient(135deg, #1a3b6e 0%, #4a90e2 60%, #ff7a59 100%);
+    flex-shrink: 0; position: relative; overflow: hidden;
+  }
+  .thumb::before {
+    content: "INTAKE";
+    position: absolute; left: 16px; top: 14px;
+    font-size: 14px; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,.7);
+  }
+  .thumb::after {
+    content: "Why PI firms lose 40% of intakes before the callback";
+    position: absolute; left: 16px; right: 16px; bottom: 16px;
+    font-size: 18px; font-weight: 800; color: #fff; line-height: 1.15;
+    text-shadow: 0 2px 6px rgba(0,0,0,.6);
+  }
+  .duration {
+    position: absolute; right: 8px; bottom: 8px;
+    background: rgba(0,0,0,.85); color: #fff;
+    padding: 2px 6px; border-radius: 4px; font-size: 13px; font-weight: 600;
+  }
+  .v-info { flex: 1; min-width: 0; padding-top: 4px; }
+  .v-title { font-size: 28px; font-weight: 700; line-height: 1.25; color: #fff; }
+  .v-channel { color: #aaa; font-size: 19px; margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+  .v-channel .check { font-size: 16px; }
+  .v-meta { color: #aaa; font-size: 19px; margin-top: 4px; }
+
+  /* Comments header */
+  .ch {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 20px; padding-bottom: 14px;
+    border-bottom: 1px solid #272727;
+    color: #fff;
+  }
+  .ch .count { font-weight: 700; }
+  .ch .sort { color: #fff; display: flex; align-items: center; gap: 6px; }
+
+  /* Pinned comment */
+  .pinned-tag {
+    color: #aaa; font-size: 17px; padding: 14px 0 6px 64px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .comment {
+    display: flex; gap: 14px; padding: 4px 0 4px 0;
+  }
+  .avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+    color: #fff; font-weight: 700; font-size: 24px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .avatar.b { background: linear-gradient(135deg, #4ad991, #137e4c); }
+  .avatar.c { background: linear-gradient(135deg, #ffbe5a, #ff7a59); }
+  .avatar.d { background: linear-gradient(135deg, #b388ff, #5a2eb8); width: 40px; height: 40px; font-size: 20px; }
+  .avatar.e { background: linear-gradient(135deg, #6e8efb, #4a4af4); width: 40px; height: 40px; font-size: 20px; }
+  .c-content { flex: 1; min-width: 0; }
+  .c-head { display: flex; align-items: center; gap: 8px; font-size: 18px; }
+  .c-handle { color: #fff; font-weight: 600; }
+  .c-time { color: #aaa; }
+  .c-body { font-size: 23px; line-height: 1.42; color: #fff; margin-top: 6px; }
+  .hearted {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #272727; color: #aaa; font-size: 15px;
+    padding: 3px 9px; border-radius: 100px;
+    margin-top: 10px;
+    border: 1px solid #3a3a3a;
+  }
+  .hearted .h { color: #ff5757; }
+  .hearted .h-avatar {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+    margin-right: -10px; margin-left: -8px;
+    border: 1px solid #272727;
+  }
+  .c-actions {
+    display: flex; align-items: center; gap: 18px;
+    margin-top: 10px; color: #aaa; font-size: 17px;
+  }
+  .c-actions .icon { font-size: 20px; }
+  .c-actions .replies { color: #3ea6ff; font-weight: 600; font-size: 17px; }
+  /* Replies */
+  .replies-wrap {
+    margin-left: 66px;
+    margin-top: 6px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .reply { display: flex; gap: 12px; }
+  .r-body { font-size: 20px; line-height: 1.4; color: #fff; margin-top: 4px; }
+  .r-head { display: flex; align-items: center; gap: 8px; font-size: 16px; }
+  .creator-tag {
+    background: #aaa; color: #0f0f0f; padding: 1px 7px; border-radius: 4px;
+    font-size: 14px; font-weight: 700; text-transform: uppercase;
+  }
+  .cta-pill {
+    margin-top: 0;
+    background: #ff0000; color: #fff;
+    font-weight: 700; font-size: 26px;
+    padding: 16px 40px; border-radius: 100px;
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+    <div class="video">
+      <div class="thumb"><div class="duration">14:22</div></div>
+      <div class="v-info">
+        <div class="v-title">Why PI Firms Lose 40% Of Intakes Before The Callback</div>
+        <div class="v-channel">PI Firm Operators <span class="check">&#9989;</span></div>
+        <div class="v-meta">41K views &middot; 2 days ago</div>
+      </div>
+    </div>
+    <div class="ch">
+      <div class="count">247 Comments</div>
+      <div class="sort">&#8645; Sort by</div>
+    </div>
+    <div class="pinned-tag">&#128204; Pinned by PI Firm Operators</div>
+    <div class="comment">
+      <div class="avatar">P</div>
+      <div class="c-content">
+        <div class="c-head">
+          <span class="c-handle">@pi_intake_lead</span>
+          <span class="c-time">&middot; 2 days ago</span>
+        </div>
+        <div class="c-body">we&rsquo;re a 3-attorney pi firm in houston, was losing leads on the callback gap for months. tried every "ai callback" tool, none of them fixed the qualifying script piece &mdash; switched to the system from this video, callback gap closed in like 2 weeks. not a magic bullet but the most useful 14 min i&rsquo;ve spent this yr</div>
+        <div class="hearted">
+          <span class="h-avatar"></span>
+          <span class="h">&hearts;</span>
+          <span>by PI Firm Operators</span>
+        </div>
+        <div class="c-actions">
+          <span class="icon">&#128077;</span><span>312</span>
+          <span class="icon">&#128078;</span>
+          <span>Reply</span>
+          <span class="replies">&#9656; View 8 replies</span>
+        </div>
+      </div>
+    </div>
+    <div class="replies-wrap">
+      <div class="reply">
+        <div class="avatar d">A</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@agency_jake_tx</span>
+            <span class="c-time">&middot; 1 day ago</span>
+          </div>
+          <div class="r-body">yeah we had the same thing, the intake script alone fixed half of it. the callback piece was bonus</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>41</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar e">S</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">@skeptical_pm_42</span>
+            <span class="c-time">&middot; 18 hours ago</span>
+          </div>
+          <div class="r-body">sure but doesn't this only work if you already have volume? we're at like 8 leads/wk, not 80</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>8</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+      <div class="reply">
+        <div class="avatar d" style="background:linear-gradient(135deg,#aaa,#666);">P</div>
+        <div class="c-content">
+          <div class="r-head">
+            <span class="c-handle">PI Firm Operators</span>
+            <span class="creator-tag">Creator</span>
+            <span class="c-time">&middot; 12 hours ago</span>
+          </div>
+          <div class="r-body">fair q &mdash; they actually have a smaller-firm version, the form on their site sorts you to it. link's in the description</div>
+          <div class="c-actions">
+            <span class="icon">&#128077;</span><span>64</span>
+            <span class="icon">&#128078;</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cta-pill">Get The Intake Playbook &rarr;</div>
+</body>
+</html>
