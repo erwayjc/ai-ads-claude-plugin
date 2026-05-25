@@ -21,6 +21,24 @@ Built for the **AI Ads Workshop**. No GitHub account required.
 
 ---
 
+## Installing this plugin
+
+### Option 1 — Clone from GitHub
+
+```bash
+git clone https://github.com/erwayjc/ai-ads-claude-plugin
+```
+
+Then add it as a plugin workspace in Claude Code.
+
+### Option 2 — Marketplace install
+
+Search for **ai-ad-designer** in the Claude Code plugin marketplace and install it.
+
+> Heads up on the two names: the repo is called `ai-ads-claude-plugin` (that's the GitHub URL — where the code lives). The plugin is called `ai-ad-designer` (that's what you type to install it). One describes the box, the other describes what's inside.
+
+---
+
 ## First-time setup
 
 > If you just installed this plugin, run `/setup` in Claude Code and skip the rest of this section. The setup skill walks you through everything below interactively and verifies each step worked.
