@@ -4,6 +4,8 @@ A Claude Code plugin for designing, rendering, and launching paid social ads fro
 
 Built for the **AI Ads Workshop**. No GitHub account required.
 
+**Repo:** https://github.com/erwayjc/ai-ads-claude-plugin
+
 ---
 
 ## What you can do here
