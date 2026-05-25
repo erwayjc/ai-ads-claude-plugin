@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Design, render, and launch paid social ads with Claude Code. HTML/CSS ads via Playwright + full-ad image generation via Google Gemini (Nano Banana). Pairs with the Meta Facebook Ads MCP connector to push creatives straight into ad accounts.",
   "author": {
-    "name": "The Webinar Agency"
+    "name": "Joel Erway"
   },
   "keywords": [
     "ads",

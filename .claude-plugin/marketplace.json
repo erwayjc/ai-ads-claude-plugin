@@ -1,7 +1,7 @@
 {
   "name": "ai-ads-claude-plugin",
   "owner": {
-    "name": "The Webinar Agency"
+    "name": "Joel Erway"
   },
   "plugins": [
     {
@@ -9,7 +9,13 @@
       "source": ".",
       "description": "Design, render, and launch paid social ads with Claude Code — HTML/CSS templates, Gemini Nano Banana image generation, and Meta Ads MCP integration.",
       "category": "marketing",
-      "tags": ["ads", "meta-ads", "gemini", "design", "marketing"]
+      "tags": [
+        "ads",
+        "meta-ads",
+        "gemini",
+        "design",
+        "marketing"
+      ]
     }
   ]
 }

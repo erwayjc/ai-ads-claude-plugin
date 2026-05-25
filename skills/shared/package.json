@@ -1,14 +1,12 @@
 {
   "name": "ai-ad-designer-shared",
   "version": "1.0.0",
-  "description": "Shared toolchain for the AI Ad Designer plugin — Playwright HTML→PNG renderer, Gemini Nano Banana caller, optional visual editor.",
+  "description": "Shared toolchain for the AI Ad Designer plugin — Playwright HTML→PNG renderer and Gemini Nano Banana caller.",
   "main": "render-static.js",
   "scripts": {
-    "editor": "node editor-server.js",
     "gemini-check": "node tools/gemini-generate.js --check"
   },
   "dependencies": {
-    "express": "^4.19.2",
     "playwright-core": "^1.58.2"
   }
 }

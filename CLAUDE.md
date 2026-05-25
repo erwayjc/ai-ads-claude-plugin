@@ -71,9 +71,7 @@ ai-ad-designer/
         ├── GEMINI-REFERENCE.md           ← Gemini API usage reference
         ├── DESIGN-SKILL-TEMPLATE.md      ← structure every design skill follows
         ├── render-static.js              ← Playwright renderer
-        ├── editor-server.js / editor/    ← optional visual editor
         └── tools/
-            ├── backfill-copy.js
             └── gemini-generate.js
 ```
 

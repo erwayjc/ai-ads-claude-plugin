@@ -154,11 +154,8 @@ ai-ad-designer/
         ├── GEMINI-REFERENCE.md          ← Gemini API usage reference
         ├── DESIGN-SKILL-TEMPLATE.md     ← Standard structure for design skills
         ├── render-static.js             ← Playwright PNG renderer
-        ├── editor/index.html            ← Optional visual editor UI
-        ├── editor-server.js             ← Optional editor backend
         ├── package.json
         └── tools/
-            ├── backfill-copy.js         ← Extracts COPY.md from rendered HTML
             └── gemini-generate.js       ← Calls Gemini Nano Banana API
 ```
 
