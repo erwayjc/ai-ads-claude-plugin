@@ -1,115 +1,126 @@
 # CLAUDE.md
 
-Guidance for Claude Code when working in this repo.
+Project guidance for Claude Code working in this workspace.
 
-## What this repo is
+## What this workspace is
 
-A single-purpose project: design static image ads as HTML/CSS and render them to PNG with Playwright. Square format (1080×1080) by default.
+An AI-driven ad design and launch system. The user — usually a non-technical workshop student — uses Claude Code to scaffold ad campaigns, draft copy, render image creatives (HTML/CSS or Gemini Nano Banana), and push them into Meta Ads via the Meta Ads MCP connector.
 
-All design skills live under `skills/ad design skills/`. 
+This workspace is a Claude Code **plugin**: `ai-ad-designer`. The plugin's skills live under `skills/`. The user's work product (campaigns and ads) lives under `campaigns/`.
 
-## Before any work
+## On every session — what to do first
 
-1. Read `skills/shared/HTML-RENDER-REFERENCE.md` — HTML structure standard and the render workflow.
-2. If working on a specific campaign, read `campaigns/{slug}/CAMPAIGN.md` for ICP and offer.
+1. **If the user is new** (no `.env` exists, or no `node_modules` in `skills/shared/`), suggest running `/setup` — it invokes the **workshop-setup** skill to walk them through first-time install of Node, Playwright, the Gemini API key, and the Meta Ads MCP connector.
+
+2. **Otherwise**, read whichever files are relevant for the user's request:
+   - For any image work: read `skills/shared/HTML-RENDER-REFERENCE.md` (HTML lanes) or `skills/shared/GEMINI-REFERENCE.md` (Gemini lane).
+   - For any campaign work: read the relevant `campaigns/{slug}/CAMPAIGN.md`.
+   - For any ad work: read the ad's `COPY.md` **first** — copy leads, image follows.
+
+## The cardinal rule
+
+**Copy first. Image second. Always.**
+
+Every ad's identity is its `COPY.md` file — verbatim headline, subtext, and CTA. Images are downstream renders of that copy. Never generate an image and write copy to match it. If a user asks you to "make me an ad," your first move is to confirm or draft `COPY.md`, not to render a PNG.
 
 ## Defaults
 
-- **Image size:** 1080×1080 (square). Only override when a campaign brief explicitly asks for a different ratio.
-- **Production method:** HTML/CSS in a single self-contained file, rendered via `skills/shared/render-static.js`.
-- **Imagery is allowed** — inline SVG, base64-embedded images, CSS shapes, gradients, and Unicode all work. The real constraint is "no network fetches at render time" — embed everything in the HTML so Playwright can render it offline.
+- **Image size:** 1080×1080 (square). Only override when the campaign explicitly asks otherwise.
+- **HTML production:** single self-contained file → Playwright renders to PNG via `skills/shared/render-static.js`.
+- **Gemini production:** prompt-to-PNG via `skills/shared/tools/gemini-generate.js` (Nano Banana, `gemini-2.5-flash-image`).
+- **No network fetches at render time** for HTML ads. Embed images as inline SVG or base64. Google Fonts via `@import` is the only allowed network resource.
+- **CTA is mandatory** on every ad. Action-first verb, ≤ 4 words, ends with `→`. No CTA → not an ad.
+- **ICP callout is mandatory** on every ad. The viewer must know in 2 seconds who the ad is for.
 
 ## Directory structure
 
 ```
-html-ad-designer/
-├── CLAUDE.md
-├── README.md
+ai-ad-designer/
+├── .claude-plugin/plugin.json    ← plugin manifest
+├── .env / .env.example           ← Gemini API key
+├── README.md                     ← student-facing docs
+├── CLAUDE.md                     ← this file
+│
+├── commands/                     ← slash commands (/setup, /new-campaign, /new-ad, /upload-to-meta, /new-design-skill)
+│
 ├── campaigns/
 │   ├── CAMPAIGNS.md
-│   ├── _template/
-│   │   ├── CAMPAIGN.md
-│   │   └── ads/
+│   ├── _template/                ← blank scaffold — never edit
 │   └── {slug}/
-│       ├── CAMPAIGN.md
+│       ├── CAMPAIGN.md           ← project, ICP, offer, messaging
 │       └── ads/
-│           └── {ad-name}/            ← the ad
-│               ├── COPY.md           ← canonical copy record (the ad's identity, created FIRST)
-│               ├── copy.json         ← same fields, machine-readable
-│               └── images/           ← everything visual — derives from COPY above
-│                   ├── {ad-name}.html ← rendered-design markup
-│                   └── {ad-name}.png  ← rendered PNG
+│           └── {ad-name}/
+│               ├── COPY.md       ← the ad's identity
+│               ├── copy.json
+│               └── images/
+│                   ├── {ad-name}.html        ← HTML lanes only
+│                   ├── {ad-name}.prompt.txt  ← Gemini lane only
+│                   └── {ad-name}.png         ← the rendered ad
+│
 └── skills/
-    ├── ad design skills/        ← all 31 designer skills live here
-    │   ├── bold-text-designer/       (templates + SKILL.md)
-    │   ├── problem-solution-designer/ (templates + SKILL.md)
-    │   ├── system-visual-designer/    (templates + SKILL.md)
-    │   ├── chat-style-designer/       (SKILL.md only — no templates)
-    │   └── native-*-designer/         (27 single-format native skills; each SKILL.md only, composes from scratch)
-    ├── campaign-manager/SKILL.md
+    ├── workshop-setup/SKILL.md           ← first-time setup walkthrough
+    ├── campaign-manager/SKILL.md         ← scaffolds campaigns
+    ├── ad-skill-builder/SKILL.md         ← meta-skill: scaffold new design lanes
+    ├── gemini-image-designer/SKILL.md    ← full-ad Gemini generation
+    ├── ad-design-skills/
+    │   ├── bold-text-designer/           ← typography on solid color
+    │   ├── system-visual-designer/       ← diagram IS the ad
+    │   └── chat-style-designer/          ← fake chat screenshots
     └── shared/
-        ├── HTML-RENDER-REFERENCE.md
-        ├── render-static.js
-        ├── editor-server.js
-        ├── editor/index.html
-        └── package.json
+        ├── HTML-RENDER-REFERENCE.md      ← HTML structure standard
+        ├── GEMINI-REFERENCE.md           ← Gemini API usage reference
+        ├── DESIGN-SKILL-TEMPLATE.md      ← structure every design skill follows
+        ├── render-static.js              ← Playwright renderer
+        ├── editor-server.js / editor/    ← optional visual editor
+        └── tools/
+            ├── backfill-copy.js
+            └── gemini-generate.js
 ```
 
-**The hierarchy is Ad → Copy → Images.** The ad is the folder. The copy (`COPY.md` and `copy.json`) sits at the top level — it IS the ad's identity. Images (the rendered-design HTML and the PNG output) live in a nested `images/` folder because they are *downstream artifacts* derived from the copy above. Anything visual is generated from what the copy says.
+The hierarchy is **Ad → Copy → Images**. The ad's identity is the copy. The HTML/prompt/PNG are downstream artifacts that live in `images/`.
 
-### COPY.md and copy.json — JUST the ad copy
+## Skill selection — when to use what
 
-`COPY.md` is the verbatim ad copy — nothing else. No angle, no promise breakdown, no image direction, no editorial scaffolding. Just the text the ad actually shows.
+| Ad format | Skill |
+|---|---|
+| Bold typography on solid color (the classic perf ad) | `bold-text-designer` (HTML) |
+| Diagram, flowchart, exploded view — mechanism-as-message | `system-visual-designer` (HTML) |
+| Fake iMessage / Slack / Discord / WhatsApp screenshot | `chat-style-designer` (HTML) |
+| Photographic / illustrated / "designed" full-image ad | `gemini-image-designer` (Gemini API) |
+| Brand-new ad format the existing lanes don't cover | `ad-skill-builder` to scaffold a new skill |
+| Scaffolding a campaign | `campaign-manager` |
+| First-time install / configuration | `workshop-setup` |
 
-The designer's job is to **read COPY.md and infer everything else** — the angle being struck, the ICP language being used, the image direction implied — using the design skills in `skills/`. The skill carries the interpretive layer; the copy file carries the words. Keeping the two separate means a copywriter can iterate on COPY.md without touching design, and a designer can re-derive a fresh image direction from the same copy whenever the skills evolve.
+When the user describes an ad without naming a lane, propose 2-3 lanes that fit and let them pick. Don't silently default — different lanes produce wildly different ads.
 
-`copy.json` is the same thing in machine-readable form: `{ ad, campaign, full_copy[] }`. Use it when scripting; use `COPY.md` when reading by hand.
+## Meta Ads MCP — the upload path
 
-For now, the only image type produced is the rendered HTML/PNG in `images/`. The HTML in `images/{ad-name}.html` is derived from COPY — its headlines and subtext come straight from the COPY file. Future image types (AI-generated imagery, etc.) will go alongside it in `images/` and follow the same rule: read COPY first, then design.
+The user configures the Meta Ads MCP connector in Claude Desktop UI (see `workshop-setup` step 3). Once configured, Claude can call `mcp__*__ads_*` tools to:
 
-Both COPY files are auto-seeded by the editor's `Save & Render PNG` button and by `node skills/shared/tools/backfill-copy.js`. The seeder fills in the verbatim copy by parsing the rendered HTML. The editor never overwrites a `COPY.md` that already exists — once you've hand-edited it (cleaning up auto-extraction quirks on dense designs), your edits are safe across re-renders.
+- List ad accounts (`ads_get_ad_accounts`)
+- List pages (`ads_get_ad_account_pages`)
+- Create creatives (`ads_create_creative`)
+- Create ads (`ads_create_ad`)
+- Create campaigns / ad sets (`ads_create_campaign`, `ads_create_ad_set`)
 
-## Rendering
+When uploading, **always create as paused**. The user reviews in Ads Manager before going live. Never auto-publish.
 
-```bash
-node skills/shared/render-static.js <html> <output-dir> [--prefix name] [--scale 2]
-```
-
-If Chromium isn't installed: `cd skills/shared && npm install && npx playwright install chromium`.
-
-## Visual editor (live preview + one-click PNG)
-
-```bash
-cd skills/shared && npm run editor
-# open http://localhost:5173/
-```
-
-Two-pane editor: HTML on the left, live iframe preview on the right. Pick a template, pick a campaign, name the ad, hit **Save & Render PNG**. Creates `campaigns/{slug}/ads/{name}/images/{name}.html` and `.../images/{name}.png`, and auto-seeds `COPY.md` + `copy.json` at the ad root.
-
-## Workflow for creating new ads
-
-**The cardinal rule: copy first, image second.** An ad without copy is not an ad. The image is just a render of the copy — it can never lead.
-
-1. If no campaign exists for this work, create one — see `skills/campaign-manager/SKILL.md`.
-2. Pick a starting template from `skills/ad design skills/bold-text-designer/templates/` (or another design lane's templates).
-3. Create the ad folder: `campaigns/{slug}/ads/{descriptive-name}/`.
-4. Inside it, create `images/`. Copy the template into `images/{descriptive-name}.html`. Edit the CSS color variables and the visible text — headline, subtext, CTA, accent words.
-5. Render the PNG to the same place: `campaigns/{slug}/ads/{descriptive-name}/images/{descriptive-name}.png`.
-6. `COPY.md` and `copy.json` are auto-seeded at the ad root (via the editor or `backfill-copy.js`). Open `COPY.md` and clean up any auto-extraction quirks so the verbatim copy is right. Don't add interpretive sections — the file is just the copy.
-7. QC against the checklist in the relevant design lane's SKILL.md.
-
-If you'd rather use the editor, steps 3–6 collapse into: pick template, name ad, hit **Save & Render PNG**, then open the generated `COPY.md` and clean it up if needed.
-
-### Image work reads COPY.md first
-
-For any image work — rendering the HTML to PNG, generating AI imagery later, designing manually — the designer (human or AI) reads `campaigns/{slug}/ads/{ad-name}/COPY.md` first and uses the design skills in `skills/` to infer angle, ICP language, image direction, and visual approach from the copy. The copy file doesn't tell you how to design; the skill does. Never generate an image and write copy to match it.
+The copy fields in Meta — headline, primary text, CTA — come **verbatim from the ad's `COPY.md`**. Never paraphrase, never invent. If a field doesn't have source text in COPY.md, ask the user.
 
 ## What NOT to do
 
-- Don't store ads at the repo root — they belong inside `campaigns/{slug}/ads/{ad-name}/`.
-- Don't put image files (`.html`, `.png`, anything visual) at the ad's top level. They go in `images/`. The top level is reserved for the copy record.
-- Don't create an image for an ad that has no `COPY.md`. No copy → no image.
-- Don't add interpretive sections to `COPY.md` (angle, promise, image direction, etc.). That's the designer's work, derived from the copy using the design skills. The file is just the copy.
-- Don't introduce JavaScript inside ad HTML.
-- Don't reference images by URL (`<img src="https://...">` or `background: url(https://...)`) — embed them as inline SVG or base64 data URIs instead. Same goes for fonts: only Google Fonts via `@import` are allowed as a network resource at render time.
-- Don't recreate skills from the source project (`Inspired Ads And Funnel`). Scope here is intentionally narrow.
+- **Don't generate an image before `COPY.md` exists.** Route the user to `campaign-manager` or just draft the copy yourself first, then render.
+- **Don't paste API keys into chat.** When walking users through Gemini setup, ask them to paste the key directly into `.env` — not into the conversation.
+- **Don't auto-publish Meta ads.** Always upload paused.
+- **Don't invent skills that overlap existing ones.** A "bold-text-but-with-photos" request is a Gemini variant, not a new skill.
+- **Don't store ads at the repo root.** Everything lives under `campaigns/{slug}/ads/{ad-name}/`.
+- **Don't put image files at the ad's top level.** They go in `images/`. The top level is reserved for `COPY.md` and `copy.json`.
+- **Don't add interpretive sections to `COPY.md`** (angle, promise, image direction). That's the designer's job. `COPY.md` is just the verbatim copy.
+- **Don't introduce JavaScript inside ad HTML.**
+- **Don't reference network images** (`<img src="https://...">` or `background: url(https://...)`) in HTML ads. Embed inline SVG or base64.
+
+## Workshop students — tone
+
+Most users are non-technical entrepreneurs paying for a workshop. They want results, not a CS lecture. Be plain, patient, and concrete. When a tool fails, diagnose specifically — don't dump a stack trace and ask them to figure it out.
+
+When asking questions, ask 1-2 at a time, not 5. They will get overwhelmed.

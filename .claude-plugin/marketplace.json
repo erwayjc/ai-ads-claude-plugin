@@ -1,0 +1,15 @@
+{
+  "name": "ai-ad-designer-marketplace",
+  "owner": {
+    "name": "The Webinar Agency"
+  },
+  "plugins": [
+    {
+      "name": "ai-ad-designer",
+      "source": ".",
+      "description": "Design, render, and launch paid social ads with Claude Code — HTML/CSS templates, Gemini Nano Banana image generation, and Meta Ads MCP integration.",
+      "category": "marketing",
+      "tags": ["ads", "meta-ads", "gemini", "design", "marketing"]
+    }
+  ]
+}

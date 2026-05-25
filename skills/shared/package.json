@@ -1,10 +1,11 @@
 {
-  "name": "html-ad-designer-shared",
+  "name": "ai-ad-designer-shared",
   "version": "1.0.0",
-  "description": "HTML/CSS to PNG renderer for the bold-text-designer skill.",
+  "description": "Shared toolchain for the AI Ad Designer plugin — Playwright HTML→PNG renderer, Gemini Nano Banana caller, optional visual editor.",
   "main": "render-static.js",
   "scripts": {
-    "editor": "node editor-server.js"
+    "editor": "node editor-server.js",
+    "gemini-check": "node tools/gemini-generate.js --check"
   },
   "dependencies": {
     "express": "^4.19.2",

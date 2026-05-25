@@ -3,3 +3,8 @@ node_modules/
 *.log
 .env
 .env.local
+
+# Per-student work — students may want to keep their campaigns private
+# Remove this line if you want to version-control your campaigns
+campaigns/*/
+!campaigns/_template/
