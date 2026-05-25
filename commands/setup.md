@@ -4,4 +4,4 @@ description: First-time workspace setup — installs Node deps, walks you throug
 
 You are running the first-time-setup walkthrough for the AI Ad Designer workspace.
 
-Invoke the **workshop-setup** skill and follow it end-to-end. Do not skip steps. Verify each step before moving to the next.
+Invoke the **setup** skill and follow it end-to-end. Do not skip steps. Verify each step before moving to the next.
